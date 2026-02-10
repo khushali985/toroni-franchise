@@ -1,0 +1,198 @@
+.Explore {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+
+    width: 50px;
+    height: 50px;
+    background-color: #EBE4AD;
+    border: none;
+
+    display: flex;
+    justify-content: center;
+
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    z-index: 999999;
+}
+
+.Explore:hover {
+    background-color: #d6c98a;
+    transform: scale(1.05);
+}
+
+.star-text {
+    position: absolute;
+    top: 4px;
+    font-size: 20px;
+    text-shadow:
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
+}
+
+.explore-text {
+    position: absolute;
+    bottom: 7px;
+    font-size: 9px;
+    color: #492828;
+}
+
+/* MENU OVERLAY */
+.menu-overlay {
+    position: fixed;
+    inset: 0;
+    height: 100vh;
+
+    background: #492828;
+    display: none;
+    z-index: 999998;
+}
+
+.menu-overlay.active {
+    display: block;
+}
+
+.menu-content {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.menu-left {
+    width: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-left p {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: bold;
+    z-index: 2;
+    text-align: center;
+}
+
+.menu-left .menu-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(6px);
+}
+
+.menu-left .menu-logo {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    border: 2px solid #ffffff;
+    border-radius: 30%;
+    z-index: 2;
+}
+
+.menu-right {
+    width: 50%;
+    background: #492828;
+
+    display: grid;
+    place-items: center;
+
+    color: #EBE4AD;
+    font-size: 36px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.menu-right:hover {
+    background-color: #EBE4AD;
+    color: #492828;
+}
+
+.menu-item {
+    cursor: pointer;
+    transition: transform 0.4s ease;
+}
+
+.menu-item:hover {
+    transform: scale(1.10);
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 32px;
+    color: white;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ========== MEDIA QUERIES (UNCHANGED) ========== */
+@media (max-width: 768px) {
+
+    .menu-content {
+        flex-direction: column;
+    }
+
+    .menu-left {
+        width: 100%;
+        height: 45vh;
+    }
+
+    .menu-left img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .menu-left .menu-logo {
+        width: 90px;
+        height: 90px;
+    }
+
+    .menu-left p {
+        font-size: 18px;
+    }
+
+    .menu-right {
+        width: 100%;
+        height: 55vh;
+        font-size: 22px;
+        gap: 25px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .menu-left .menu-logo {
+        width: 70px;
+        height: 70px;
+    }
+
+    .menu-left p {
+        font-size: 16px;
+    }
+}

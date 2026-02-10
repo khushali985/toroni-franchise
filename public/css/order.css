@@ -1,0 +1,376 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4efb2;
+    padding: 30px;
+    margin: 0;
+}
+
+
+/* ================= TOAST ================= */
+#toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #333;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 10px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 0.3s ease;
+    z-index: 999;
+}
+
+#toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ================= APP LAYOUT ================= */
+.app {
+    display: flex;
+    gap: 40px;
+    max-width: 1200px;
+    margin: auto;
+    align-items: flex-start;
+    /*height: calc(100vh - 60px);*/
+}
+
+@media (min-width: 901px) {
+
+    html,
+    body {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .app {
+        height: 100vh;
+    }
+
+    .order-panel,
+    .menu-panel {
+        max-height: calc(100vh - 60px);
+        overflow-y: auto;
+    }
+}
+
+/* ================= LEFT PANEL ================= */
+.order-panel {
+    margin-top: 50px;
+    width: 450px;
+    height: 60vh;
+    background: #4b2c2c;
+    border-radius: 25px;
+    padding: 20px;
+    color: white;
+    max-height: 90vh;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.order-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.order-panel::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+.order-now {
+    width: 100%;
+    background: #6d6b2d;
+    border: none;
+    padding: 14px;
+    border-radius: 30px;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+.input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 15px;
+    border: none;
+    margin-bottom: 12px;
+}
+
+/* ================= CART ================= */
+.cart-item {
+    background: #e7c743;
+    border-radius: 18px;
+    padding: 10px;
+    margin-bottom: 14px;
+    color: #333;
+}
+
+.cart-item img {
+    width: 100%;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.cart-item h4 {
+    text-align: center;
+    margin: 8px 0;
+    font-size: 14px;
+}
+
+.qty {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.qty button {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: none;
+    background: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.remove {
+    width: 100%;
+    border: none;
+    padding: 6px;
+    border-radius: 10px;
+    background: #f0f0f0;
+    cursor: pointer;
+}
+
+.total {
+    margin: 12px 0;
+    font-weight: bold;
+}
+
+.confirm {
+    width: 100%;
+    padding: 14px;
+    border-radius: 30px;
+    border: none;
+    background: #6d6b2d;
+    color: white;
+    cursor: pointer;
+}
+
+.confirm:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ================= RIGHT PANEL ================= */
+.menu-panel {
+    flex: 1;
+    background: #0f4b38;
+    border-radius: 25px;
+    padding: 20px;
+    min-width: 0;
+    /*max-height: 100%;*/
+    overflow-y: auto;
+}
+
+.menu-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.menu-panel::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+.menu-panel h2 {
+    color: white;
+    margin-bottom: 15px;
+}
+
+/* ================= MENU GRID ================= */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.menu-item {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #000;
+}
+
+.menu-item img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    display: block;
+}
+
+/* ================= ADD BUTTON ================= */
+.add-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: #6d6b2d;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 14px;
+    font-size: 13px;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.add-btn:hover {
+    background: #5c5a26;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+
+    html,
+    body {
+        height: auto !important;
+        overflow: auto !important;
+    }
+
+    .app {
+        height: auto;
+        display: block;
+    }
+
+    .order-panel {
+        width: 100%;
+        overflow: visible !important;
+        max-height: none;
+    }
+
+    .menu-panel {
+        max-height: none;
+        overflow: visible;
+    }
+
+    .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    body {
+        padding: 15px;
+    }
+
+    .menu-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.price-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    padding: 4px 8px;
+    font-size: 13px;
+    border-radius: 10px;
+    z-index: 2;
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.filter {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.filter.active {
+    background: #6d6b2d;
+}
+
+.dish-name {
+    position: absolute;
+    bottom: 45px;
+    left: 10px;
+    right: 10px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    z-index: 2;
+}
+
+.highlight {
+    background: #ffd54f;
+    color: #000;
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+/* ================= INGREDIENTS OVERLAY (NEW) ================= */
+
+/* Ensure menu item can host overlay */
+.menu-item {
+    position: relative;
+}
+
+/* Ingredients overlay */
+.ingredients {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 75, 56, 0.96);
+    color: white;
+    padding: 15px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 5;
+}
+
+/* Show ingredients on hover */
+.menu-item:hover .ingredients {
+    opacity: 1;
+}
+
+/* Ingredients text */
+.ingredients h4 {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.ingredients ul {
+    padding-left: 18px;
+    font-size: 13px;
+}
+
+.ingredients li {
+    margin-bottom: 4px;
+}
+
+/* Keep front elements visible above image */
+.add-btn,
+.price-tag,
+.dish-name {
+    position: relative;
+    z-index: 6;
+}

@@ -1,0 +1,164 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Georgia, serif;
+}
+
+body {
+    background: #0b4d35;
+    color: #f5e6c8;
+}
+
+.about-section {
+    padding: 25px 0;
+    text-align: center;
+}
+
+
+
+.title {
+    font-size: 36px;
+    margin-bottom: 30px;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #5a2e2e;
+    min-height: 86vh;
+    /* better than height */
+}
+
+.about-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.about-img img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.about-text {
+    padding: 90px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.about-text p {
+    margin-bottom: 20px;
+    line-height: 1.7;
+}
+
+.subtitle {
+    margin: 49px 0 40px;
+    font-size: 36px;
+}
+
+/* CHEF SLIDER */
+.chef-slider {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1100px;
+    margin: auto;
+    padding: 0 40px;
+}
+
+.chef-slider button {
+    background: none;
+    border: 1px solid #f5e6c8;
+    color: #f5e6c8;
+    font-size: 20px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.chef-slider img {
+    width: 400px;
+    max-width: 100%;
+}
+
+.chef-desc {
+    max-width: 700px;
+    margin: 25px auto 0;
+    font-size: 25px;
+    line-height: 1.6;
+}
+
+@media (max-width: 1199px) {
+    .about-text {
+        padding: 40px;
+        font-size: 18px;
+    }
+
+    .chef-slider img {
+        width: 340px;
+    }
+}
+
+@media (max-width: 991px) {
+    .about-content {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
+
+    .about-img {
+        height: 320px;
+    }
+
+    .about-text {
+        padding: 30px;
+        font-size: 18px;
+    }
+
+    .subtitle {
+        font-size: 30px;
+    }
+
+    .chef-slider {
+        padding: 0 20px;
+    }
+
+    .chef-slider img {
+        width: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .title {
+        font-size: 28px;
+    }
+
+    .about-img {
+        height: 240px;
+    }
+
+    .about-text {
+        padding: 20px;
+        font-size: 16px;
+    }
+
+    .subtitle {
+        font-size: 24px;
+        margin: 30px 0;
+    }
+
+    .chef-slider {
+        padding: 0 15px;
+    }
+
+    .chef-slider img {
+        width: 220px;
+    }
+
+    .chef-desc {
+        font-size: 18px;
+        padding: 0 10px;
+    }
+}

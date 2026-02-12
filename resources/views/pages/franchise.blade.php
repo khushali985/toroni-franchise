@@ -11,10 +11,6 @@
 
 @section('content')
 
-<a href="{{ route('home') }}" class="site-logo">
-    <img src="{{ asset('images/Totoni_logo_header.jpg') }}" alt="Toroni Home">
-</a>
-
 <!-- FRANCHISE SECTION -->
 <section class="franchise">
     <h1>FRANCHISE</h1>

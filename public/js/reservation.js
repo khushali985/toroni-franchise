@@ -1,14 +1,9 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("reservationForm");
+function toggleDropdown() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
 
-    if (!form) return;
-
-    form.addEventListener("submit", function () {
-        // Basic UX confirmation (does NOT stop form submit)
-        alert(
-            "Thank you!\n\n" +
-            "Your reservation request has been submitted.\n" +
-            "Our team will confirm it shortly."
-        );
-    });
-});
+function selectLocation(id, name) {
+    document.querySelector(".dropdown-btn").innerText = name;
+    document.getElementById("franchise_id").value = id;
+    document.getElementById("myDropdown").classList.remove("show");
+}

@@ -5,7 +5,6 @@
 
 body {
     background: #f4efb2;
-    padding: 30px;
     margin: 0;
 }
 
@@ -36,6 +35,7 @@ body {
     gap: 40px;
     max-width: 1200px;
     margin: auto;
+    padding: 30px;
     align-items: flex-start;
     /*height: calc(100vh - 60px);*/
 }
@@ -45,7 +45,7 @@ body {
     html,
     body {
         height: 100%;
-        overflow: hidden;
+        overflow-x: hidden;
     }
 
     .app {
@@ -61,7 +61,7 @@ body {
 
 /* ================= LEFT PANEL ================= */
 .order-panel {
-    margin-top: 50px;
+    margin-top: 60px;
     width: 450px;
     height: 60vh;
     background: #4b2c2c;
@@ -175,8 +175,9 @@ body {
     flex: 1;
     background: #0f4b38;
     border-radius: 25px;
-    padding: 20px;
+    padding: 30px;
     min-width: 0;
+    margin-top: 60px;
     /*max-height: 100%;*/
     overflow-y: auto;
 }

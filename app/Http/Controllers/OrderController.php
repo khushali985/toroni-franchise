@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\MenuItem;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+     public function index()
+    {
+        $menuItems = MenuItem::orderBy('category')->get();
+        return view('pages.order', compact('menuItems'));
+    }
     public function store(Request $request)
     {
         $request->validate([

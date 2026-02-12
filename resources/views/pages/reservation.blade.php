@@ -3,77 +3,113 @@
 @section('title', 'Reserve Your Table')
 
 @push('styles')
-<!-- Google Fonts -->
-<link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Poppins:wght@300;400;500&display=swap"
-    rel="stylesheet">
-
-<!-- Page CSS -->
 <link rel="stylesheet" href="{{ asset('css/reservation.css') }}">
 @endpush
 
 @section('content')
 
-<section class="hero">
+<section class="main-component">
 
     <div class="reservation-box">
         <h1>Reserve Your Table</h1>
 
         {{-- SUCCESS MESSAGE --}}
         @if(session('success'))
-        <p class="success-msg">{{ session('success') }}</p>
+        <div class="success-msg">
+            {{ session('success') }}
+        </div>
         @endif
 
-        <form id="reservationForm" method="POST" action="{{ route('reservation.store') }}">
+        {{-- VALIDATION ERRORS --}}
+        @if ($errors->any())
+        <div class="error-msg">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
+        <form method="POST" action="{{ route('reservation.store') }}">
             @csrf
 
+            {{-- Name --}}
             <div class="full">
                 <label>Name</label>
-                <input type="text" name="full_name" required>
+                <input type="text" name="full_name" value="{{ old('full_name') }}" placeholder="Your Name" required>
             </div>
 
+            {{-- Phone --}}
             <div>
                 <label>Contact</label>
-                <input type="tel" name="phone_no" required>
+                <input type="tel" name="phone_no" value="{{ old('phone_no') }}" placeholder="Your Phone Number"
+                    required>
             </div>
 
-            <div>
-                <label>Location</label>
-                <input type="text" name="location" required>
+            {{-- Franchise Location --}}
+            <div class="full">
+                <label>Select Location</label>
+                <select name="franchise_id" required>
+                    <option value="">Select Location</option>
+                    @foreach($franchises as $franchise)
+                    <option value="{{ $franchise->id }}" {{ old('franchise_id')==$franchise->id ? 'selected' : '' }}>
+                        {{ $franchise->location }}
+                    </option>
+                    @endforeach
+                </select>
             </div>
 
+            {{-- Date --}}
             <div>
                 <label>Date</label>
-                <input type="date" name="date" required>
+                <input type="date" name="date" value="{{ old('date') }}" required>
             </div>
 
+            {{-- Time --}}
             <div>
                 <label>Time</label>
-                <input type="time" name="time" required>
+                <input type="time" name="time" value="{{ old('time') }}" required>
             </div>
 
+            {{-- Number of People --}}
             <div class="full">
                 <label>No. of People</label>
                 <select name="no_of_people" required>
                     <option value="">Select</option>
-                    @for($i = 1; $i <= 6; $i++) <option value="{{ $i }}">{{ $i }}</option>
+                    @for($i = 1; $i <= 10; $i++) <option value="{{ $i }}" {{ old('no_of_people')==$i ? 'selected' : ''
+                        }}>
+                        {{ $i }}
+                        </option>
                         @endfor
                 </select>
             </div>
 
-            {{-- Hidden backend-required fields --}}
-            <input type="hidden" name="franchise_id" value="1">
-            <input type="hidden" name="table_id" value="1">
+            {{-- Table Selection --}}
+            <div class="full">
+                <label>Select Table</label>
+                <select name="table_id" required>
+                    <option value="">Select Table</option>
+                    @foreach($tables as $table)
+                    <option value="{{ $table->id }}" {{ old('table_id')==$table->id ? 'selected' : '' }}>
+                        Table {{ $table->table_no }}
+                        (Capacity: {{ $table->capacity_people }})
+                    </option>
+                    @endforeach
+                </select>
+            </div>
 
+            {{-- Submit --}}
             <button type="submit" class="btn">
                 Confirm Reservation
             </button>
+
         </form>
     </div>
 
 </section>
 
-<!-- EXPERIENCE SECTION -->
+{{-- EXPERIENCE SECTION --}}
 <section class="experience">
     <div class="experience-text">
         <h1>An Experience Worth Choosing</h1>
@@ -92,7 +128,7 @@
     </div>
 
     <div class="experience-img">
-        <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092" alt="Food">
+        <img src="{{ asset('images/reserve_side.png') }}" alt="Food">
     </div>
 </section>
 
@@ -107,6 +143,7 @@
 
 @endsection
 
+
 @push('scripts')
-<script src="{{ asset('js/ryt.js') }}"></script>
+<script src="{{ asset('js/reservation.js') }}"></script>
 @endpush

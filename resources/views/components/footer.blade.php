@@ -1,5 +1,5 @@
 <!-- FOOTER -->
-<footer class="footer">
+<footer id="contact-section" class="footer">
     <div class="footer-container">
 
         <div class="footer-brand">
@@ -10,10 +10,10 @@
         <div class="footer-links">
             <h3>Quick Links</h3>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Franchise</a></li>
-                <li><a href="#">Contact Us</a></li>
+                <li><a href="{{ route('home') }}">Home</a></li>
+                <li><a href="{{ route('about') }}">About Us</a></li>
+                <li><a href="{{ route('franchise') }}">Franchise</a></li>
+                <li><a href="#contact-section">Contact Us</a></li>
             </ul>
         </div>
 

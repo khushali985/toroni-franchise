@@ -220,6 +220,13 @@ body {
     .test-title {
         font-size: 26px;
     }
+
+    .hero h1 {
+        font-size: 2.3rem;
+        position: absolute;
+        top: 120px;
+    }
+
 }
 
 /* ================= FOOTER ================= */

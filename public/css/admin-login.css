@@ -1,0 +1,79 @@
+/* Remove body control completely */
+.admin-login-section {
+    min-height: 100vh;
+    /* pushes footer down */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #6B6A3C;
+    padding: 40px 20px;
+}
+
+.login-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.login-box {
+    background: #ffffff;
+    padding: 40px;
+    width: 350px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.login-box h1,
+.login-box h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 35px;
+    cursor: pointer;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 10px;
+    background: #000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.login-btn:hover {
+    background: #444;
+}
+
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.error {
+    background: #ffe5e5;
+    color: #cc0000;
+}

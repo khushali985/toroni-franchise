@@ -13,7 +13,8 @@ class Order extends Model
         'address',
         'items',
         'email',
-        'total'
+        'total',
+        'status'
     ];
 
     protected $casts = [

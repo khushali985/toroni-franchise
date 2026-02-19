@@ -148,6 +148,107 @@ input::placeholder {
     white-space: nowrap;
 }
 
+.success-msg {
+    background: #4CAF50;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.error-msg {
+    background: #e74c3c;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+/* Dropdown */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-btn {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 30px;
+    border: none;
+    background: rgba(255, 255, 255, 0.25);
+    color: #fff;
+    cursor: pointer;
+    text-align: left;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    width: 100%;
+    background: #fff;
+    border-radius: 12px;
+    margin-top: 8px;
+    z-index: 1000;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 10px;
+    color: #000;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    background: #f5e9b0;
+}
+
+.show {
+    display: block;
+}
+
+/* QR Section */
+.qr-section {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 20px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.qr-box {
+    width: 200px;
+    height: 200px;
+}
+
+.qr-box img {
+    width: 200px;
+    height: 200px;
+    border-radius: 12px;
+    background: #fff;
+    padding: 8px;
+}
+
+.qr-text h4 {
+    margin-bottom: 8px;
+    color: #f5e9b0;
+}
+
+.qr-text p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.qr-text span {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* Mobile */
+@media(max-width:768px) {
+    .qr-section {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
 @media (max-width: 480px) {
     .call-btn {
         font-size: 10px;
@@ -188,4 +289,101 @@ input::placeholder {
     form {
         grid-template-columns: 1fr;
     }
+}
+
+/* ===================================== */
+/* MULTI STEP FORM SUPPORT (ADDED) */
+/* ===================================== */
+
+/* Hide steps by default */
+.form-step {
+    display: none;
+    grid-column: 1 / -1;
+}
+
+/* Show active step */
+.form-step.active {
+    display: contents;
+}
+
+/* Step indicator container */
+.step-indicator {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+/* Individual step */
+.step {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 400;
+    position: relative;
+}
+
+/* Active step */
+.step.active {
+    color: #f5e9b0;
+    font-weight: 600;
+}
+
+/* Ensure buttons stay full width inside step */
+.form-step .btn {
+    grid-column: 1 / -1;
+}
+
+/* Make QR section full width in step 3 */
+.form-step .qr-section {
+    grid-column: 1 / -1;
+}
+
+/* Fix spacing between grouped inputs inside steps */
+.form-step label {
+    margin-top: 10px;
+}
+
+/* Prevent nested grid breaking */
+#multiStepForm {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+}
+
+/* Mobile adjustment */
+@media(max-width:768px) {
+    #multiStepForm {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===================================== */
+/* TIME SLOT BUTTONS (Luxury Style) */
+/* ===================================== */
+
+.time-slots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.time-slot {
+    padding: 10px 18px;
+    border-radius: 30px;
+    border: 1px solid #e8d88a;
+    background: rgba(255, 255, 255, 0.15);
+    color: #f5e9b0;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.time-slot:hover {
+    background: #e8d88a;
+    color: #3a2f1d;
+}
+
+.active-slot {
+    background: #e8d88a;
+    color: #3a2f1d;
 }

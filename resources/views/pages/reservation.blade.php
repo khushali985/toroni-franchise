@@ -149,6 +149,7 @@
 <script>
     const checkAvailabilityUrl = "{{ route('reservation.checkAvailability') }}";
 </script>
-<script src="{{ asset('js/reservation.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="{{ asset('js/reservation.js') }}"></script>
+
 @endpush

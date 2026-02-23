@@ -7,7 +7,6 @@ use App\Models\Franchise;
 use App\Models\RestaurantTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\QueryException;
 
 class ReservationController extends Controller
 {
@@ -18,7 +17,7 @@ class ReservationController extends Controller
         return view('pages.reservation', compact('franchises'));
     }
 
-    // ✅ Get Tables by Franchise (AJAX)
+    // ✅ Get Tables by Franchise (Optional)
     public function getTables($franchiseId)
     {
         return RestaurantTable::where('franchise_id', $franchiseId)
@@ -26,63 +25,85 @@ class ReservationController extends Controller
             ->get();
     }
 
-    // Check table availability (AJAX)
+    // ✅ AJAX Availability Check (Count-Based Logic)
     public function checkAvailability(Request $request)
     {
-        $validator = \Validator::make($request->all(), [
+        $validated = $request->validate([
             'franchise_id' => 'required|exists:franchises,id',
-            'date'         => 'required|date',
+            'date'         => 'required|date|after_or_equal:today',
             'time'         => 'required',
             'no_of_people' => 'required|integer|min:1',
         ]);
 
-        if ($validator->fails()) {
+        $time = date('H:i:s', strtotime($validated['time']));
+
+        try {
+
+            // 1️⃣ Get all suitable tables for that guest count
+            $tables = RestaurantTable::where('franchise_id', $validated['franchise_id'])
+                ->whereBetween('capacity_people', [
+    $validated['no_of_people'],
+    $validated['no_of_people'] + 2
+])
+                ->where('status', 'available')
+                ->pluck('id');
+
+            $totalTables = $tables->count();
+
+            if ($totalTables === 0) {
+                return response()->json([
+                    'success'   => true,
+                    'available' => false
+                ]);
+            }
+
+            // 2️⃣ Count already booked tables for that slot
+            $bookedCount = Reservation::whereIn('table_id', $tables)
+                ->whereDate('date', $validated['date'])
+                ->whereTime('time', $time)
+                ->whereIn('status', ['approved', 'pending'])
+                ->count();
+
+            // 3️⃣ Allow if at least one table is free
+            $available = $bookedCount < $totalTables;
+
             return response()->json([
-                'available' => false,
-                'errors' => $validator->errors()
-            ], 422);
+                'success'   => true,
+                'available' => $available
+            ]);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Server error while checking availability.'
+            ], 500);
         }
-
-        $availableTable = RestaurantTable::where('franchise_id', $request->franchise_id)
-            ->where('capacity_people', '>=', $request->no_of_people)
-            ->where('status', 'available')
-            ->whereDoesntHave('reservations', function ($query) use ($request) {
-                $query->where('date', $request->date)
-                    ->where('time', $request->time)
-                    ->whereIn('status', ['approved', 'pending']);
-            })
-            ->orderBy('capacity_people')
-            ->first();
-
-        return response()->json([
-            'available' => $availableTable ? true : false,
-        ]);
     }
 
-    // ✅ Store Reservation
+    // ✅ Store Reservation (Allocation Logic)
     public function store(Request $request)
     {
-        // 1️⃣ Validate
         $validated = $request->validate([
-            'full_name'     => 'required|string|max:255',
-            'phone_no'      => 'required|digits:10',
-            'date'          => 'required|date|after_or_equal:today',
-            'time'          => 'required',
-            'no_of_people'  => 'required|integer|min:1',
-            'franchise_id'  => 'required|exists:franchises,id',
-            'transaction_id'=> 'required|string|max:255',
-            'payment_proof' => 'required|mimes:jpg,jpeg,png,pdf|max:2048'
+            'full_name'      => 'required|string|max:255',
+            'phone_no'       => 'required|digits:10',
+            'date'           => 'required|date|after_or_equal:today',
+            'time'           => 'required',
+            'no_of_people'   => 'required|integer|min:1',
+            'franchise_id'   => 'required|exists:franchises,id',
+            'transaction_id' => 'required|string|max:255',
+            'payment_proof'  => 'required|mimes:jpg,jpeg,png,pdf|max:2048'
         ]);
 
-        // 2️⃣ Normalize Time
+        // Normalize time format
         $validated['time'] = date('H:i:s', strtotime($validated['time']));
 
-        // 3️⃣ Prevent Same Phone Double Booking FIRST
+        // 🔒 Prevent duplicate booking (same phone + same slot)
         $duplicate = Reservation::where('franchise_id', $validated['franchise_id'])
             ->where('phone_no', $validated['phone_no'])
-            ->where('date', $validated['date'])
-            ->where('time', $validated['time'])
-            ->whereIn('status', ['approved','pending'])
+            ->whereDate('date', $validated['date'])
+            ->whereTime('time', $validated['time'])
+            ->whereIn('status', ['approved', 'pending'])
             ->exists();
 
         if ($duplicate) {
@@ -91,39 +112,41 @@ class ReservationController extends Controller
             ])->withInput();
         }
 
-        // 4️⃣ Find Available Table Automatically
-        $availableTable = RestaurantTable::where('franchise_id', $validated['franchise_id'])
-            ->where('capacity_people', '>=', $validated['no_of_people'])
-            ->where('status', 'available')
-            ->whereDoesntHave('reservations', function ($query) use ($validated) {
-                $query->where('date', $validated['date'])
-                    ->where('time', $validated['time'])
-                    ->whereIn('status', ['approved','pending']);
-            })
-            ->orderBy('capacity_people')
-            ->first();
-
-        if (!$availableTable) {
-            return back()->withErrors([
-                'date' => 'No available tables for selected date and time.'
-            ])->withInput();
-        }
-
-        $validated['table_id'] = $availableTable->id;
-
-        // 5️⃣ Handle Everything Inside Transaction
         DB::beginTransaction();
 
         try {
 
-            // Upload Payment Proof
+            // 🔥 Allocate first suitable free table
+            $availableTable = RestaurantTable::where('franchise_id', $validated['franchise_id'])
+                ->whereBetween('capacity_people', [
+    $validated['no_of_people'],
+    $validated['no_of_people'] + 2
+])
+                ->where('status', 'available')
+                ->whereDoesntHave('reservations', function ($query) use ($validated) {
+                    $query->whereDate('date', $validated['date'])
+                          ->whereTime('time', $validated['time'])
+                          ->whereIn('status', ['approved', 'pending']);
+                })
+                ->orderBy('capacity_people') // smallest suitable first
+                ->lockForUpdate()
+                ->first();
+
+            if (!$availableTable) {
+                DB::rollBack();
+                return back()->withErrors([
+                    'date' => 'All suitable tables are booked for this slot.'
+                ])->withInput();
+            }
+
+            $validated['table_id'] = $availableTable->id;
+
+            // 📁 Upload payment proof
             $file = $request->file('payment_proof');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('images/payments'), $filename);
 
             $validated['payment_proof'] = 'images/payments/' . $filename;
-
-            // Set Default Status
             $validated['status'] = 'pending';
             $validated['payment_status'] = 'pending';
 
@@ -134,13 +157,15 @@ class ReservationController extends Controller
         } catch (\Exception $e) {
 
             DB::rollBack();
+
             return back()->withErrors([
                 'error' => 'Something went wrong. Please try again.'
             ])->withInput();
         }
 
-        return redirect()->back()->with('success', 'Your reservation request has been submitted successfully. Our team will confirm it shortly.'
+        return redirect()->back()->with(
+            'success',
+            'Your reservation request has been submitted successfully. Our team will confirm it shortly.'
         );
     }
-
 }

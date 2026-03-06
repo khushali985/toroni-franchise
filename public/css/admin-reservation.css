@@ -1,0 +1,368 @@
+/* ===================================== */
+/* DASHBOARD SECTION */
+/* ===================================== */
+
+.admin-dashboard {
+    padding: 30px;
+}
+
+.dashboard-title {
+    font-size: 26px;
+    margin-bottom: 25px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* ===================================== */
+/* FRANCHISE CARDS */
+/* ===================================== */
+
+.franchise-card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 35px;
+}
+
+.franchise-card {
+    display: block;
+    padding: 18px;
+    background: #ffffff;
+    border-radius: 14px;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: 0.3s ease;
+}
+
+.franchise-card:hover {
+    transform: translateY(-5px);
+    background: #6d6b2d;
+    color: #fff;
+}
+
+.franchise-card.active {
+    background: #6d6b2d;
+    color: #fff;
+}
+
+/* ===================================== */
+/* STATS GRID */
+/* ===================================== */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.card h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.card p {
+    font-size: 22px;
+    font-weight: bold;
+    color: #6d6b2d;
+}
+
+.card small {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    color: #777;
+}
+
+/* ===================================== */
+/* RESERVATION SECTION */
+/* ===================================== */
+
+.reservation-section {
+    margin-top: 20px;
+}
+
+.reservation-header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.reservation-header h2 {
+    font-size: 20px;
+}
+
+/* ===================================== */
+/* BULK + FILTER */
+/* ===================================== */
+
+.reservation-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.reservation-actions form {
+    display: flex;
+    gap: 10px;
+}
+
+.reservation-actions select,
+.reservation-actions input {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.reservation-actions select:focus,
+.reservation-actions input:focus {
+    outline: none;
+    border-color: #6d6b2d;
+}
+
+/* ===================================== */
+/* BUTTON STYLES */
+/* ===================================== */
+
+.btn-success {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-danger {
+    background: #c0392b;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-info {
+    background: #2980b9;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background: #7f8c8d;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-dark {
+    background: #6d6b2d;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+/* ===================================== */
+/* TABLE */
+/* ===================================== */
+
+.table-wrapper {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    overflow-x: auto;
+}
+
+.reservation-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.reservation-table thead {
+    background: #6d6b2d;
+    color: white;
+}
+
+.reservation-table th,
+.reservation-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+.reservation-table tbody tr:hover {
+    background: #f9f9f9;
+}
+
+/* ===================================== */
+/* STATUS BADGES */
+/* ===================================== */
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+}
+
+.status-pending {
+    background: #f39c12;
+}
+
+.status-approved {
+    background: #27ae60;
+}
+
+.status-cancelled {
+    background: #c0392b;
+}
+
+.status-completed {
+    background: #2980b9;
+}
+
+/* ===================================== */
+/* PAYMENT DROPDOWN */
+/* ===================================== */
+
+.payment-dropdown {
+    padding: 5px 8px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 13px;
+}
+
+/* ===================================== */
+/* ACTION BUTTONS */
+/* ===================================== */
+
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+}
+
+/* ===================================== */
+/* PAGINATION */
+/* ===================================== */
+
+.pagination-wrapper {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.pagination-wrapper nav {
+    display: inline-block;
+}
+
+.pagination-wrapper .pagination {
+    display: flex;
+    gap: 6px;
+}
+
+.pagination-wrapper .page-link {
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: #eee;
+    text-decoration: none;
+    color: #333;
+}
+
+.pagination-wrapper .active .page-link {
+    background: #6d6b2d;
+    color: white;
+}
+
+/* ===================================== */
+/* MODAL */
+/* ===================================== */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-content {
+    background: white;
+    padding: 25px;
+    width: 400px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.modal-content h3 {
+    margin-bottom: 15px;
+}
+
+/* ===================================== */
+/* RESPONSIVE */
+/* ===================================== */
+
+@media (max-width: 768px) {
+
+    .reservation-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .reservation-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .reservation-actions form {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .reservation-actions select,
+    .reservation-actions input,
+    .reservation-actions button {
+        width: 100%;
+    }
+
+    .franchise-card-container {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .reservation-table {
+        font-size: 12px;
+    }
+}

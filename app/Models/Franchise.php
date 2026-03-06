@@ -12,7 +12,8 @@ class Franchise extends Model
         'owner_name',
         'owner_phone',
         'owner_email',
-        'location'
+        'location',
+        'image'
     ];
 
     public function menuItems()
@@ -33,5 +34,10 @@ class Franchise extends Model
     public function tables()
     {
         return $this->hasMany(RestaurantTable::class);
+    }
+
+    public function paymentSetting()
+    {
+        return $this->hasOne(PaymentSetting::class);
     }
 }

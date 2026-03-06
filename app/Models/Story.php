@@ -18,10 +18,15 @@ class Story extends Model
      * Mass assignable fields
      */
     protected $fillable = [
-        'title',
-        'description',
-        'image',
-        'status'
+        'story_img',
+        'franchise_id'
     ];
+
+      // Each Story belongs to one Franchise
+    public function franchise()
+    {
+        return $this->belongsTo(Franchise::class);
+    }
 }
+
 

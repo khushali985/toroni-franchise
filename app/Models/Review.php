@@ -14,6 +14,13 @@ class Review extends Model
     protected $fillable = [
         'cust_name',
         'review_text',
+        'franchise_id',
         'rating'
     ];
+
+     // Each Review belongs to one Franchise
+    public function franchise()
+    {
+        return $this->belongsTo(Franchise::class);
+    }
 }

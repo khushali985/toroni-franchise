@@ -1,0 +1,237 @@
+/* ============================= */
+/* MENU GRID */
+/* ============================= */
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 25px;
+}
+
+/* ============================= */
+/* MENU CARD */
+/* ============================= */
+
+.menu-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    border: 1px solid #eee;
+    transition: 0.3s ease;
+    text-align: center;
+    position: relative;
+}
+
+.menu-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.menu-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.menu-card h4 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.menu-card p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+/* ============================= */
+/* ADD BUTTON */
+/* ============================= */
+
+.add-btn {
+    display: inline-block;
+    margin-bottom: 25px;
+    padding: 10px 16px;
+    background: #6d6b2d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.add-btn:hover {
+    background: #5b5924;
+}
+
+/* ============================= */
+/* DELETE BUTTON */
+/* ============================= */
+
+.delete-btn {
+    background: #c0392b;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.delete-btn:hover {
+    background: #a93226;
+}
+
+/* ============================= */
+/* EDIT BUTTON */
+/* ============================= */
+
+.edit-btn {
+    background: #27ae60;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-right: 6px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.edit-btn:hover {
+    background: #1e8449;
+}
+
+/* ============================= */
+/* BUTTON WRAPPER */
+/* ============================= */
+
+.card-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* ============================= */
+/* CATEGORY HEADING */
+/* ============================= */
+
+.category-heading {
+    margin-top: 50px;
+    margin-bottom: 20px;
+    padding-left: 12px;
+    border-left: 6px solid #6d6b2d;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* ============================= */
+/* MODAL */
+/* ============================= */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #ffffff;
+    padding: 25px;
+    width: 420px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content h3 {
+    margin-bottom: 18px;
+    font-size: 18px;
+}
+
+/* ============================= */
+/* MODAL FORM */
+/* ============================= */
+
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.modal-content button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #6d6b2d;
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.modal-content button:hover {
+    background: #5b5924;
+}
+
+/* ============================= */
+/* SELECT2 FIX */
+/* ============================= */
+
+.select2-container {
+    z-index: 9999 !important;
+}
+
+.select2-dropdown {
+    z-index: 9999 !important;
+}
+
+/* ============================= */
+/* ANIMATION */
+/* ============================= */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================= */
+/* RESPONSIVE */
+/* ============================= */
+
+@media (max-width: 768px) {
+    .menu-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+
+    .modal-content {
+        width: 90%;
+    }
+}

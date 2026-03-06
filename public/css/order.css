@@ -9,6 +9,26 @@ body {
 }
 
 
+
+.top-controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+#searchInput,
+#franchiseFilter {
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: none;
+    font-size: 13px;
+}
+
+#searchInput {
+    flex: 1;
+}
+
 /* ================= TOAST ================= */
 #toast {
     position: fixed;
@@ -36,8 +56,21 @@ body {
     max-width: 1200px;
     margin: auto;
     padding: 30px;
-    align-items: flex-start;
+    align-items: stretch;
+    height: 100vh;
     /*height: calc(100vh - 60px);*/
+}
+
+.app form {
+    flex: 1;
+    /* 50% */
+    background: #4b2c2c;
+    border-radius: 25px;
+    padding: 25px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
 }
 
 @media (min-width: 901px) {
@@ -54,23 +87,21 @@ body {
 
     .order-panel,
     .menu-panel {
-        max-height: calc(100vh - 60px);
+        max-height: calc(100vh - 120px);
         overflow-y: auto;
     }
 }
 
 /* ================= LEFT PANEL ================= */
 .order-panel {
-    margin-top: 60px;
     width: 450px;
-    height: 60vh;
     background: #4b2c2c;
     border-radius: 25px;
-    padding: 20px;
+    padding: 25px;
     color: white;
-    max-height: 90vh;
-    overflow-y: auto;
+    display: flex;
     flex-shrink: 0;
+    flex-direction: column;
 }
 
 .order-panel::-webkit-scrollbar {
@@ -163,6 +194,7 @@ body {
     background: #6d6b2d;
     color: white;
     cursor: pointer;
+    margin-top: auto;
 }
 
 .confirm:disabled {
@@ -173,13 +205,13 @@ body {
 /* ================= RIGHT PANEL ================= */
 .menu-panel {
     flex: 1;
+    /* 50% */
     background: #0f4b38;
     border-radius: 25px;
     padding: 30px;
-    min-width: 0;
-    margin-top: 60px;
-    /*max-height: 100%;*/
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .menu-panel::-webkit-scrollbar {
@@ -201,6 +233,9 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 18px;
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 5px;
 }
 
 .menu-item {
@@ -229,12 +264,76 @@ body {
     border-radius: 14px;
     font-size: 13px;
     cursor: pointer;
-    z-index: 2;
+    z-index: 10;
+}
+
+
+.price-tag,
+.dish-name {
+    position: relative;
+    z-index: 6;
+
 }
 
 .add-btn:hover {
     background: #5c5a26;
 }
+
+.order-heading {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+
+/* ===== SUCCESS MODAL ===== */
+.success-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.success-box {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 15px;
+    position: relative;
+    text-align: center;
+    animation: pop 0.3s ease;
+}
+
+.success-box h3 {
+    margin: 0;
+    color: #4b2c2c;
+}
+
+.close-btn {
+    color: #4b2c2c;
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+@keyframes pop {
+    from {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 900px) {
@@ -246,18 +345,21 @@ body {
     }
 
     .app {
+        flex-direction: column;
         height: auto;
-        display: block;
     }
 
-    .order-panel {
+    .app form {
         width: 100%;
-        overflow: visible !important;
-        max-height: none;
+        height: auto;
+        overflow: visible;
+
     }
 
+    .order-panel,
     .menu-panel {
-        max-height: none;
+        width: 100%;
+        height: auto;
         overflow: visible;
     }
 
@@ -369,9 +471,62 @@ body {
 }
 
 /* Keep front elements visible above image */
-.add-btn,
-.price-tag,
-.dish-name {
-    position: relative;
-    z-index: 6;
+
+/* FRANCHISE SCREEN */
+.franchise-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    text-align: center;
+}
+
+.franchise-screen h2 {
+    margin-bottom: 30px;
+    font-size: 26px;
+}
+
+.franchise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.franchise-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: 0.3s ease;
+}
+
+.franchise-card:hover {
+    background: #6d6b2d;
+    color: white;
+    transform: translateY(-5px);
+}
+
+/* MENU HEADER */
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.change-franchise {
+    background: rgb(233, 200, 94);
+    border: 1px solid #6d6b2d;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.change-franchise:hover {
+    background: #6d6b2d;
+    color: white;
 }

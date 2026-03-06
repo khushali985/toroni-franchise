@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
-@section('title', 'Admin Dashboard')
+@section('title', 'Admin Panel')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/admin-dashboard.css') }}">
+<link rel="stylesheet" href="{{ asset('css/admin-reservation.css') }}">
 @endpush
 
 @section('content')
@@ -16,12 +16,13 @@
 
         <div class="franchise-card-container">
 
-            <a href="{{ route('admin.dashboard') }}" class="franchise-card {{ !$selectedFranchise ? 'active' : '' }}">
+            <a href="{{ route('reservations.index') }}"
+                class="franchise-card {{ !$selectedFranchise ? 'active' : '' }}">
                 All Franchises
             </a>
 
             @foreach($franchises as $franchise)
-            <a href="{{ route('admin.dashboard', ['franchise_id' => $franchise->id]) }}" class="franchise-card 
+            <a href="{{ route('reservations.index', ['franchise_id' => $franchise->id]) }}" class="franchise-card 
                 {{ $selectedFranchise && $selectedFranchise->id == $franchise->id ? 'active' : '' }}">
 
                 <h3>{{ $franchise->location }}</h3>
@@ -35,8 +36,6 @@
 
     {{-- ================= STATS CARDS ================= --}}
     <div class="stats-grid">
-
-
 
         <div class="card">
             <h3>Total Reservations</h3>
@@ -75,117 +74,78 @@
     </div>
 
 
-    {{-- ================= CHART SECTION ================= --}}
-    <!-- <div class="charts-grid">
-
-        <div class="chart-card">
-            <h3>Monthly Revenue</h3>
-            <canvas id="revenueChart"></canvas>
-        </div>
-
-        <div class="chart-card">
-            <h3>Monthly Reservations</h3>
-            <canvas id="reservationChart"></canvas>
-        </div>
-
-    </div> 
-
-
-    {{-- ================= RECENT RESERVATIONS ================= --}}
-    <div class="table-section">
-        <h2>Recent Reservations</h2>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @forelse($recentReservations as $reservation)
-                <tr>
-                    <td>{{ $reservation->id }}</td>
-                    <td>{{ $reservation->name }}</td>
-                    <td>{{ $reservation->date }}</td>
-                    <td>{{ ucfirst($reservation->status) }}</td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="4">No reservations found.</td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
-
-
-    {{-- ================= RECENT ORDERS ================= --}}
-    <div class="table-section">
-        <h2>Recent Orders</h2>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Customer</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @forelse($recentOrders as $order)
-                <tr>
-                    <td>{{ $order->id }}</td>
-                    <td>{{ $order->full_name ?? 'N/A' }}</td>
-                    <td>₹ {{ number_format($order->total ?? 0, 2) }}</td>
-                    <td>{{ ucfirst($order->status) }}</td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="4">No orders found.</td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div> -->
-
     <div class="reservation-section card-container">
 
         <div class="reservation-header">
             <h2>Reservation Management</h2>
 
             <div class="reservation-actions">
-                <form method="GET" action="{{ route('admin.dashboard') }}" class="filter-form">
+                <form method="POST" action="{{ route('admin.reservation.bulk') }}" id="bulkForm">
+                    @csrf
+                    <input type="hidden" name="reservation_ids" id="selectedIds">
 
-                    <select name="status">
+                    <select name="status" required>
+                        <option value="">Actions</option>
+                        <option value="approved">Approve Selected</option>
+                        <option value="completed">Complete Selected</option>
+                        <option value="cancelled">Cancel Selected</option>
+                        <option value="delete">Delete Selected</option>
+                        <option value="export_pdf">Export as PDF</option>
+                        <option value="export_excel">Export as Excel</option>
+                    </select>
+
+                    <button type="submit" class="btn-dark">
+                        Apply
+                    </button>
+                </form>
+
+                <form method="GET" action="{{ route('reservations.index') }}" class="filter-form" id="filterForm">
+
+                    {{-- KEEP SELECTED FRANCHISE --}}
+                    @if($selectedFranchise)
+                    <input type="hidden" name="franchise_id" value="{{ $selectedFranchise->id }}">
+                    @endif
+
+                    <select name="status" id="statusFilter">
                         <option value="">All Status</option>
-                        <option value="pending" {{ request('status')=='pending' ? 'selected' : '' }}>Pending</option>
-                        <option value="approved" {{ request('status')=='approved' ? 'selected' : '' }}>Approved</option>
-                        <option value="cancelled" {{ request('status')=='cancelled' ? 'selected' : '' }}>Cancelled
+
+                        <option value="pending" {{ request('status')=='pending' ? 'selected' : '' }}>
+                            Pending
                         </option>
-                        <option value="completed" {{ request('status')=='completed' ? 'selected' : '' }}>Completed
+
+                        <option value="approved" {{ request('status')=='approved' ? 'selected' : '' }}>
+                            Approved
+                        </option>
+
+                        <option value="cancelled" {{ request('status')=='cancelled' ? 'selected' : '' }}>
+                            Cancelled
+                        </option>
+
+                        <option value="completed" {{ request('status')=='completed' ? 'selected' : '' }}>
+                            Completed
                         </option>
                     </select>
 
-                    <input type="text" name="search" value="{{ request('search') }}"
+                    <input type="text" name="search" id="searchInput" value="{{ request('search') }}"
                         placeholder="Search name / phone / date">
 
-                    <button type="submit" class="btn-primary">Filter</button>
                 </form>
-
             </div>
         </div>
 
         {{-- TABLE --}}
         <div class="table-wrapper">
+            <div class="pagination-info">
+                <strong>{{ $reservations->total() }}</strong> reservations |
+                Page {{ $reservations->currentPage() }}
+                of {{ $reservations->lastPage() }}
+            </div>
             <table class="reservation-table">
                 <thead>
                     <tr>
+                        <th>
+                            <input type="checkbox" id="selectAll">
+                        </th>
                         <th>ID</th>
                         <th>Name</th>
                         <th>Phone</th>
@@ -193,6 +153,7 @@
                         <th>no of people</th>
                         <th>Location</th>
                         <th>Status</th>
+                        <th>Transaction ID</th>
                         <th>Payment</th>
                         <th>Actions</th>
                     </tr>
@@ -201,6 +162,9 @@
                 <tbody>
                     @forelse($reservations as $reservation)
                     <tr>
+                        <td>
+                            <input type="checkbox" class="rowCheckbox" value="{{ $reservation->id }}">
+                        </td>
                         <td>{{ $reservation->id }}</td>
                         <td>{{ $reservation->full_name }}</td>
                         <td>{{ $reservation->phone_no }}</td>
@@ -214,12 +178,49 @@
                         </td>
 
                         <td>
-                            <span class="payment-badge">
-                                {{ ucfirst($reservation->payment_status ?? 'N/A') }}
-                            </span>
+                            {{ $reservation->transaction_id ?? 'N/A' }}
+                        </td>
+
+                        <td>
+                            @if($reservation->payment_status === 'approved')
+
+                            <span class="text-success fw-bold">Approved</span>
+
+                            @else
+
+                            <form method="POST"
+                                action="{{ route('admin.reservation.togglePayment', $reservation->id) }}">
+                                @csrf
+                                @method('PATCH')
+
+                                <select name="payment_status" onchange="this.form.submit()" class="payment-dropdown">
+
+                                    <option value="pending" {{ $reservation->payment_status === 'pending' ? 'selected' :
+                                        '' }}>
+                                        Pending
+                                    </option>
+
+                                    <option value="approved">
+                                        Approve Payment
+                                    </option>
+
+                                </select>
+
+                            </form>
+
+                            @endif
                         </td>
 
                         <td class="action-buttons">
+
+                            @if(in_array($reservation->status, ['completed', 'cancelled']))
+
+                            <span class="text-muted">Finalized</span>
+
+                            @else
+
+                            {{-- If Pending --}}
+                            @if($reservation->status === 'pending')
 
                             {{-- APPROVE --}}
                             <form method="POST" action="{{ route('admin.reservation.status', $reservation->id) }}">
@@ -237,6 +238,12 @@
                                 <button type="submit" class="btn-danger">Cancel</button>
                             </form>
 
+                            @endif
+
+
+                            {{-- If Approved --}}
+                            @if($reservation->status === 'approved')
+
                             {{-- COMPLETE --}}
                             <form method="POST" action="{{ route('admin.reservation.status', $reservation->id) }}">
                                 @csrf
@@ -245,6 +252,19 @@
                                 <button type="submit" class="btn-info">Complete</button>
                             </form>
 
+                            {{-- CANCEL --}}
+                            <form method="POST" action="{{ route('admin.reservation.status', $reservation->id) }}">
+                                @csrf
+                                @method('PATCH')
+                                <input type="hidden" name="status" value="cancelled">
+                                <button type="submit" class="btn-danger">Cancel</button>
+                            </form>
+
+                            @endif
+
+                            @endif
+
+                            {{-- VIEW (always allowed) --}}
                             <button type="button" class="btn-secondary view-btn" data-id="{{ $reservation->id }}"
                                 data-name="{{ $reservation->full_name }}" data-phone="{{ $reservation->phone_no }}"
                                 data-date="{{ $reservation->date }}" data-time="{{ $reservation->time }}"
@@ -252,12 +272,14 @@
                                 View
                             </button>
 
-                            {{-- DELETE --}}
+                            {{-- DELETE (optional: disable if finalized) --}}
+
                             <form method="POST" action="{{ route('admin.reservation.delete', $reservation->id) }}">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn-dark delete-btn">Delete</button>
                             </form>
+
 
                         </td>
                     </tr>
@@ -268,9 +290,11 @@
                     @endforelse
                 </tbody>
             </table>
-        </div>
 
-        {{ $reservations->withQueryString()->links() }}
+            <div class="pagination-wrapper">
+                {{ $reservations->withQueryString()->links() }}
+            </div>
+        </div>
 
     </div>
 
@@ -366,5 +390,64 @@
     });
 </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const form = document.getElementById('filterForm');
+        const status = document.getElementById('statusFilter');
+        const search = document.getElementById('searchInput');
+
+        // Auto submit when status changes
+        status.addEventListener('change', function () {
+            form.submit();
+        });
+
+        // Auto submit while typing (debounced)
+        let typingTimer;
+
+        search.addEventListener('keyup', function () {
+
+            clearTimeout(typingTimer);
+
+            typingTimer = setTimeout(function () {
+                form.submit();
+            }, 400); // 400ms delay
+        });
+
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const selectAll = document.getElementById('selectAll');
+        const checkboxes = document.querySelectorAll('.rowCheckbox');
+        const bulkForm = document.getElementById('bulkForm');
+        const selectedIdsInput = document.getElementById('selectedIds');
+
+        // Select All checkbox
+        selectAll.addEventListener('change', function () {
+            checkboxes.forEach(cb => cb.checked = this.checked);
+        });
+
+        // On form submit
+        bulkForm.addEventListener('submit', function (e) {
+
+            let selected = [];
+
+            document.querySelectorAll('.rowCheckbox:checked')
+                .forEach(cb => selected.push(cb.value));
+
+            if (selected.length === 0) {
+                e.preventDefault();
+                alert('Please select at least one reservation.');
+                return;
+            }
+
+            selectedIdsInput.value = selected.join(',');
+        });
+
+    });
+</script>
 
 @endpush

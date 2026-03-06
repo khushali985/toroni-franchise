@@ -114,12 +114,19 @@
                         <button type="button" class="btn next-btn">Continue</button>
                     </div>
 
+
                     {{-- STEP 3 --}}
                     <div class="form-step">
 
                         <div class="qr-section">
-                            <div class="qr-box">
-                                <img src="{{ asset('images/upi_qr.jpeg') }}">
+
+                            <div class="qr-box" id="qrBox">
+                                @if($payment)
+                                <img src="{{ asset($payment->qr_image) }}" width="200">
+                                <p>{{ $payment->upi_name }}</p>
+                                @else
+                                <p>No payment QR available.</p>
+                                @endif
                             </div>
 
                             <div class="qr-text">
@@ -129,6 +136,7 @@
                                     Reservation will be confirmed after verification.
                                 </p>
                             </div>
+
                         </div>
 
                         <input type="text" name="transaction_id" placeholder="Enter UPI Transaction ID" required>

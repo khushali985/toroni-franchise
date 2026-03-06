@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Franchise;
 use App\Models\Order;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
@@ -11,15 +11,25 @@ class OrderController extends Controller
      public function index()
     {
         $menuItems = MenuItem::orderBy('category')->get();
-        return view('pages.order', compact('menuItems'));
+        $categories = MenuItem::select('category')
+            ->whereNotNull('category')
+            ->distinct()
+            ->orderBy('category')
+            ->pluck('category');
+
+        $franchises = Franchise::all();
+
+        return view('pages.order', compact( 'franchises', 'menuItems', 'categories'));
     }
-    public function store(Request $request)
+     function store(Request $request)
     {
         $request->validate([
             'full_name' => 'required|string|max:150',
+            'email' => 'required|email',
             'phone'     => 'nullable|digits:10',
             'address'   => 'nullable|string|max:255',
-            'items'     => 'required|array',
+            'franchise_id' => 'required|exists:franchises,id',
+            'items'     => 'required|string',
             'total'     => 'required|numeric'
         ]);
 
@@ -28,11 +38,13 @@ class OrderController extends Controller
             'full_name'    => $request->full_name,
             'phone'        => $request->phone,
             'address'      => $request->address,
-            'items'        => json_encode($request->items),
+            'items'        => $request->items,
             'email'        => $request->email,
             'total'        => $request->total
         ]);
 
-        return redirect()->back()->with('success', 'Order placed successfully!');
+        return redirect()->back()->with('success', 'Order placed successfully!'); 
+
     }
 }
+

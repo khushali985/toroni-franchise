@@ -28,7 +28,7 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('reservations.index');
         }
 
         return back()->withErrors([
@@ -43,6 +43,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('admin.auth.login');
+        return redirect()->route('admin.login');
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Franchise;
 use App\Models\RestaurantTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\PaymentSetting;
 
 class ReservationController extends Controller
 {
@@ -14,7 +15,17 @@ class ReservationController extends Controller
     public function index()
     {
         $franchises = Franchise::orderBy('location')->get();
-        return view('pages.reservation', compact('franchises'));
+
+        // Default QR → first franchise
+        $defaultFranchiseId = $franchises->first()->id ?? null;
+
+        $payment = null;
+
+        if ($defaultFranchiseId) {
+            $payment = PaymentSetting::where('franchise_id', $defaultFranchiseId)->first();
+        }
+
+        return view('pages.reservation', compact('franchises', 'payment'));
     }
 
     // ✅ Get Tables by Franchise (Optional)
@@ -42,9 +53,9 @@ class ReservationController extends Controller
             // 1️⃣ Get all suitable tables for that guest count
             $tables = RestaurantTable::where('franchise_id', $validated['franchise_id'])
                 ->whereBetween('capacity_people', [
-    $validated['no_of_people'],
-    $validated['no_of_people'] + 2
-])
+                $validated['no_of_people'],
+                $validated['no_of_people'] + 2
+            ])
                 ->where('status', 'available')
                 ->pluck('id');
 
@@ -119,9 +130,9 @@ class ReservationController extends Controller
             // 🔥 Allocate first suitable free table
             $availableTable = RestaurantTable::where('franchise_id', $validated['franchise_id'])
                 ->whereBetween('capacity_people', [
-    $validated['no_of_people'],
-    $validated['no_of_people'] + 2
-])
+                    $validated['no_of_people'],
+                    $validated['no_of_people'] + 2
+            ])
                 ->where('status', 'available')
                 ->whereDoesntHave('reservations', function ($query) use ($validated) {
                     $query->whereDate('date', $validated['date'])
@@ -144,9 +155,9 @@ class ReservationController extends Controller
             // 📁 Upload payment proof
             $file = $request->file('payment_proof');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('images/payments'), $filename);
+            $file->move(public_path('images/payments/transaction'), $filename);
 
-            $validated['payment_proof'] = 'images/payments/' . $filename;
+            $validated['payment_proof'] = 'images/payments/transaction' . $filename;
             $validated['status'] = 'pending';
             $validated['payment_status'] = 'pending';
 
@@ -159,7 +170,7 @@ class ReservationController extends Controller
             DB::rollBack();
 
             return back()->withErrors([
-                'error' => 'Something went wrong. Please try again.'
+                'error' => $e->getMessage()
             ])->withInput();
         }
 
@@ -167,5 +178,34 @@ class ReservationController extends Controller
             'success',
             'Your reservation request has been submitted successfully. Our team will confirm it shortly.'
         );
+
+
     }
+
+    public function getPayment($franchise_id)
+    {
+        $payment = PaymentSetting::where('franchise_id', $franchise_id)->first();
+
+        if (!$payment) {
+            return response()->json([
+                'success' => false
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'qr_image' => asset($payment->qr_image),
+            'upi_name' => $payment->upi_name
+        ]);
+    }
+
+
+
+    /*public function showReservation($franchise_id)
+    {
+        $payment = PaymentSetting::where('franchise_id', $franchise_id)->first();
+
+        return view('reservation.page', compact('payment'));
+    } */
+
 }

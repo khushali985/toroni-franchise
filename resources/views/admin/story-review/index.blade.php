@@ -2,9 +2,13 @@
 
 @section('content')
 
-<div class="container">
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/admin-story-review.css') }}">
+@endpush
 
-    <h2>Stories & Reviews Management</h2>
+<div class="admin-page">
+
+    <h2 class="page-title">Stories & Reviews Management</h2>
 
     {{-- Success Message --}}
     @if(session('success'))
@@ -15,16 +19,19 @@
 
 
     {{-- ================= Franchise Filter (ONLY ONE) ================= --}}
-    <div style="margin-bottom:20px;">
+    <div class="franchise-filter">
         <form method="GET" action="{{ route('admin.story-review.index') }}">
-            <label><strong>Select Franchise:</strong></label>
-            <select name="franchise_id" onchange="this.form.submit()" required>
-                <option value="">-- Select Franchise --</option>
+            <label>Select Franchise</label>
+
+            <select name="franchise_id" onchange="this.form.submit()">
+                <option value="">All Franchises</option>
+
                 @foreach($franchises as $franchise)
                 <option value="{{ $franchise->id }}" {{ $selectedFranchise==$franchise->id ? 'selected' : '' }}>
-                    {{ $franchise->location }} ({{ $franchise->owner_name }})
+                    {{ $franchise->location }}
                 </option>
                 @endforeach
+
             </select>
         </form>
     </div>
@@ -32,80 +39,118 @@
     <hr>
 
     {{-- ================= STORIES SECTION ================= --}}
-    <h3>Add Story</h3>
+    <div class="card-box">
 
-    @if($selectedFranchise)
-    <form action="{{ route('admin.stories.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
+        <h3>Add Story</h3>
 
-        {{-- Hidden Franchise ID --}}
-        <input type="hidden" name="franchise_id" value="{{ $selectedFranchise }}">
+        @if($selectedFranchise)
+        <form action="{{ route('admin.stories.store') }}" method="POST" enctype="multipart/form-data"
+            class="admin-form">
+            @csrf
 
-        <input type="file" name="story_img" required>
-        <button type="submit">Add Story</button>
-    </form>
-    @else
-    <p style="color:red;">Please select a franchise first to manage stories.</p>
-    @endif
+            <input type="hidden" name="franchise_id" value="{{ $selectedFranchise }}">
+
+            <input type="file" name="story_img" required>
+
+            <button class="btn-primary">Upload Story</button>
+
+        </form>
+        @endif
+
+    </div>
 
     <br>
 
     <h4>Existing Stories</h4>
 
-    @if($stories->count())
-    @foreach($stories as $story)
-    <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
-        <img src="{{ asset($story->story_img) }}" width="150">
+    <div class="story-grid">
+
+        @foreach($stories as $story)
+
+        <div class="story-card">
+
+            <img src="{{ asset($story->story_img) }}">
+
+            <form action="{{ route('admin.stories.delete',$story->id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+
+                <button class="delete-btn">Delete</button>
+            </form>
+
+        </div>
+
+        @endforeach
+
     </div>
-    @endforeach
-    @else
-    <p>No stories found.</p>
-    @endif
 
     <hr>
     <hr>
 
 
     {{-- ================= REVIEWS SECTION ================= --}}
-    <h3>Add Review</h3>
+    <div class="card-box">
 
-    @if($selectedFranchise)
-    <form action="{{ route('admin.reviews.store') }}" method="POST">
-        @csrf
+        <h3>Add Review</h3>
 
-        {{-- Hidden Franchise ID --}}
-        <input type="hidden" name="franchise_id" value="{{ $selectedFranchise }}">
+        @if($selectedFranchise)
 
-        <input type="text" name="cust_name" placeholder="Customer Name" required>
-        <br><br>
+        <form action="{{ route('admin.reviews.store') }}" method="POST" class="admin-form">
+            @csrf
 
-        <textarea name="review_text" placeholder="Write review..." required></textarea>
-        <br><br>
+            <input type="hidden" name="franchise_id" value="{{ $selectedFranchise }}">
 
-        <input type="number" name="rating" min="1" max="5" placeholder="Rating (1-5)" required>
-        <br><br>
+            <input type="text" name="cust_name" placeholder="Customer Name">
 
-        <button type="submit">Add Review</button>
-    </form>
-    @else
-    <p style="color:red;">Please select a franchise first to manage reviews.</p>
-    @endif
+            <textarea name="review_text" placeholder="Write review"></textarea>
+
+            <input type="number" name="rating" min="1" max="5" placeholder="Rating">
+
+            <button class="btn-primary">Add Review</button>
+
+        </form>
+
+        @endif
+
+    </div>
 
     <br>
 
     <h4>Existing Reviews</h4>
 
-    @if($reviews->count())
-    @foreach($reviews as $review)
-    <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
-        <strong>{{ $review->cust_name }}</strong>
-        <p>{{ $review->review_text }}</p>
-        <p>Rating: ⭐ {{ $review->rating }}/5</p>
+    <div class="review-list">
+
+        @foreach($reviews as $review)
+
+        <div class="review-card">
+
+            <h4>{{ $review->cust_name }}</h4>
+
+            <p>{{ $review->review_text }}</p>
+
+            <div class="rating-stars">
+                @for($i = 1; $i <= 5; $i++) @if($i <=$review->rating)
+                    ⭐
+                    @else
+                    ☆
+                    @endif
+                    @endfor
+            </div>
+
+            <form action="{{ route('admin.reviews.delete',$review->id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+
+                <button class="delete-btn">Delete</button>
+            </form>
+
+
+
+        </div>
+
+        @endforeach
+
     </div>
-    @endforeach
-    @else
-    <p>No reviews found.</p>
-    @endif
 
 </div>
 

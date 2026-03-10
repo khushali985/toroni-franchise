@@ -55,8 +55,8 @@
 
 <!-- Blade JSON payload -->
 <script id="team-members-data" type="application/json">
-        {!! json_encode($teamMembers) !!}
-        </script>
+@json($teamMembers)
+</script>
 
 
 @endsection

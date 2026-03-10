@@ -7,11 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class TeamMember extends Model
 {
-    use HasFactory;
+    protected $table = 'team_members';
+
     protected $fillable = [
+        'franchise_id',
         'name',
         'role',
         'image',
-        'description',
+        'description'
     ];
+
+    public function franchise()
+    {
+        return $this->belongsTo(Franchise::class);
+    }
 }

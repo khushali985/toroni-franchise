@@ -75,4 +75,26 @@ class StoryReviewController extends Controller
 
             return back()->with('success', 'Review added successfully');
         }
+
+        public function deleteStory($id)
+        {
+            $story = Story::findOrFail($id);
+
+            if(file_exists(public_path($story->story_img))){
+                unlink(public_path($story->story_img));
+            }
+
+            $story->delete();
+
+            return back()->with('success','Story deleted successfully');
+        }
+
+        public function deleteReview($id)
+        {
+            $review = Review::findOrFail($id);
+
+            $review->delete();
+
+            return back()->with('success','Review deleted successfully');
+        }
 }

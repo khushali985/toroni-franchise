@@ -10,7 +10,7 @@
 
 <section class="admin-dashboard">
 
-    <h1 class="dashboard-title">Admin Dashboard</h1>
+    <h1 class="dashboard-title">Reservation Management</h1>
     <div class="franchise-selection">
         <h2>Select Franchise</h2>
 

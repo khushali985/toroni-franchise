@@ -252,6 +252,21 @@ body {
     display: block;
 }
 
+.menu-item::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100px;
+
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.8),
+            rgba(0, 0, 0, 0));
+
+    z-index: 1;
+}
+
 /* ================= ADD BUTTON ================= */
 .add-btn {
     position: absolute;
@@ -261,7 +276,7 @@ body {
     color: white;
     border: none;
     padding: 6px 14px;
-    border-radius: 14px;
+    border-radius: 5px;
     font-size: 13px;
     cursor: pointer;
     z-index: 10;
@@ -380,13 +395,11 @@ body {
 
 .price-tag {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    background: rgba(0, 0, 0, 0.75);
+    top: 140px;
+    left: 4px;
     color: #fff;
     padding: 4px 8px;
     font-size: 13px;
-    border-radius: 10px;
     z-index: 2;
 }
 
@@ -441,12 +454,20 @@ body {
 .ingredients {
     position: absolute;
     inset: 0;
-    background: rgba(15, 75, 56, 0.96);
+
+    background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.85) 25%,
+            rgba(0, 0, 0, 0.7) 50%,
+            rgba(0, 0, 0, 0.283) 75%,
+            rgba(0, 0, 0, 0.15) 100%);
+
     color: white;
     padding: 15px;
+
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
+
     z-index: 5;
 }
 
@@ -497,6 +518,8 @@ body {
 
 .franchise-card {
     background: #fff;
+    color: #6d6b2d;
+    font-weight: bold;
     padding: 25px;
     border-radius: 12px;
     cursor: pointer;
@@ -519,14 +542,15 @@ body {
 }
 
 .change-franchise {
-    background: rgb(233, 200, 94);
+    background: #6d6b2d;
     border: 1px solid #6d6b2d;
     padding: 6px 12px;
     border-radius: 6px;
     cursor: pointer;
+    color: white;
 }
 
 .change-franchise:hover {
-    background: #6d6b2d;
-    color: white;
+    background: white;
+    color: #6d6b2d;
 }

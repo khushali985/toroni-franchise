@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 
 class AdminMenuController extends Controller
 {
-    public function index()
+    /*public function index()
     {
         // $items = MenuItem::with('franchise')->latest()->get();
         $items = MenuItem::with('franchise')
@@ -28,7 +28,39 @@ class AdminMenuController extends Controller
         ->pluck('category');
 
         return view('admin.menu.index', compact('items', 'franchises','categories'));
+    }*/
+       
+    public function index(Request $request)
+{
+    $franchise_id = $request->franchise;
+
+    $query = MenuItem::with('franchise');
+
+    if ($franchise_id) {
+        $query->where('franchise_id', $franchise_id);
     }
+
+    $items = $query->orderBy('category')
+        ->orderBy('dish_name')
+        ->get()
+        ->groupBy(function ($item) {
+            return strtolower($item->category);
+        });
+
+    $franchises = Franchise::all();
+
+    $categories = MenuItem::select('category')
+        ->whereNotNull('category')
+        ->distinct()
+        ->pluck('category');
+
+    return view('admin.menu.index', compact(
+        'items',
+        'franchises',
+        'categories',
+        'franchise_id'
+    ));
+}
 
     public function store(Request $request)
     {

@@ -1,31 +1,110 @@
-/* ============================= */
-/* MENU GRID */
-/* ============================= */
+/* ===============================
+   PAGE WRAPPER
+================================= */
+
+.admin-dashboard {
+    padding: 30px;
+    background: #f8fafc;
+    min-height: 100vh;
+}
+
+.dashboard-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 50px;
+    color: #1e293b;
+}
+
+/* ===============================
+   FRANCHISE FILTER
+================================= */
+
+.franchise-filter {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.franchise-btn {
+    padding: 9px 18px;
+    border-radius: 8px;
+    background: #e2e8f0;
+    color: #1e293b;
+    text-decoration: none;
+    font-weight: 600;
+    transition: .25s;
+    font-size: 14px;
+}
+
+.franchise-btn:hover,
+.franchise-btn.active {
+    background: #5B2B2B;
+    color: white;
+}
+
+/* ===============================
+   ADD BUTTON
+================================= */
+
+.add-btn {
+    display: inline-block;
+    margin-bottom: 25px;
+    padding: 10px 18px;
+    background: #1e293b;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.add-btn:hover {
+    background: #0f172a;
+}
+
+/* ===============================
+   CATEGORY HEADING
+================================= */
+
+.category-heading {
+    margin-top: 35px;
+    margin-bottom: 18px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1e293b;
+    border-left: 5px solid #5B2B2B;
+    padding-left: 10px;
+}
+
+/* ===============================
+   MENU GRID
+================================= */
 
 .menu-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 22px;
 }
 
-/* ============================= */
-/* MENU CARD */
-/* ============================= */
+/* ===============================
+   MENU CARD
+================================= */
 
 .menu-card {
-    background: #ffffff;
-    border-radius: 14px;
-    padding: 18px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-    border: 1px solid #eee;
-    transition: 0.3s ease;
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .05);
+    transition: .25s;
+    border: 1px solid #e2e8f0;
     text-align: center;
-    position: relative;
 }
 
 .menu-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .08);
 }
 
 .menu-card img {
@@ -33,182 +112,162 @@
     height: 160px;
     object-fit: cover;
     border-radius: 10px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .menu-card h4 {
     font-size: 16px;
-    margin-bottom: 8px;
-    color: #333;
+    margin-bottom: 6px;
+    color: #1e293b;
 }
 
 .menu-card p {
     font-size: 14px;
-    color: #666;
-    margin-bottom: 10px;
+    color: #64748b;
+    margin-bottom: 8px;
 }
 
-/* ============================= */
-/* ADD BUTTON */
-/* ============================= */
-
-.add-btn {
-    display: inline-block;
-    margin-bottom: 25px;
-    padding: 10px 16px;
-    background: #6d6b2d;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-.add-btn:hover {
-    background: #5b5924;
-}
-
-/* ============================= */
-/* DELETE BUTTON */
-/* ============================= */
-
-.delete-btn {
-    background: #c0392b;
-    color: #fff;
-    border: none;
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-.delete-btn:hover {
-    background: #a93226;
-}
-
-/* ============================= */
-/* EDIT BUTTON */
-/* ============================= */
-
-.edit-btn {
-    background: #27ae60;
-    color: #fff;
-    border: none;
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-size: 12px;
-    margin-right: 6px;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-.edit-btn:hover {
-    background: #1e8449;
-}
-
-/* ============================= */
-/* BUTTON WRAPPER */
-/* ============================= */
+/* ===============================
+   CARD ACTIONS
+================================= */
 
 .card-actions {
     margin-top: 10px;
     display: flex;
     justify-content: center;
     gap: 8px;
+    flex-wrap: wrap;
 }
 
-/* ============================= */
-/* CATEGORY HEADING */
-/* ============================= */
+/* ===============================
+   EDIT BUTTON
+================================= */
 
-.category-heading {
-    margin-top: 50px;
-    margin-bottom: 20px;
-    padding-left: 12px;
-    border-left: 6px solid #6d6b2d;
-    font-size: 20px;
-    font-weight: 600;
-    color: #333;
+.edit-btn {
+    background: #16a34a;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
 }
 
-/* ============================= */
-/* MODAL */
-/* ============================= */
+.edit-btn:hover {
+    background: #15803d;
+}
+
+/* ===============================
+   DELETE BUTTON
+================================= */
+
+.delete-btn {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background: #b91c1c;
+}
+
+/* ===============================
+   MODAL
+================================= */
 
 .modal {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, .55);
     backdrop-filter: blur(3px);
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    padding: 15px;
 }
 
 .modal-content {
-    background: #ffffff;
+    background: white;
     padding: 25px;
     width: 420px;
-    border-radius: 14px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    animation: fadeIn 0.3s ease;
+    max-width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .15);
+    animation: fadeIn .25s ease;
 }
 
 .modal-content h3 {
     margin-bottom: 18px;
     font-size: 18px;
+    color: #1e293b;
 }
 
-/* ============================= */
-/* MODAL FORM */
-/* ============================= */
+/* ===============================
+   MODAL FORM
+================================= */
 
 .modal-content input,
 .modal-content select,
 .modal-content textarea {
     width: 100%;
     padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    margin-bottom: 20px;
     font-size: 14px;
+    background: #f8fafc;
+}
+
+.modal-content input:focus,
+.modal-content select:focus,
+.modal-content textarea:focus {
+    outline: none;
+    border-color: #5B2B2B;
+    background: white;
 }
 
 .modal-content button {
     width: 100%;
     padding: 10px;
     border: none;
-    border-radius: 8px;
-    background: #6d6b2d;
-    color: #fff;
-    font-weight: 500;
+    border-radius: 6px;
+    background: #1e293b;
+    color: white;
     cursor: pointer;
-    transition: 0.3s ease;
+    margin-bottom: 20px;
 }
 
 .modal-content button:hover {
-    background: #5b5924;
+    background: #0f172a;
 }
 
-/* ============================= */
-/* SELECT2 FIX */
-/* ============================= */
+.modal-category-select {
+    margin-bottom: 20px;
+}
+
+/* ===============================
+   SELECT2 FIX
+================================= */
 
 .select2-container {
+    width: 100% !important;
     z-index: 9999 !important;
+
+
 }
 
 .select2-dropdown {
     z-index: 9999 !important;
 }
 
-/* ============================= */
-/* ANIMATION */
-/* ============================= */
+/* ===============================
+   ANIMATION
+================================= */
 
 @keyframes fadeIn {
     from {
@@ -222,16 +281,97 @@
     }
 }
 
-/* ============================= */
-/* RESPONSIVE */
-/* ============================= */
+/* ===============================
+   TABLET RESPONSIVE
+================================= */
+
+@media (max-width: 1024px) {
+
+    .admin-dashboard {
+        padding: 20px;
+    }
+
+    .menu-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .dashboard-title {
+        font-size: 22px;
+    }
+}
+
+/* ===============================
+   MOBILE RESPONSIVE
+================================= */
 
 @media (max-width: 768px) {
+
+    .admin-dashboard {
+        padding: 18px;
+    }
+
+    .dashboard-title {
+        font-size: 20px;
+    }
+
+    .franchise-filter {
+        gap: 8px;
+    }
+
+    .franchise-btn {
+        font-size: 13px;
+        padding: 7px 14px;
+    }
+
     .menu-grid {
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        gap: 16px;
+    }
+
+    .menu-card img {
+        height: 140px;
     }
 
     .modal-content {
-        width: 90%;
+        width: 95%;
+        padding: 20px;
+    }
+}
+
+/* ===============================
+   SMALL MOBILE
+================================= */
+
+@media (max-width: 480px) {
+
+    .dashboard-title {
+        font-size: 18px;
+    }
+
+    .menu-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-card img {
+        height: 180px;
+    }
+
+    .franchise-filter {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .add-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .card-actions {
+        flex-direction: column;
+    }
+
+    .edit-btn,
+    .delete-btn {
+        width: 100%;
     }
 }

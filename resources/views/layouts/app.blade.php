@@ -19,6 +19,9 @@
 </head>
 
 <body>
+    @php
+    $settings = \App\Models\Setting::first();
+    @endphp
 
     @include('components.header')
 

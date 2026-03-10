@@ -15,11 +15,11 @@ use App\Http\Controllers\Admin\AdminReservationController;
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminMenuController;
 use App\Http\Controllers\Admin\AdminPaymentController;
-use App\Http\Controllers\Admin\AdminTableController as AdminTableController;
-use App\Http\Controllers\Admin\AdminReportController;
+use App\Http\Controllers\Admin\AdminTableController;
+use App\Http\Controllers\Admin\AdminTeamController;
 use App\Http\Controllers\Admin\AdminFranchiseController;
 use App\Http\Controllers\Admin\StoryReviewController;
-use App\Http\Controllers\Admin\SettingController as AdminSettingController;
+use App\Http\Controllers\Admin\AdminSettingsController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -95,14 +95,6 @@ Route::prefix('admin')->group(function ()
                 ->name('admin.tables.layout');
             Route::resource('tables', AdminTableController::class)->names('admin.tables');
 
-            
-            // Only index page (single blade)
-            Route::resource('reports', AdminReportController::class)
-                ->only(['index']);
-
-            Route::resource('settings', AdminSettingController::class)
-                ->only(['index','update']);
-
             // RESERVATION MANAGEMENT (Custom Routes) 
             // Update reservation status
             Route::patch('/reservation/{reservation}/status',
@@ -175,8 +167,38 @@ Route::prefix('admin')->group(function ()
 
             Route::post('reviews/store', [StoryReviewController::class, 'storeReview'])
                 ->name('admin.reviews.store'); 
-                
-    });
+            
+            Route::delete('/stories/{id}', [StoryReviewController::class,'deleteStory'])
+                ->name('admin.stories.delete');
+
+            Route::delete('/reviews/{id}', [StoryReviewController::class,'deleteReview'])
+                ->name('admin.reviews.delete');
+       
+            Route::resource('settings', AdminSettingsController::class)->names('admin.settings');  
+           Route::get('settings', [AdminSettingsController::class,'index'])->name('settings.index');
+
+            Route::post('settings', [AdminSettingsController::class,'update'])->name('settings.update');
+
+            Route::post('/change-password', [AdminSettingsController::class,'changePassword'])
+                ->name('admin.change.password');
+
+            Route::post('/change-email', [AdminSettingsController::class,'changeEmail'])
+                ->name('admin.change.email');
+
+
+            Route::resource('team', AdminTeamController::class)
+                ->names('admin.team'); 
+            Route::get('/team', [AdminTeamController::class,'index'])->name('team.index');
+
+            Route::post('/team/store', [AdminTeamController::class,'store'])->name('team.store');
+
+            Route::post('/team/update/{id}', [AdminTeamController::class,'update'])->name('team.update');
+
+            Route::delete('/team/delete/{id}', [AdminTeamController::class,'delete'])->name('team.delete');
+
+        });
+
+    
 
 });
 

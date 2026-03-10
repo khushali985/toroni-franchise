@@ -29,7 +29,7 @@
 
 .star-text {
     position: absolute;
-    top: 4px;
+    top: 8px;
     font-size: 20px;
     text-shadow:
         -1px -1px 0 #000,
@@ -38,12 +38,7 @@
         1px 1px 0 #000;
 }
 
-.explore-text {
-    position: absolute;
-    bottom: 7px;
-    font-size: 9px;
-    color: #492828;
-}
+
 
 /* MENU OVERLAY */
 .menu-overlay {

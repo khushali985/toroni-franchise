@@ -1,6 +1,5 @@
 <button class="Explore" onclick="openMenu()">
     <h2 class="star-text"> ⭐ </h2>
-    <h2 class="explore-text"> Menu </h2>
 </button>
 
 <div class="menu-overlay" id="menu">
@@ -11,7 +10,11 @@
             <p>Welcome to Our Restaurant</p>
             <img src="{{ asset('images/hearder_side_bg.jpg') }}" class="menu-image">
             <a href="{{ route('home') }}" class="menu-logo-link">
-                <img src="{{ asset('images/Logo.jpg') }}" class="menu-logo">
+                @if(!empty($settings->logo))
+                <img src="{{ asset($settings->logo) }}" alt="{{ $settings->restaurant_name }}" class="menu-logo">
+                @else
+                <img src="{{ asset('images/Logo.jpg') }}" alt="Logo" class="menu-logo">
+                @endif
             </a>
         </div>
 

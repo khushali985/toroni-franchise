@@ -11,6 +11,27 @@
 
 <h2>Menu Management</h2>
 
+<h3>Select Franchise</h3>
+
+<div class="franchise-filter">
+
+    <a href="{{ route('menu.index') }}" class="franchise-btn {{ request('franchise') ? '' : 'active' }}">
+        All Franchises
+    </a>
+
+    @foreach($franchises as $f)
+
+    <a href="{{ route('menu.index', ['franchise' => $f->id]) }}"
+        class="franchise-btn {{ request('franchise') == $f->id ? 'active' : '' }}">
+
+        {{ $f->location }}
+
+    </a>
+
+    @endforeach
+
+</div>
+
 @if(session('success'))
 <p class="success-msg">{{ session('success') }}</p>
 @endif

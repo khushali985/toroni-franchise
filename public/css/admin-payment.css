@@ -1,111 +1,122 @@
-/* =========================
-   PAGE WRAPPER
-========================= */
+/* ===============================
+   PAGE TITLE
+================================= */
 
-.admin-payment-page {
-    max-width: 1100px;
-    margin: 30px auto;
-    padding: 20px;
-}
-
-/* =========================
-   HEADINGS
-========================= */
-
-.admin-payment-page h2 {
+h2 {
     font-size: 26px;
-    margin-bottom: 20px;
-    color: #1e293b;
-    font-weight: 700;
-}
-
-.admin-payment-page h3 {
-    font-size: 20px;
-    margin: 30px 0 15px;
-    color: #334155;
     font-weight: 600;
+    margin-bottom: 50px;
+    color: #222;
 }
 
-/* =========================
+/* ===============================
    SUCCESS MESSAGE
-========================= */
+================================= */
 
-.success-message {
-    background: #dcfce7;
-    color: #166534;
-    padding: 10px 15px;
+div[style="color:green;"] {
+    background: #e6ffed;
+    border: 1px solid #9be3b0;
+    padding: 12px 16px;
     border-radius: 6px;
     margin-bottom: 20px;
     font-weight: 500;
 }
 
-/* =========================
-   FORM CONTAINER
-========================= */
+/* ===============================
+   FORM CARD
+================================= */
 
-.payment-form-card {
-    background: #ffffff;
+form {
+    background: #fff;
     padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    max-width: 500px;
+    width: 100%;
 }
 
-/* =========================
-   FORM FIELDS
-========================= */
+/* ===============================
+   LABELS
+================================= */
 
-.payment-form-card label {
+label {
     display: block;
-    margin-bottom: 6px;
     font-weight: 600;
-    color: #475569;
+    margin-bottom: 6px;
+    color: #333;
 }
 
-.payment-form-card select,
-.payment-form-card input[type="text"],
-.payment-form-card input[type="file"] {
+/* ===============================
+   INPUTS
+================================= */
+
+input[type="text"],
+input[type="file"],
+select {
     width: 100%;
     padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    border: 1px solid #ddd;
     font-size: 14px;
-    margin-bottom: 18px;
-    background-color: #f8fafc;
-    transition: 0.2s ease;
+    transition: 0.2s;
+    background: #fff;
 }
 
-.payment-form-card select:focus,
-.payment-form-card input:focus {
+/* ===============================
+   INPUT FOCUS
+================================= */
+
+input:focus,
+select:focus {
+    border-color: #4c6ef5;
     outline: none;
-    border-color: #5B2B2B;
-    background-color: #ffffff;
-    box-shadow: 0 0 0 2px rgba(91, 43, 43, 0.1);
+    box-shadow: 0 0 0 2px rgba(76, 110, 245, 0.1);
 }
 
-/* =========================
+/* ===============================
    BUTTON
-========================= */
+================================= */
 
-.payment-form-card button {
-    background: #5B2B2B;
-    color: #ffffff;
-    padding: 10px 22px;
-    border-radius: 8px;
+button[type="submit"] {
+    margin-top: 15px;
+    background: #4c6ef5;
+    color: #fff;
     border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.3s ease;
+    transition: 0.2s;
 }
 
-.payment-form-card button:hover {
-    background: #3d1c1c;
-    transform: translateY(-2px);
+button[type="submit"]:hover {
+    background: #364fc7;
 }
 
-/* =========================
-   EXISTING QR GRID
-========================= */
+/* ===============================
+   DIVIDER
+================================= */
+
+hr {
+    margin: 40px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+/* ===============================
+   EXISTING QR SECTION
+================================= */
+
+h3 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #222;
+}
+
+/* ===============================
+   QR GRID
+================================= */
 
 .qr-grid {
     display: grid;
@@ -113,51 +124,173 @@
     gap: 20px;
 }
 
+/* ===============================
+   QR CARD
+================================= */
+
 .qr-card {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px;
     text-align: center;
-    transition: 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: 0.2s;
 }
 
 .qr-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
+
+/* ===============================
+   FRANCHISE NAME
+================================= */
 
 .qr-card strong {
     display: block;
     margin-bottom: 10px;
-    color: #1e293b;
     font-size: 16px;
+    color: #333;
 }
+
+/* ===============================
+   QR IMAGE
+================================= */
 
 .qr-card img {
-    width: 150px;
-    height: auto;
-    border-radius: 8px;
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
     margin-bottom: 10px;
-    border: 1px solid #e2e8f0;
 }
+
+/* ===============================
+   UPI NAME
+================================= */
 
 .qr-card p {
-    margin-top: 8px;
     font-size: 14px;
-    color: #475569;
-    font-weight: 500;
+    color: #666;
+    margin: 0;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* ===============================
+   LARGE SCREEN (DESKTOP)
+================================= */
+
+@media (min-width: 1200px) {
+
+    form {
+        max-width: 600px;
+    }
+
+    .qr-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+}
+
+/* ===============================
+   LAPTOP
+================================= */
+
+@media (max-width: 1024px) {
+
+    h2 {
+        font-size: 24px;
+    }
+
+    form {
+        max-width: 520px;
+    }
+
+    .qr-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+}
+
+/* ===============================
+   TABLET
+================================= */
 
 @media (max-width: 768px) {
-    .admin-payment-page {
+
+    h2 {
+        font-size: 22px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    form {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    input,
+    select {
+        font-size: 13px;
+    }
+
+    .qr-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+    }
+
+}
+
+/* ===============================
+   MOBILE
+================================= */
+
+@media (max-width: 480px) {
+
+    h2 {
+        font-size: 20px;
+    }
+
+    h3 {
+        font-size: 17px;
+    }
+
+    form {
+        padding: 18px;
+    }
+
+    button[type="submit"] {
+        width: 100%;
+    }
+
+    .qr-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .qr-card img {
+        width: 120px;
+        height: 120px;
+    }
+
+}
+
+/* ===============================
+   EXTRA SMALL MOBILE
+================================= */
+
+@media (max-width: 360px) {
+
+    h2 {
+        font-size: 18px;
+    }
+
+    form {
         padding: 15px;
     }
 
-    .payment-form-card {
-        padding: 20px;
+    .qr-card img {
+        width: 100px;
+        height: 100px;
     }
+
 }

@@ -35,8 +35,8 @@ class AdminFranchiseController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time().'_'.$image->getClientOriginalName();
-            $image->move(public_path('image/franchise'), $imageName);
-            $data['image'] = 'image/franchise/'.$imageName;
+            $image->move(public_path('images/franchise'), $imageName);
+            $data['image'] = 'images/franchise/'.$imageName;
         }
 
         Franchise::create($data);

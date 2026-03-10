@@ -1,0 +1,422 @@
+/* ===============================
+   PAGE LAYOUT
+================================= */
+
+.admin-dashboard {
+    padding: 30px;
+}
+
+.dashboard-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+
+/* ===============================
+   CARD
+================================= */
+
+.add-table-card {
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+
+/* ===============================
+   FORM GRID
+================================= */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.form-grid input,
+.form-grid select,
+.form-grid textarea {
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #f8fafc;
+}
+
+.form-grid textarea {
+    grid-column: span 2;
+}
+
+
+/* ===============================
+   BUTTONS
+================================= */
+
+.btn-success {
+    background: #5B2B2B;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-success:hover {
+    background: #7a3a3a;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+.btn-dark {
+    background: #343a40;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+
+/* ===============================
+   FRANCHISE CARDS
+================================= */
+
+.franchise-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.franchise-card {
+    padding: 10px 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    background: #fff;
+}
+
+.franchise-card.active {
+    background: #5B2B2B;
+    color: white;
+}
+
+
+/* ===============================
+   TABLE
+================================= */
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.reservation-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.reservation-table th,
+.reservation-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+}
+
+.reservation-table th {
+    background: #5B2B2B;
+    color: white;
+
+}
+
+.reservation-table td img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
+/* ===============================
+   ACTION BUTTONS
+================================= */
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+
+/* ===============================
+   MODAL
+================================= */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.modal-content {
+    background: white;
+    margin: 8% auto;
+    padding: 25px;
+    border-radius: 10px;
+    width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+}
+
+.modal-content textarea {
+    min-height: 80px;
+    resize: none;
+}
+
+
+/* ===============================
+   CLOSE BUTTON
+================================= */
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+
+/* ===============================
+   RESPONSIVE
+================================= */
+
+@media(max-width:768px) {
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+        width: 90%;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+}
+
+
+/* ======================================
+   GLOBAL RESPONSIVE SETTINGS
+====================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ======================================
+   LARGE DESKTOP (1440px+)
+====================================== */
+
+@media (min-width: 1440px) {
+
+    .admin-dashboard,
+    .admin-page {
+        padding: 40px 60px;
+    }
+
+    .story-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .review-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+}
+
+
+/* ======================================
+   LAPTOP (1025px - 1439px)
+====================================== */
+
+@media (max-width: 1439px) {
+
+    .story-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .review-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+
+/* ======================================
+   TABLET (768px - 1024px)
+====================================== */
+
+@media (max-width: 1024px) {
+
+    .admin-dashboard,
+    .admin-page {
+        padding: 20px;
+    }
+
+    .story-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .review-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .form-grid textarea {
+        grid-column: span 1;
+    }
+
+    .franchise-card-container {
+        justify-content: flex-start;
+    }
+
+}
+
+
+/* ======================================
+   LARGE MOBILE (481px - 767px)
+====================================== */
+
+@media (max-width: 767px) {
+
+    .dashboard-title,
+    .page-title {
+        font-size: 22px;
+    }
+
+    .story-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .review-list {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-form input,
+    .admin-form textarea {
+        font-size: 14px;
+    }
+
+    .franchise-card-container {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+
+    .franchise-card {
+        white-space: nowrap;
+    }
+
+    .reservation-table th,
+    .reservation-table td {
+        padding: 8px;
+        font-size: 13px;
+    }
+
+    .reservation-table td img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+}
+
+
+/* ======================================
+   SMALL MOBILE (320px - 480px)
+====================================== */
+
+@media (max-width: 480px) {
+
+    .admin-dashboard,
+    .admin-page {
+        padding: 15px;
+    }
+
+    .dashboard-title,
+    .page-title {
+        font-size: 20px;
+    }
+
+    .card-box,
+    .add-table-card {
+        padding: 15px;
+    }
+
+    .story-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .review-card {
+        padding: 12px;
+    }
+
+    .review-card h4 {
+        font-size: 16px;
+    }
+
+    .rating-stars i {
+        font-size: 14px;
+    }
+
+    .btn-primary,
+    .btn-success {
+        width: 100%;
+        text-align: center;
+    }
+
+    .delete-btn,
+    .btn-danger,
+    .btn-dark {
+        width: 100%;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin-top: 20%;
+        padding: 18px;
+    }
+
+}

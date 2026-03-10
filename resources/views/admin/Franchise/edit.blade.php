@@ -1,81 +1,62 @@
 @extends('layouts.admin')
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/admin-franchise.css') }}">
+@endpush
+
 @section('content')
 
-<h2>Edit Franchise</h2>
+<div class="franchise-dashboard">
 
-@if ($errors->any())
-<div style="color:red; margin-bottom:15px;">
-    <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
+    <h2 class="dashboard-title">Edit Franchise</h2>
 
-<form action="{{ route('admin.franchise.update',$franchise->id) }}" method="POST" enctype="multipart/form-data">
+    @if ($errors->any())
+    <div class="error-box">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
 
-    @csrf
-    @method('PUT')
 
-    <table cellpadding="10">
+    <div class="card">
 
-        <tr>
-            <td><strong>Owner Name:</strong></td>
-            <td>
-                <input type="text" name="owner_name" value="{{ $franchise->owner_name }}" required>
-            </td>
-        </tr>
+        <form action="{{ route('admin.franchise.update',$franchise->id) }}" method="POST" enctype="multipart/form-data"
+            class="form-grid">
 
-        <tr>
-            <td><strong>Owner Phone:</strong></td>
-            <td>
-                <input type="text" name="owner_phone" value="{{ $franchise->owner_phone }}" required>
-            </td>
-        </tr>
+            @csrf
+            @method('PUT')
 
-        <tr>
-            <td><strong>Owner Email:</strong></td>
-            <td>
-                <input type="email" name="owner_email" value="{{ $franchise->owner_email }}" required>
-            </td>
-        </tr>
+            <input type="text" name="owner_name" value="{{ $franchise->owner_name }}" placeholder="Owner Name">
 
-        <tr>
-            <td><strong>Location:</strong></td>
-            <td>
-                <input type="text" name="location" value="{{ $franchise->location }}" required>
-            </td>
-        </tr>
+            <input type="text" name="owner_phone" value="{{ $franchise->owner_phone }}" placeholder="Phone">
 
-        <tr>
-            <td><strong>Current Image:</strong></td>
-            <td>
+            <input type="email" name="owner_email" value="{{ $franchise->owner_email }}" placeholder="Email">
+
+            <input type="text" name="location" value="{{ $franchise->location }}" placeholder="Location">
+
+            <div>
+                <strong>Current Image</strong><br>
+
                 @if($franchise->image)
                 <img src="{{ asset($franchise->image) }}" width="120">
                 @else
                 No Image Uploaded
                 @endif
-            </td>
-        </tr>
+            </div>
 
-        <tr>
-            <td><strong>Change Image:</strong></td>
-            <td>
-                <input type="file" name="image">
-            </td>
-        </tr>
+            <input type="file" name="image">
 
-        <tr>
-            <td></td>
-            <td>
-                <button type="submit">Update Franchise</button>
-            </td>
-        </tr>
+            <button type="submit" class="btn-primary-custom">
+                Update Franchise
+            </button>
 
-    </table>
+        </form>
 
-</form>
+    </div>
+
+</div>
 
 @endsection

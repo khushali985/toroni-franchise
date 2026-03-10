@@ -1,11 +1,24 @@
 <!-- FOOTER -->
+
+@php
+$settings = \App\Models\Setting::first();
+@endphp
+
 <footer id="contact-section" class="footer">
     <div class="footer-container">
 
         <div class="footer-brand">
-            <img src="{{ asset('images/Logo.jpg') }}" alt="Toroni Logo" class="footer-logo">
-            <p>Toroni Italian Ristorante</p>
+
+            @if(!empty($settings->logo))
+            <img src="{{ asset($settings->logo) }}" alt="{{ $settings->restaurant_name }}" class="footer-logo">
+            @else
+            <img src="{{ asset('images/Logo.jpg') }}" alt="Logo" class="footer-logo">
+            @endif
+
+            <p>{{ $settings->restaurant_name ?? 'Toroni Italian Ristorante' }}</p>
+
         </div>
+
 
         <div class="footer-links">
             <h3>Quick Links</h3>
@@ -17,24 +30,27 @@
             </ul>
         </div>
 
+
         <div class="footer-contact">
             <h3>Address</h3>
-            <p>Shilaj Circle, SP Ring Road, Ahmedabad</p>
+            <p>{{ $settings->address ?? 'Address not set' }}</p>
+
             <h3>Email</h3>
-            <p>toroni.ahmedabad@gmail.com<br></p>
+            <p>{{ $settings->email ?? 'Email not set' }}</p>
         </div>
+
 
         <div class="footer-hours">
             <h3>Opening Hours</h3>
-            <p>Mon – Sun</p>
-            <p>11:00 AM – 12:00 AM</p>
+            <p>{{ $settings->opening_hours ?? 'Not updated yet' }}</p>
+
             <h3>Contact</h3>
-            <p>+91 90000 00000</p>
+            <p>{{ $settings->contact ?? 'Not updated yet' }}</p>
         </div>
 
     </div>
 
     <div class="footer-bottom">
-        <p>© 2026 Toroni Italian Ristorante. All Rights Reserved.</p>
+        <p>© {{ date('Y') }} {{ $settings->restaurant_name ?? 'Restaurant' }}. All Rights Reserved.</p>
     </div>
 </footer>

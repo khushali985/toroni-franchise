@@ -1,8 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const teamMembers = window.teamMembers || [];
+    const dataElement = document.getElementById("team-members-data");
+    const teamMembers = JSON.parse(dataElement.textContent);
 
-    if (teamMembers.length === 0) {
+    if (!teamMembers || teamMembers.length === 0) {
         console.warn("No team members found");
         return;
     }
@@ -14,14 +15,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const chefTitle = document.getElementById("chefTitle");
 
     function updateChef() {
+
         const member = teamMembers[index];
 
-        chefImg.src = `/storage/${member.image}`;
+        // IMAGE (matches admin upload folder)
+        chefImg.src = "/images/team/" + member.image;
+
+        // ROLE
+        chefTitle.textContent = member.role;
+
+        // DESCRIPTION
         chefDesc.textContent = member.description;
-        chefTitle.textContent = member.title;
     }
 
-    // Initial render
     updateChef();
 
     document.getElementById("next").addEventListener("click", () => {

@@ -6,12 +6,20 @@
 
 @endsection
 
+@php
+$settings = \App\Models\Setting::first();
+@endphp
+
 @section('content')
 
 <!-- ================= HERO SECTION ================= -->
 <div class="hero">
     <img src="{{ asset('images/home_hero.png') }}" alt="Hero Image" class="hero-image" />
-    <img src="{{ asset('images/Logo.jpg') }}" alt="Logo" class="hero-logo" />
+    @if(!empty($settings->logo))
+    <img src="{{ asset($settings->logo) }}" alt="{{ $settings->restaurant_name }}" class="hero-logo">
+    @else
+    <img src="{{ asset('images/Logo.jpg') }}" alt="Logo" class="hero-logo">
+    @endif
 
     <h1>Toroni Italian Ristorante</h1>
 
@@ -32,7 +40,7 @@
 
         @forelse($stories as $story)
         <div class="story-card">
-            <img src="{{ asset('storage/'.$story->story_img) }}" alt="Story Image">
+            <img src="{{ asset($story->story_img) }}" alt="Story Image">
         </div>
         @empty
         <p style="padding:20px;">No stories available.</p>
@@ -41,7 +49,7 @@
         <!-- duplicate stories for smooth infinite scroll -->
         @foreach($stories as $story)
         <div class="story-card">
-            <img src="{{ asset('storage/'.$story->story_img) }}" alt="Story Image">
+            <img src="{{ asset($story->story_img) }}" alt="Story Image">
         </div>
         @endforeach
 
@@ -55,11 +63,23 @@
     <div class="testimonial-slider">
 
         @forelse($reviews as $review)
+
         <div class="testimonial-card">
-            ⭐⭐⭐⭐⭐
+
+            <div class="rating-stars">
+                @for($i = 1; $i <= 5; $i++) @if($i <=$review->rating)
+                    ⭐
+                    @else
+                    ☆
+                    @endif
+                    @endfor
+            </div>
+
             <p>{{ $review->review_text }}</p>
             <span>- {{ $review->cust_name }}</span>
+
         </div>
+
         @empty
         <p>No reviews yet.</p>
         @endforelse

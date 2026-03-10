@@ -1,226 +1,250 @@
-/* ===================================== */
-/* PAGE TITLE */
-/* ===================================== */
+/* ===============================
+   PAGE WRAPPER
+================================= */
 
-h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-    font-weight: 600;
-    color: #333;
+.admin-dashboard {
+    padding: 30px;
+    background: #f8fafc;
+    min-height: 100vh;
 }
 
-h4 {
-    margin-top: 25px;
-    margin-bottom: 15px;
-    font-weight: 500;
-    color: #555;
+.dashboard-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 50px;
+    color: #1e293b;
 }
 
-/* ===================================== */
-/* FRANCHISE FILTER */
-/* ===================================== */
+/* ===============================
+   FRANCHISE BUTTONS
+================================= */
 
 .franchise-filter {
     display: flex;
+    gap: 10px;
     flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 30px;
+    margin-bottom: 18px;
 }
 
 .franchise-btn {
-    padding: 12px 24px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    background: #ffffff;
+    padding: 9px 18px;
+    border-radius: 8px;
+    border: none;
+    background: #e2e8f0;
+    color: #1e293b;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.3s ease;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    transition: .25s;
 }
 
-.franchise-btn:hover {
-    transform: translateY(-3px);
-    background: #6d6b2d;
-    color: #ffffff;
-    border-color: #6d6b2d;
-}
-
+.franchise-btn:hover,
 .franchise-btn.active {
-    background: #6d6b2d;
-    color: #ffffff;
-    border-color: #6d6b2d;
+    background: #5B2B2B;
+    color: white;
 }
 
-/* ===================================== */
-/* FILTER BAR */
-/* ===================================== */
+/* ===============================
+   FILTER BAR
+================================= */
 
 .filters {
     display: flex;
+    gap: 12px;
     flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 25px;
-    background: #ffffff;
-    padding: 18px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 15px;
 }
 
 .filters input,
 .filters select {
     padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
     font-size: 14px;
-    min-width: 180px;
+    background: #f8fafc;
 }
 
 .filters input:focus,
 .filters select:focus {
     outline: none;
-    border-color: #6d6b2d;
+    border-color: #5B2B2B;
+    background: white;
 }
 
-/* ===================================== */
-/* EXPORT BUTTON */
-/* ===================================== */
+/* ===============================
+   EXPORT BUTTON
+================================= */
 
 .export-btn {
-    background: #27ae60;
-    color: #ffffff;
+    background: #16a34a;
+    color: white;
+    border: none;
     padding: 8px 16px;
-    border-radius: 8px;
-    text-decoration: none;
+    border-radius: 6px;
     font-size: 14px;
-    font-weight: 500;
-    transition: 0.3s ease;
-    display: inline-block;
+    cursor: pointer;
+    transition: .25s;
 }
 
 .export-btn:hover {
-    background: #1e8449;
+    background: #15803d;
 }
 
-/* ===================================== */
-/* BULK ACTIONS */
-/* ===================================== */
+/* ===============================
+   BULK ACTIONS
+================================= */
 
 .bulk-actions {
     display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 25px;
-    background: #ffffff;
-    padding: 15px 18px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    gap: 10px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
 }
 
 .bulk-actions select {
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    font-size: 14px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
 }
 
 .bulk-actions button {
-    padding: 8px 16px;
-    border-radius: 8px;
+    background: #1e293b;
+    color: white;
     border: none;
-    background: #6d6b2d;
-    color: #fff;
+    padding: 8px 16px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: 0.3s ease;
 }
 
 .bulk-actions button:hover {
-    background: #5b5924;
+    background: #0f172a;
 }
 
-/* ===================================== */
-/* ORDER TABLE WRAPPER */
-/* ===================================== */
+/* ===============================
+   TABLE CARD
+================================= */
+
+.table-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .05);
+    overflow: hidden;
+}
+
+/* ===============================
+   TABLE WRAPPER
+================================= */
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+/* ===============================
+   ORDER TABLE
+================================= */
 
 .order-table {
     width: 100%;
     border-collapse: collapse;
-    background: #ffffff;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
-    font-size: 14px;
-}
-
-/* TABLE HEADER */
-.order-table thead {
-    background: #6d6b2d;
-    color: #ffffff;
+    min-width: 750px;
 }
 
 .order-table th {
-    padding: 14px;
-    text-align: center;
+    background: #5B2B2B;
+    color: white;
     font-weight: 600;
+    padding: 13px;
+    text-align: center;
 }
 
-/* TABLE BODY */
 .order-table td {
     padding: 12px;
+    border-bottom: 1px solid #e2e8f0;
     text-align: center;
-    border-bottom: 1px solid #eee;
 }
 
 .order-table tbody tr:hover {
-    background: #f9f9f9;
+    background: #f1f5f9;
 }
 
-/* ===================================== */
-/* CHECKBOX */
-/* ===================================== */
+/* ===============================
+   CHECKBOX
+================================= */
 
 .order-table input[type="checkbox"] {
     width: 16px;
     height: 16px;
-    cursor: pointer;
 }
 
-/* ===================================== */
-/* STATUS DROPDOWN */
-/* ===================================== */
+/* ===============================
+   STATUS DROPDOWN
+================================= */
 
 .order-table select {
     padding: 6px 10px;
     border-radius: 6px;
-    border: 1px solid #ddd;
-    font-size: 13px;
-    background-color: #f4f4f4;
-    cursor: pointer;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
 }
 
-.order-table select:focus {
-    outline: none;
-    border-color: #6d6b2d;
+/* ===============================
+   EMPTY STATE
+================================= */
+
+.order-table td[colspan] {
+    padding: 20px;
+    color: #64748b;
 }
 
-/* ===================================== */
-/* EMPTY STATE */
-/* ===================================== */
+/* ===============================
+   LARGE DESKTOP
+================================= */
 
-.order-table tbody tr td[colspan="7"] {
-    padding: 25px;
-    font-weight: 500;
-    color: #888;
+@media (min-width: 1200px) {
+
+    .admin-dashboard {
+        padding: 40px;
+    }
+
+    .order-table th,
+    .order-table td {
+        padding: 14px;
+    }
+
 }
 
-/* ===================================== */
-/* RESPONSIVE */
-/* ===================================== */
+/* ===============================
+   LAPTOP
+================================= */
+
+@media (max-width: 1024px) {
+
+    .dashboard-title {
+        font-size: 24px;
+    }
+
+    .filters input,
+    .filters select {
+        font-size: 13px;
+    }
+
+}
+
+/* ===============================
+   TABLET
+================================= */
 
 @media (max-width: 768px) {
 
+    .admin-dashboard {
+        padding: 20px;
+    }
+
+    .dashboard-title {
+        font-size: 22px;
+    }
+
     .filters {
         flex-direction: column;
-        align-items: stretch;
     }
 
     .filters input,
@@ -230,11 +254,10 @@ h4 {
 
     .bulk-actions {
         flex-direction: column;
-        align-items: stretch;
     }
 
-    .bulk-actions select,
-    .bulk-actions button {
+    .bulk-actions button,
+    .bulk-actions select {
         width: 100%;
     }
 
@@ -244,15 +267,49 @@ h4 {
 
     .franchise-btn {
         width: 100%;
-        text-align: center;
     }
 
-    .order-table {
-        font-size: 12px;
+}
+
+/* ===============================
+   MOBILE
+================================= */
+
+@media (max-width: 480px) {
+
+    .dashboard-title {
+        font-size: 20px;
+    }
+
+    .admin-dashboard {
+        padding: 15px;
+    }
+
+    .filters input,
+    .filters select {
+        font-size: 13px;
+    }
+
+    .export-btn {
+        width: 100%;
+    }
+
+}
+
+/* ===============================
+   EXTRA SMALL MOBILE
+================================= */
+
+@media (max-width: 360px) {
+
+    .dashboard-title {
+        font-size: 18px;
     }
 
     .order-table th,
     .order-table td {
-        padding: 8px;
+        padding: 10px;
+        font-size: 12px;
     }
+
 }

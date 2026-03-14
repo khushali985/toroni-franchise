@@ -11,12 +11,14 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
 }
 
 body {
     background-color: var(--ivory);
     color: var(--maroon);
     line-height: 1.6;
+
 }
 
 .site-logo {
@@ -37,33 +39,35 @@ body {
 
 /* ================= FRANCHISE SECTION ================= */
 .franchise {
-    min-height: 100vh;
-    padding: 80px 8%;
+    min-height: 80vh;
+    padding: 80px;
     background: var(--maroon);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
+
 }
 
-
 .franchise h1 {
-    max-height: 70vh;
     text-align: center;
-    font-size: 42px;
+    font-size: 50px;
     letter-spacing: 1px;
     color: var(--ivory);
-    margin-bottom: 30px;
 }
 
 .franchise-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
 }
 
 /* Flip Cards */
 .card {
     perspective: 1200px;
+    width: 100%;
 }
 
 .card-inner {
@@ -92,6 +96,7 @@ body {
 .card-front img {
     width: 100%;
     height: 100%;
+    display: block;
     object-fit: cover;
 }
 
@@ -118,7 +123,7 @@ body {
 
 /* ================= PARTNER SECTION ================= */
 .partner {
-    min-height: 100vh;
+    height: 80vh;
     padding: 150px 80px;
     display: flex;
     justify-content: flex-end;
@@ -171,6 +176,42 @@ body {
     cursor: pointer;
 }
 
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.popup-box {
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 350px;
+    width: 90%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.popup-box h3 {
+    margin-bottom: 10px;
+    color: rgb(0, 150, 0);
+}
+
+.popup-box button {
+    margin-top: 15px;
+    padding: 8px 20px;
+    border: 2px solid green;
+    color: black;
+    cursor: pointer;
+    border-radius: 6px;
+}
 
 /* ================= FOOTER ================= */
 /* ================= FOOTER ================= */
@@ -185,12 +226,30 @@ body {
     .footer-container {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .franchise h1 {
+        font-size: 42px;
+    }
+
 }
 
 @media (max-width: 600px) {
+
+    .franchise {
+        width: 100%;
+        overflow-x: hidden;
+        padding: 80px 20px;
+    }
+
     .franchise-grid {
         grid-template-columns: 1fr;
     }
+
+    .franchise h1 {
+        font-size: 32px;
+    }
+
+
 
     form {
         grid-template-columns: 1fr;
@@ -200,20 +259,45 @@ body {
         grid-column: span 1;
     }
 
+
     .footer-container {
         grid-template-columns: 1fr;
         text-align: center;
     }
+
+
 }
 
+
+
 @media (max-width: 768px) {
+    .site-logo {
+        position: relative;
+        left: 0;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .site-logo img {
+        height: 48px;
+    }
+
+    .franchise h1 {
+        font-size: 38px;
+    }
+
     .partner {
         justify-content: center;
         text-align: center;
+        padding: 0px;
+        align-items: center;
     }
 
     .partner-content {
         align-items: center;
+        background-color: #00000081;
     }
 
     .partner form {
@@ -225,12 +309,19 @@ body {
     }
 }
 
-@media (max-width: 768px) {
-    .site-logo {
-        left: 20px;
+@media (max-width: 480px) {
+    .franchise {
+        width: 100%;
+        overflow-x: hidden;
     }
 
-    .site-logo img {
-        height: 48px;
+    .franchise h1 {
+        font-size: 25px;
+    }
+
+
+    .franchise-grid {
+        width: 100%;
+        max-width: 100%;
     }
 }

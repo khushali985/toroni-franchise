@@ -6,6 +6,7 @@ const cart = document.getElementById("cart");
 const totalEl = document.getElementById("total");
 const confirmBtn = document.getElementById("confirmBtn");
 const toast = document.getElementById("toast");
+const emptyMsg = document.getElementById("emptyCartMsg");
 
 const franchiseScreen = document.getElementById("franchiseScreen");
 const menuContent = document.getElementById("menuContent");
@@ -28,6 +29,14 @@ function showToast(msg) {
     setTimeout(() => toast.classList.remove("show"), 2000);
 }
 
+if (emptyMsg) {
+    emptyMsg.remove();
+}
+
+if (cart.length === 0) {
+    document.getElementById("cart").innerHTML =
+        '<p id="emptyCartMsg" class="empty-cart">Your cart is empty</p>';
+}
 
 /* ===============================
    FRANCHISE SELECTION

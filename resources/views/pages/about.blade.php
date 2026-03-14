@@ -14,7 +14,7 @@
 
     <div class="about-content">
         <div class="about-img">
-            <img src="{{ asset('images/about_side_bg.jpg') }}" alt="Restaurant">
+            <img src="{{ asset('images/about_side_bg.jpg') }}" alt="Restaurant" loading="lazy">
         </div>
 
         <div class="about-text">
@@ -43,7 +43,7 @@
         <button id="prev">&#10094;</button>
 
         <!-- Image will be set by JS -->
-        <img id="chefImg" src="" alt="Team Member">
+        <img id="chefImg" src="" alt="Team Member" loading="lazy">
 
         <button id="next">&#10095;</button>
     </div>

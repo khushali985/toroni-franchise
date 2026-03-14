@@ -8,12 +8,13 @@
     <div class="menu-content">
         <div class="menu-left">
             <p>Welcome to Our Restaurant</p>
-            <img src="{{ asset('images/hearder_side_bg.jpg') }}" class="menu-image">
+            <img src="{{ asset('images/hearder_side_bg.jpg') }}" class="menu-image" loading="lazy">
             <a href="{{ route('home') }}" class="menu-logo-link">
                 @if(!empty($settings->logo))
-                <img src="{{ asset($settings->logo) }}" alt="{{ $settings->restaurant_name }}" class="menu-logo">
+                <img src="{{ asset($settings->logo) }}" alt="{{ $settings->restaurant_name }}" class="menu-logo"
+                    loading="lazy">
                 @else
-                <img src="{{ asset('images/Logo.jpg') }}" alt="Logo" class="menu-logo">
+                <img src="{{ asset('images/Logo.jpg') }}" alt="Logo" class="menu-logo" loading="lazy">
                 @endif
             </a>
         </div>

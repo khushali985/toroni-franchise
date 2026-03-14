@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\FranchisePartner;
 use App\Models\Franchise;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class AdminFranchiseController extends Controller
     public function index()
     {
         $franchises = Franchise::latest()->get();
-        return view('admin.franchise.index', compact('franchises'));
+        $franchisePartners = FranchisePartner::latest()->get();
+        return view('admin.franchise.index', compact('franchises','franchisePartners'));
     }
 
     // ===============================
@@ -106,4 +108,34 @@ class AdminFranchiseController extends Controller
         return redirect()->route('admin.franchise.index')
             ->with('success', 'Franchise Deleted Successfully');
     }
+
+    public function deletePartner($id)
+    {
+        $partner = FranchisePartner::findOrFail($id);
+
+        $partner->delete();
+
+        return redirect()->route('admin.franchise.index')
+            ->with('success', 'Franchise Query Deleted Successfully');
+    }
+
+    public function bulk(Request $request)
+    {
+        if (!$request->has('selected_partners')) {
+            return back()->with('error', 'No queries selected.');
+        }
+
+        $partners = FranchisePartner::whereIn('id', $request->selected_partners);
+
+        switch ($request->action) {
+
+            case 'delete':
+                $partners->delete();
+                return back()->with('success', 'Selected franchise queries deleted.');
+
+            default:
+                return back()->with('error', 'Invalid action.');
+        }
+    }
 }
+

@@ -4,8 +4,13 @@
 
 .settings-container {
     max-width: 900px;
-    margin: auto;
+
     padding: 20px;
+}
+
+.settings-container h2 {
+    font-weight: 600;
+    margin-bottom: 20px;
 }
 
 /* ===============================
@@ -133,37 +138,50 @@ textarea {
     display: block;
 }
 
-/* ===============================
-   LARGE DESKTOP
-================================= */
-
-@media (min-width: 1200px) {
-
-    .settings-container {
-        max-width: 1000px;
-    }
-
-    .settings-card {
-        padding: 30px;
-    }
-
+.settings-actions {
+    margin-bottom: 20px;
 }
 
-/* ===============================
-   LAPTOP
-================================= */
-
-@media (max-width: 1024px) {
-
-    .settings-container {
-        padding: 18px;
-    }
-
-    .settings-card {
-        padding: 22px;
-    }
-
+.action-btn {
+    padding: 10px 18px;
+    margin-right: 10px;
+    background: #6b2c2c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
 }
+
+.form-hidden {
+    display: none;
+}
+
+.settings-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+}
+
+.settings-table th,
+.settings-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.cancel-btn {
+    background: #999;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+
 
 /* ===============================
    TABLET
@@ -185,6 +203,12 @@ textarea {
 
     .settings-card h3 {
         font-size: 18px;
+    }
+
+    .action-btn {
+        padding: 8px 12px;
+        font-size: 13px;
+        margin: 5px;
     }
 
 }
@@ -211,6 +235,12 @@ textarea {
         width: 100px;
     }
 
+    .password {
+        width: 100%;
+        margin: 2px 0px;
+    }
+
+
 }
 
 /* ===============================
@@ -231,5 +261,11 @@ textarea {
     .form-group textarea {
         font-size: 13px;
     }
+
+    .content-area {
+        padding: 0px;
+    }
+
+
 
 }

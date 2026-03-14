@@ -8,71 +8,90 @@
 
 @section('content')
 
-<h2>Order Management</h2>
+<div class="main">
 
-<h4>Select Franchise</h4>
+    <h2>Order Management</h2>
 
-<div class="franchise-filter">
-    <button class="franchise-btn active" data-id="">
-        All Franchises
-    </button>
+    {{-- MOBILE DROPDOWN --}}
+    <div class="franchise-dropdown-mobile">
 
-    @foreach($franchises as $franchise)
-    <button class="franchise-btn" data-id="{{ $franchise->id }}">
-        {{ $franchise->location }}
-    </button>
-    @endforeach
+        <select id="franchiseMobileSelect">
+
+            <option value="">All Franchises</option>
+
+            @foreach($franchises as $franchise)
+            <option value="{{ $franchise->id }}" {{ request('franchise_id')==$franchise->id ? 'selected' : '' }}>
+                {{ $franchise->location }}
+            </option>
+            @endforeach
+
+        </select>
+
+    </div>
+    <div class="franchise-filter">
+        <button class="franchise-btn active" data-id="">
+            All Franchises
+        </button>
+
+        @foreach($franchises as $franchise)
+        <button class="franchise-btn" data-id="{{ $franchise->id }}">
+            {{ $franchise->location }}
+        </button>
+        @endforeach
+    </div>
+
+    <div class="filters">
+
+        <input type="text" id="search" placeholder="Search by ID or Customer">
+
+        <select id="status">
+            <option value="">All Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Preparing">Preparing</option>
+            <option value="Completed">Completed</option>
+            <option value="Cancelled">Cancelled</option>
+        </select>
+
+        <input type="date" id="date">
+
+        <!--<button onclick="fetchOrders()">Filter</button> -->
+
+        <a href="{{ route('admin.orders.export') }}" class="export-btn">
+            Export
+        </a>
+    </div>
+
+    <div class="bulk-actions">
+        <select id="bulkStatus">
+            <option value="">Bulk Change Status</option>
+            <option value="pending">Pending</option>
+            <option value="preparing">Preparing</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+        </select>
+
+        <button onclick="applyBulkStatus()">Apply</button>
+    </div>
+    <div class="table-wrapper">
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="selectAll">
+                    </th>
+                    <th>ID</th>
+                    <th>Customer</th>
+                    <th>Location</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="orderBody"></tbody>
+        </table>
+    </div>
+
 </div>
-
-<div class="filters">
-
-    <input type="text" id="search" placeholder="Search by ID or Customer">
-
-    <select id="status">
-        <option value="">All Status</option>
-        <option value="Pending">Pending</option>
-        <option value="Preparing">Preparing</option>
-        <option value="Completed">Completed</option>
-        <option value="Cancelled">Cancelled</option>
-    </select>
-
-    <input type="date" id="date">
-
-    <!--<button onclick="fetchOrders()">Filter</button> -->
-
-    <a href="{{ route('admin.orders.export') }}" class="export-btn">
-        Export
-    </a>
-</div>
-
-<div class="bulk-actions">
-    <select id="bulkStatus">
-        <option value="">Bulk Change Status</option>
-        <option value="pending">Pending</option>
-        <option value="preparing">Preparing</option>
-        <option value="completed">Completed</option>
-        <option value="cancelled">Cancelled</option>
-    </select>
-
-    <button onclick="applyBulkStatus()">Apply</button>
-</div>
-
-<table class="order-table">
-    <thead>
-        <tr>
-            <th>
-                <input type="checkbox" id="selectAll">
-            </th>
-            <th>ID</th>
-            <th>Customer</th>
-            <th>Location</th>
-            <th>Total</th>
-            <th>Status</th>
-            <th>Date</th>
-        </tr>
-    </thead>
-    <tbody id="orderBody"></tbody>
-</table>
 
 @endsection
 
@@ -89,12 +108,33 @@
 
             e.target.classList.add('active');
 
+            // ✅ get franchise from button
             selectedFranchise = e.target.dataset.id;
+
+            // sync mobile dropdown
+            const mobileSelect = document.getElementById("franchiseMobileSelect");
+            if (mobileSelect) {
+                mobileSelect.value = selectedFranchise;
+            }
 
             fetchOrders();
         }
+
     });
 
+    const mobileSelect = document.getElementById("franchiseMobileSelect");
+
+    if (mobileSelect) {
+
+        mobileSelect.addEventListener("change", function () {
+
+            selectedFranchise = this.value;
+
+            fetchOrders();
+
+        });
+
+    }
     document.addEventListener('change', function (e) {
 
         if (e.target.id === 'selectAll') {
@@ -102,7 +142,17 @@
             let checkboxes = document.querySelectorAll('.orderCheckbox');
 
             checkboxes.forEach(cb => {
+
                 cb.checked = e.target.checked;
+
+                const row = cb.closest('tr');
+
+                if (e.target.checked) {
+                    row.classList.add('selected');
+                } else {
+                    row.classList.remove('selected');
+                }
+
             });
         }
     });
@@ -185,7 +235,7 @@
                     }
 
                     rows += `
-                    <tr>
+                    <tr class="orderRow">
                         <td>
                             <input type="checkbox" class="orderCheckbox" value="${order.id}">
                         </td>
@@ -205,6 +255,43 @@
                 });
 
                 document.getElementById('orderBody').innerHTML = rows;
+                // ================= ROW CLICK SELECTION =================
+
+                document.querySelectorAll('.orderRow').forEach(row => {
+
+                    row.addEventListener('click', function (e) {
+
+                        // prevent clicking checkbox or dropdown
+                        if (
+                            e.target.tagName === 'INPUT' ||
+                            e.target.tagName === 'SELECT'
+                        ) {
+                            return;
+                        }
+
+                        const checkbox = row.querySelector('.orderCheckbox');
+
+                        checkbox.checked = !checkbox.checked;
+
+                        row.classList.toggle('selected', checkbox.checked);
+
+                    });
+
+                });
+
+                // ================= UPDATE ROW STYLE IF CHECKBOX USED =================
+
+                document.querySelectorAll('.orderCheckbox').forEach(cb => {
+
+                    cb.addEventListener('change', function () {
+
+                        const row = cb.closest('tr');
+
+                        row.classList.toggle('selected', cb.checked);
+
+                    });
+
+                });
             })
             .catch(error => {
                 console.error(error);

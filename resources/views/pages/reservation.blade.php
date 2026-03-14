@@ -122,7 +122,7 @@
 
                             <div class="qr-box" id="qrBox">
                                 @if($payment)
-                                <img src="{{ asset($payment->qr_image) }}" width="200">
+                                <img src="{{ asset($payment->qr_image) }}" width="200" loading="lazy">
                                 <p>{{ $payment->upi_name }}</p>
                                 @else
                                 <p>No payment QR available.</p>

@@ -3,15 +3,14 @@
 ================================= */
 
 .admin-dashboard {
-    padding: 30px;
+    padding: 20px;
     background: #f8fafc;
     min-height: 100vh;
 }
 
 .dashboard-title {
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 50px;
+    font-weight: 600;
+    margin-bottom: 20px;
     color: #1e293b;
 }
 
@@ -19,32 +18,31 @@
    FRANCHISE SELECTION
 ================================= */
 
-.franchise-selection {
-    margin-bottom: 25px;
-}
-
-.franchise-card-container {
+.franchise-filter {
     display: flex;
+    gap: 10px;
     flex-wrap: wrap;
-    gap: 12px;
+    margin-bottom: 18px;
 }
 
-.franchise-card {
-    padding: 10px 20px;
-    border-radius: 10px;
+.franchise-btn {
+    padding: 9px 18px;
+    border-radius: 8px;
+    border: none;
     background: #e2e8f0;
-    text-decoration: none;
     color: #1e293b;
     font-weight: 600;
-    transition: all 0.3s ease;
+    cursor: pointer;
+    transition: .25s;
 }
 
-.franchise-card:hover,
-.franchise-card.active {
+.franchise-btn:hover,
+.franchise-btn.active {
     background: #5B2B2B;
-    color: #fff;
-    transform: translateY(-3px);
+    color: white;
 }
+
+
 
 /* ===============================
    STATS GRID
@@ -234,6 +232,14 @@
     background: #f1f5f9;
 }
 
+.reservation-table tbody tr.selected {
+    background: #d1f6f7;
+}
+
+.reservation-table tbody tr.selected:hover {
+    background: #c3eef0;
+}
+
 /* ===============================
    STATUS BADGES
 ================================= */
@@ -332,6 +338,24 @@
 }
 
 /* ===============================
+   MOBILE FRANCHISE DROPDOWN
+================================= */
+
+.franchise-dropdown-mobile {
+    display: none;
+    margin-bottom: 15px;
+}
+
+.franchise-dropdown-mobile select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    font-size: 14px;
+}
+
+/* ===============================
    LARGE DESKTOP
 ================================= */
 
@@ -349,9 +373,6 @@
 
 @media (max-width:1024px) {
 
-    .dashboard-title {
-        font-size: 24px;
-    }
 
     .stats-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -369,10 +390,6 @@
         padding: 20px;
     }
 
-    .dashboard-title {
-        font-size: 22px;
-    }
-
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -386,6 +403,14 @@
     .filter-form {
         flex-direction: column;
         width: 100%;
+    }
+
+    .franchise-filter {
+        display: none;
+    }
+
+    .franchise-dropdown-mobile {
+        display: block;
     }
 
     .reservation-actions {
@@ -410,11 +435,13 @@
 @media (max-width:480px) {
 
     .admin-dashboard {
-        padding: 15px;
+        padding: 15px 0px;
     }
 
     .dashboard-title {
+        margin-bottom: 18px;
         font-size: 20px;
+
     }
 
     .stats-grid {
@@ -428,22 +455,17 @@
         width: 100%;
     }
 
-}
-
-/* ===============================
-   EXTRA SMALL MOBILE
-================================= */
-
-@media (max-width:360px) {
-
-    .dashboard-title {
-        font-size: 18px;
+    .reservation-actions select {
+        margin-bottom: 12px;
+        width: 100%;
     }
 
-    .reservation-table th,
-    .reservation-table td {
-        padding: 10px;
-        font-size: 11px;
+    .filter-form {
+        margin-top: 10px;
+    }
+
+    #statusFilter {
+        margin: 0px;
     }
 
 }

@@ -10,148 +10,313 @@
 
     <h2 class="page-title">Stories & Reviews Management</h2>
 
-    {{-- Success Message --}}
+    {{-- SUCCESS MESSAGE --}}
     @if(session('success'))
-    <div style="color: green; margin-bottom:15px;">
+    <div style="color:green; margin-bottom:15px;">
         {{ session('success') }}
     </div>
     @endif
 
 
-    {{-- ================= Franchise Filter (ONLY ONE) ================= --}}
-    <div class="franchise-filter">
-        <form method="GET" action="{{ route('admin.story-review.index') }}">
-            <label>Select Franchise</label>
+    <div class="form-row">
 
-            <select name="franchise_id" onchange="this.form.submit()">
-                <option value="">All Franchises</option>
+        {{-- ADD STORY --}}
+        <div class="card-box">
+            <h3>Add Story</h3>
 
-                @foreach($franchises as $franchise)
-                <option value="{{ $franchise->id }}" {{ $selectedFranchise==$franchise->id ? 'selected' : '' }}>
-                    {{ $franchise->location }}
-                </option>
-                @endforeach
+            <form action="{{ route('admin.stories.store') }}" method="POST" enctype="multipart/form-data"
+                class="admin-form">
 
-            </select>
-        </form>
+                @csrf
+
+                <select name="franchise_id" required>
+                    <option value="">Select Franchise</option>
+
+                    @foreach($franchises as $franchise)
+                    <option value="{{ $franchise->id }}">
+                        {{ $franchise->location }}
+                    </option>
+                    @endforeach
+                </select>
+
+                <input type="file" name="story_img" required>
+
+                <button class="btn-primary">Add Story</button>
+
+            </form>
+        </div>
+
+
+        {{-- ADD REVIEW --}}
+        <div class="card-box">
+            <h3>Add Review</h3>
+
+            <form action="{{ route('admin.reviews.store') }}" method="POST" class="admin-form">
+
+                @csrf
+
+                <select name="franchise_id" required>
+                    <option value="">Select Franchise</option>
+
+                    @foreach($franchises as $franchise)
+                    <option value="{{ $franchise->id }}">
+                        {{ $franchise->location }}
+                    </option>
+                    @endforeach
+                </select>
+
+                <input type="text" name="cust_name" placeholder="Customer Name" required>
+
+                <textarea name="review_text" placeholder="Write review" required></textarea>
+
+                <input type="number" name="rating" min="1" max="5" placeholder="Rating" required>
+
+                <button class="btn-primary">Add Review</button>
+
+            </form>
+        </div>
+
     </div>
+
 
     <hr>
 
-    {{-- ================= STORIES SECTION ================= --}}
-    <div class="card-box">
 
-        <h3>Add Story</h3>
+    {{-- ================= FILTER FOR VIEW ================= --}}
+    <h3>Filter by Franchise</h3>
 
-        @if($selectedFranchise)
-        <form action="{{ route('admin.stories.store') }}" method="POST" enctype="multipart/form-data"
-            class="admin-form">
-            @csrf
+    <!-- MOBILE DROPDOWN -->
+    <div class="franchise-dropdown-mobile">
 
-            <input type="hidden" name="franchise_id" value="{{ $selectedFranchise }}">
+        <select id="franchiseMobileSelect">
 
-            <input type="file" name="story_img" required>
+            <option value="">All Franchises</option>
 
-            <button class="btn-primary">Upload Story</button>
+            @foreach($franchises as $franchise)
 
-        </form>
-        @endif
+            <option value="{{ $franchise->id }}" {{ request('franchise_id')==$franchise->id ? 'selected' : '' }}>
+
+                {{ $franchise->location }}
+
+            </option>
+
+            @endforeach
+
+        </select>
 
     </div>
 
-    <br>
 
-    <h4>Existing Stories</h4>
+    <!-- DESKTOP BUTTON FILTER -->
+    <div class="franchise-filter">
 
-    <div class="story-grid">
+        <a href="{{ route('admin.story-review.index') }}"
+            class="franchise-btn {{ request('franchise_id') ? '' : 'active' }}">
+            All Franchises
+        </a>
 
-        @foreach($stories as $story)
+        @foreach($franchises as $franchise)
 
-        <div class="story-card">
+        <a href="{{ route('admin.story-review.index',['franchise_id'=>$franchise->id]) }}"
+            class="franchise-btn {{ request('franchise_id')==$franchise->id ? 'active' : '' }}">
 
-            <img src="{{ asset($story->story_img) }}">
+            {{ $franchise->location }}
 
-            <form action="{{ route('admin.stories.delete',$story->id) }}" method="POST">
-                @csrf
-                @method('DELETE')
-
-                <button class="delete-btn">Delete</button>
-            </form>
-
-        </div>
+        </a>
 
         @endforeach
 
     </div>
 
+
     <hr>
-    <hr>
 
 
-    {{-- ================= REVIEWS SECTION ================= --}}
-    <div class="card-box">
+    {{-- ================= STORIES LIST ================= --}}
+    <h3>Stories</h3>
 
-        <h3>Add Review</h3>
+    <form action="{{ route('admin.stories.bulkDelete') }}" method="POST">
 
-        @if($selectedFranchise)
+        @csrf
+        @method('DELETE')
 
-        <form action="{{ route('admin.reviews.store') }}" method="POST" class="admin-form">
-            @csrf
+        <label>
+            <input type="checkbox" id="selectAllStories">
+            Select All
+        </label>
 
-            <input type="hidden" name="franchise_id" value="{{ $selectedFranchise }}">
+        <div class="story-grid">
 
-            <input type="text" name="cust_name" placeholder="Customer Name">
+            @forelse($stories as $story)
 
-            <textarea name="review_text" placeholder="Write review"></textarea>
+            <div class="story-card" onclick="toggleCardSelection(this)">
 
-            <input type="number" name="rating" min="1" max="5" placeholder="Rating">
+                <input type="checkbox" name="story_ids[]" value="{{ $story->id }}" onclick="event.stopPropagation()">
 
-            <button class="btn-primary">Add Review</button>
+                <img src="{{ asset($story->story_img) }}" loading="lazy">
 
-        </form>
-
-        @endif
-
-    </div>
-
-    <br>
-
-    <h4>Existing Reviews</h4>
-
-    <div class="review-list">
-
-        @foreach($reviews as $review)
-
-        <div class="review-card">
-
-            <h4>{{ $review->cust_name }}</h4>
-
-            <p>{{ $review->review_text }}</p>
-
-            <div class="rating-stars">
-                @for($i = 1; $i <= 5; $i++) @if($i <=$review->rating)
-                    ⭐
-                    @else
-                    ☆
-                    @endif
-                    @endfor
             </div>
 
-            <form action="{{ route('admin.reviews.delete',$review->id) }}" method="POST">
-                @csrf
-                @method('DELETE')
+            @empty
 
-                <button class="delete-btn">Delete</button>
-            </form>
+            <p>No stories found</p>
 
-
+            @endforelse
 
         </div>
 
-        @endforeach
+        @if(count($stories))
+        <button class="delete-btn">Delete Selected Stories</button>
+        @endif
 
-    </div>
+    </form>
+
+
+    <hr>
+
+
+    {{-- ================= REVIEWS LIST ================= --}}
+    <h3>Reviews</h3>
+
+    <form action="{{ route('admin.reviews.bulkDelete') }}" method="POST">
+
+        @csrf
+        @method('DELETE')
+
+        <label>
+            <input type="checkbox" id="selectAllReviews">
+            Select All
+        </label>
+
+        <div class="review-list">
+
+            @forelse($reviews as $review)
+
+            <div class="review-card" onclick="toggleCardSelection(this)">
+
+                <input type="checkbox" name="review_ids[]" value="{{ $review->id }}" onclick="event.stopPropagation()">
+
+                <h4>{{ $review->cust_name }}</h4>
+
+                <p>{{ $review->review_text }}</p>
+
+                <div class="rating-stars">
+
+                    @for($i=1;$i<=5;$i++) @if($i <=$review->rating)
+                        ⭐
+                        @else
+                        ☆
+                        @endif
+
+                        @endfor
+
+                </div>
+
+            </div>
+
+            @empty
+
+            <p>No reviews found</p>
+
+            @endforelse
+
+        </div>
+
+        @if(count($reviews))
+        <button class="delete-btn">Delete Selected Reviews</button>
+        @endif
+
+    </form>
 
 </div>
 
+
+{{-- ================= SELECT ALL SCRIPT ================= --}}
+<script>
+
+    const mobileSelect = document.getElementById("franchiseMobileSelect");
+
+    if (mobileSelect) {
+
+        mobileSelect.addEventListener("change", function () {
+
+            let franchise = this.value;
+
+            let url = new URL(window.location.href);
+
+            if (franchise) {
+                url.searchParams.set("franchise_id", franchise);
+            } else {
+                url.searchParams.delete("franchise_id");
+            }
+
+            window.location.href = url.toString();
+
+        });
+
+    }
+
+    function toggleCardSelection(card) {
+
+        const checkbox = card.querySelector('input[type="checkbox"]');
+
+        checkbox.checked = !checkbox.checked;
+
+        card.classList.toggle('selected', checkbox.checked);
+    }
+
+
+    /* ===== SELECT ALL STORIES ===== */
+
+    document.getElementById('selectAllStories')?.addEventListener('click', function () {
+
+        const checkboxes = document.querySelectorAll('input[name="story_ids[]"]');
+
+        checkboxes.forEach(cb => {
+
+            cb.checked = this.checked;
+
+            const card = cb.closest('.story-card');
+
+            card.classList.toggle('selected', this.checked);
+
+        });
+
+    });
+
+
+    /* ===== SELECT ALL REVIEWS ===== */
+
+    document.getElementById('selectAllReviews')?.addEventListener('click', function () {
+
+        const checkboxes = document.querySelectorAll('input[name="review_ids[]"]');
+
+        checkboxes.forEach(cb => {
+
+            cb.checked = this.checked;
+
+            const card = cb.closest('.review-card');
+
+            card.classList.toggle('selected', this.checked);
+
+        });
+
+    });
+
+
+    /* ===== WHEN CHECKBOX CLICKED DIRECTLY ===== */
+
+    document.querySelectorAll('.story-card input[type="checkbox"], .review-card input[type="checkbox"]').forEach(cb => {
+
+        cb.addEventListener('change', function () {
+
+            const card = this.closest('.story-card, .review-card');
+
+            card.classList.toggle('selected', this.checked);
+
+        });
+
+    });
+
+</script>
 @endsection

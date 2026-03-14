@@ -6,11 +6,11 @@
 
 <section class="admin-dashboard">
 
-    <h1 class="dashboard-title">Table Management</h1>
+    <h2 class="dashboard-title">Table Management</h2>
 
     {{-- ================= ADD TABLE ================= --}}
     <div class="card add-table-card">
-        <h3>Add New Table</h3>
+        <h4>Add New Table</h4>
 
         <form method="POST" action="{{ route('admin.tables.store') }}">
             @csrf
@@ -37,42 +37,52 @@
         </form>
     </div>
 
-    {{-- ================= FRANCHISE FILTER ================= --}}
-    <div class="franchise-selection">
-        <h2>Select Franchise</h2>
+    {{-- MOBILE DROPDOWN --}}
+    <div class="franchise-dropdown-mobile">
 
-        <div class="franchise-card-container">
+        <select id="franchiseMobileSelect">
 
-            <a href="{{ route('admin.tables.index') }}"
-                class="franchise-card {{ !$selectedFranchise ? 'active' : '' }}">
-                All Franchises
-            </a>
+            <option value="">All Franchises</option>
 
             @foreach($franchises as $franchise)
-            <a href="{{ route('admin.tables.index', ['franchise_id' => $franchise->id]) }}"
-                class="franchise-card {{ $selectedFranchise && $selectedFranchise->id == $franchise->id ? 'active' : '' }}">
-                <h3>{{ $franchise->location }}</h3>
-            </a>
+            <option value="{{ $franchise->id }}" {{ request('franchise')==$franchise->id ? 'selected' : '' }}>
+                {{ $franchise->location }}
+            </option>
             @endforeach
 
-        </div>
+        </select>
+
+    </div>
+    {{-- ================= FRANCHISE FILTER ================= --}}
+
+    <div class="franchise-filter">
+        <button class="franchise-btn {{ request('franchise_id') ? '' : 'active' }}" data-id="">
+            All Franchises
+        </button>
+
+        @foreach($franchises as $franchise)
+        <button class="franchise-btn {{ request('franchise_id') == $franchise->id ? 'active' : '' }}"
+            data-id="{{ $franchise->id }}">
+            {{ $franchise->location }}
+        </button>
+        @endforeach
     </div>
 
     {{-- ================= STATS ================= --}}
     <div class="stats-grid">
 
         <div class="card">
-            <h3>Total Tables</h3>
+            <h4>Total Tables</h4>
             <p>{{ $totalTables }}</p>
         </div>
 
         <div class="card">
-            <h3>Available</h3>
+            <h4>Available</h4>
             <p>{{ $availableTables }}</p>
         </div>
 
         <div class="card">
-            <h3>Occupied</h3>
+            <h4>Occupied</h4>
             <p>{{ $notAvailableTables }}</p>
         </div>
 
@@ -82,7 +92,7 @@
     <div class="reservation-section card-container">
 
         <div class="reservation-header">
-            <h2>Manage Tables</h2>
+            <h3>Manage Tables</h3>
 
             {{-- FILTER FORM --}}
             <form method="GET" action="{{ route('admin.tables.index') }}" class="filter-form">
@@ -142,10 +152,11 @@
 
                 <tbody>
                     @forelse($tables as $table)
-                    <tr>
+                    <tr onclick="toggleCheckbox(this)">
 
                         <td>
-                            <input type="checkbox" class="rowCheckbox" value="{{ $table->id }}">
+                            <input type="checkbox" class="rowCheckbox" value="{{ $table->id }}"
+                                onclick="event.stopPropagation()">
                         </td>
 
                         <td>{{ $table->franchise->location }}</td>
@@ -168,7 +179,7 @@
                                 @method('PATCH')
 
                                 @if($table->status == 'available')
-                                <button type="submit" class="btn-danger">
+                                <button type="submit" class="btn-dangers">
                                     Mark Not Available
                                 </button>
                                 @else
@@ -215,6 +226,52 @@
 
 @push('scripts')
 <script>
+    let selectedFranchise = '';
+
+    document.addEventListener('click', function (e) {
+
+        if (e.target.classList.contains('franchise-btn')) {
+
+            document.querySelectorAll('.franchise-btn')
+                .forEach(btn => btn.classList.remove('active'));
+
+            e.target.classList.add('active');
+
+            selectedFranchise = e.target.dataset.id;
+
+            let url = new URL(window.location.href);
+
+            if (selectedFranchise) {
+                url.searchParams.set('franchise_id', selectedFranchise);
+            } else {
+                url.searchParams.delete('franchise_id');
+            }
+
+            window.location.href = url.toString();
+        }
+    });
+
+    const mobileSelect = document.getElementById("franchiseMobileSelect");
+
+    if (mobileSelect) {
+
+        mobileSelect.addEventListener("change", function () {
+
+            let franchise = this.value;
+
+            let url = new URL(window.location.href);
+
+            if (franchise) {
+                url.searchParams.set("franchise_id", franchise);
+            } else {
+                url.searchParams.delete("franchise_id");
+            }
+
+            window.location.href = url.toString();
+
+        });
+
+    }
     document.addEventListener('DOMContentLoaded', function () {
 
         const selectAll = document.getElementById('selectAll');
@@ -224,8 +281,23 @@
 
         // Select all
         selectAll.addEventListener('change', function () {
-            checkboxes.forEach(cb => cb.checked = this.checked);
+
+            checkboxes.forEach(cb => {
+
+                cb.checked = this.checked;
+
+                const row = cb.closest('tr');
+
+                if (this.checked) {
+                    row.classList.add('selected-row');
+                } else {
+                    row.classList.remove('selected-row');
+                }
+
+            });
+
         });
+
 
         bulkForm.addEventListener('submit', function (e) {
 
@@ -250,6 +322,17 @@
         });
 
     });
+
+    // row click selection
+    function toggleCheckbox(row) {
+
+        const checkbox = row.querySelector('.rowCheckbox');
+
+        checkbox.checked = !checkbox.checked;
+
+        row.classList.toggle('selected-row', checkbox.checked);
+
+    }
 </script>
 
 <link rel="stylesheet" href="{{ asset('css/admin-table.css') }}">

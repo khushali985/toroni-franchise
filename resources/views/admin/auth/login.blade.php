@@ -45,9 +45,17 @@
                     <span class="toggle-password" onclick="togglePassword()">👁</span>
                 </div>
 
+
+
                 <button type="submit" class="login-btn">
                     Login
                 </button>
+
+                <div style="margin-top:10px;">
+                    <a href="{{ route('admin.forgot.password') }}">
+                        Forgot Password?
+                    </a>
+                </div>
 
             </form>
 

@@ -155,6 +155,7 @@
 .about-section {
     width: 100%;
     padding: 60px 0;
+    overflow-x: hidden;
 }
 
 .about-text {
@@ -281,6 +282,25 @@
     .about-text {
         width: 100%;
         padding: 30px 20px;
+        margin-bottom: 25px;
     }
 
+    .subtitle {
+        font-size: 40px;
+        margin-top: 0px;
+    }
+
+    .chef-slider {
+        gap: 10px;
+    }
+
+    #chefImg {
+        width: 60%;
+        height: auto;
+    }
+
+    .chef-desc {
+        margin: 20px;
+        justify-self: center;
+    }
 }

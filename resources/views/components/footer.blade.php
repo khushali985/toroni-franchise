@@ -10,9 +10,10 @@ $settings = \App\Models\Setting::first();
         <div class="footer-brand">
 
             @if(!empty($settings->logo))
-            <img src="{{ asset($settings->logo) }}" alt="{{ $settings->restaurant_name }}" class="footer-logo">
+            <img src="{{ asset($settings->logo) }}" alt="{{ $settings->restaurant_name }}" class="footer-logo"
+                loading="lazy">
             @else
-            <img src="{{ asset('images/Logo.jpg') }}" alt="Logo" class="footer-logo">
+            <img src="{{ asset('images/Logo.jpg') }}" alt="Logo" class="footer-logo" loading="lazy">
             @endif
 
             <p>{{ $settings->restaurant_name ?? 'Toroni Italian Ristorante' }}</p>

@@ -4,29 +4,37 @@ body {
     background: #f4f6f9;
 }
 
-/* Navbar */
+/* NAVBAR */
 
 .admin-navbar {
     width: 100%;
     background: #1e1e2f;
-    color: #fff;
+    color: white;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 30px;
+    padding: 12px 25px;
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
-/* Logo */
+/* LOGO */
 
 .nav-logo {
     font-size: 20px;
     font-weight: 600;
 }
 
-/* Menu */
+/* RIGHT SIDE */
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* MENU */
 
 .nav-menu {
     list-style: none;
@@ -34,6 +42,7 @@ body {
     gap: 25px;
     margin: 0;
     padding: 0;
+    transition: all 0.3s ease;
 }
 
 .nav-menu li a {
@@ -42,25 +51,25 @@ body {
     font-size: 14px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
 .nav-menu li a:hover {
-    color: #fff;
+    color: white;
 }
 
 .nav-menu li.active a {
     color: #4e4efc;
 }
 
-/* Logout */
+/* LOGOUT */
 
 .nav-logout button {
     background: #e63946;
     border: none;
     color: white;
     padding: 7px 15px;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
 }
 
@@ -68,21 +77,7 @@ body {
     background: #c81f2e;
 }
 
-/* Content */
-
-.main-content {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.content-area {
-    padding: 30px;
-    flex: 1;
-}
-
-/* Toggle */
+/* TOGGLE */
 
 .nav-toggle {
     display: none;
@@ -90,9 +85,10 @@ body {
     cursor: pointer;
 }
 
-/* Mobile */
 
-@media (max-width:992px) {
+/* ================= MOBILE ================= */
+
+@media (max-width: 992px) {
 
     .nav-toggle {
         display: block;
@@ -106,18 +102,34 @@ body {
         background: #1e1e2f;
         flex-direction: column;
         display: none;
-    }
-
-    .nav-menu li {
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .nav-menu li a {
-        padding: 12px 20px;
+        padding: 10px 0;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
 
     .nav-menu.active {
         display: flex;
+    }
+
+    .nav-menu li {
+        width: 100%;
+    }
+
+    .nav-menu li a {
+        padding: 16px 25px;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-menu li:last-child a {
+        border-bottom: none;
+    }
+
+    .nav-menu li a i {
+        width: 18px;
+        text-align: center;
     }
 
 }

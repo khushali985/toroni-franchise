@@ -1,12 +1,29 @@
 /* ===============================
    PAGE WRAPPER
 ================================= */
+.body {
+    margin-top: 15px;
+}
+
+.main {
+    min-height: 100vh;
+    background: #f8fafc;
+    padding: 20px;
+}
+
+h2 {
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #1e293b;
+}
 
 .admin-dashboard {
     padding: 30px;
     background: #f8fafc;
     min-height: 100vh;
 }
+
+
 
 .dashboard-title {
     font-size: 26px;
@@ -36,6 +53,8 @@
     cursor: pointer;
     transition: .25s;
 }
+
+
 
 .franchise-btn:hover,
 .franchise-btn.active {
@@ -195,6 +214,30 @@
     color: #64748b;
 }
 
+.order-table tbody tr.selected {
+    background: #d1f6f7;
+}
+
+.order-table tbody tr.selected:hover {
+    background: #c3eef0;
+}
+
+.franchise-dropdown-mobile {
+    display: none;
+    margin-bottom: 15px;
+}
+
+.franchise-dropdown-mobile select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    font-size: 14px;
+}
+
+
+
 /* ===============================
    LARGE DESKTOP
 ================================= */
@@ -263,12 +306,23 @@
 
     .franchise-filter {
         flex-direction: column;
+        display: none;
     }
 
     .franchise-btn {
         width: 100%;
     }
 
+    .franchise-dropdown-mobile {
+        display: block;
+    }
+
+}
+
+.order-table th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 
 /* ===============================
@@ -279,6 +333,15 @@
 
     .dashboard-title {
         font-size: 20px;
+    }
+
+    .main {
+        padding: 15px 0px;
+    }
+
+    h2 {
+        font-size: 20px;
+        margin-bottom: 18px;
     }
 
     .admin-dashboard {

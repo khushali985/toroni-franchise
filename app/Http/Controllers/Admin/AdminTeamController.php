@@ -16,75 +16,115 @@ class AdminTeamController extends Controller
 
         $franchises = Franchise::all();
 
-        $team = TeamMember::when($franchise_id, function ($query) use ($franchise_id) {
-            $query->where('franchise_id', $franchise_id);
-        })->latest()->get();
+        $team = TeamMember::with('franchise')
+            ->when($franchise_id, function ($query) use ($franchise_id) {
+                $query->where('franchise_id', $franchise_id);
+            })
+            ->latest()
+            ->get();
 
-        return view('admin.team.index', compact('team','franchises','franchise_id'));
+        return view('admin.team.index', compact(
+            'team',
+            'franchises',
+            'franchise_id'
+        ));
     }
 
 
     public function store(Request $request)
-{
-    $request->validate([
-        'franchise_id' => 'required|exists:franchises,id',
-        'name' => 'required|string|max:255',
-        'role' => 'required|in:Manager,Chef,Waiter,Receptionist,Staff',
-        'description' => 'nullable|string',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
-    ]);
+    {
+        $request->validate([
+            'franchise_id' => 'required|exists:franchises,id',
+            'name' => 'required|string|max:255',
+            'role' => 'required|in:Manager,Chef,Waiter,Receptionist,Staff',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
+        ]);
 
-    $imageName = null;
+        $imageName = null;
 
-    if($request->hasFile('image')){
-        $imageName = time().'.'.$request->image->extension();
-        $request->image->move(public_path('images/team'), $imageName);
+        if ($request->hasFile('image')) {
+
+            $imageName = time() . '.' . $request->image->extension();
+
+            $request->image->move(
+                public_path('images/team'),
+                $imageName
+            );
+        }
+
+        TeamMember::create([
+            'franchise_id' => $request->franchise_id,
+            'name' => $request->name,
+            'role' => $request->role,
+            'description' => $request->description,
+            'image' => $imageName
+        ]);
+
+        return redirect()->back()
+            ->with('success', 'Team Member Added');
     }
 
-    TeamMember::create([
-        'franchise_id' => $request->franchise_id,
-        'name' => $request->name,
-        'role' => $request->role,
-        'description' => $request->description,
-        'image' => $imageName
-    ]);
 
-    return redirect()->back()->with('success','Team Member Added');
-}
+    public function update(Request $request, $id)
+    {
 
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'role' => 'required|in:Manager,Chef,Waiter,Receptionist,Staff',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
+        ]);
 
-    public function update(Request $request,$id)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'role' => 'required|in:Manager,Chef,Waiter,Receptionist,Staff',
-        'description' => 'nullable|string',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
-    ]);
+        $team = TeamMember::findOrFail($id);
 
-    $team = TeamMember::findOrFail($id);
+        if ($request->hasFile('image')) {
 
-    if($request->hasFile('image')){
-        $imageName = time().'.'.$request->image->extension();
-        $request->image->move(public_path('images/team'),$imageName);
-        $team->image = $imageName;
+            $imageName = time() . '.' . $request->image->extension();
+
+            $request->image->move(
+                public_path('images/team'),
+                $imageName
+            );
+
+            $team->image = $imageName;
+        }
+
+        $team->update([
+            'name' => $request->name,
+            'role' => $request->role,
+            'description' => $request->description
+        ]);
+
+        return redirect()->back()
+            ->with('success', 'Team Member Updated');
     }
-
-    $team->update([
-        'name'=>$request->name,
-        'role'=>$request->role,
-        'description'=>$request->description
-    ]);
-
-    return redirect()->back()->with('success','Team Member Updated');
-}
 
 
     public function delete($id)
     {
         TeamMember::findOrFail($id)->delete();
 
-        return redirect()->back()->with('success','Team Member Deleted');
+        return redirect()->back()
+            ->with('success', 'Team Member Deleted');
     }
 
+
+    // BULK ACTION
+    public function bulkAction(Request $request)
+    {
+
+        $ids = explode(',', $request->team_ids);
+        $action = $request->action;
+
+        if ($action === 'delete') {
+
+            TeamMember::whereIn('id', $ids)->delete();
+
+            return redirect()->back()
+                ->with('success', 'Selected members deleted');
+        }
+
+        return redirect()->back();
+    }
 }

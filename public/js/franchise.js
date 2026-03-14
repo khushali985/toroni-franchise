@@ -31,3 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
+function closePopup() {
+    document.getElementById('successPopup').style.display = 'none';
+}

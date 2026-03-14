@@ -10,34 +10,20 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class AdminMenuController extends Controller
-{
-    /*public function index()
-    {
-        // $items = MenuItem::with('franchise')->latest()->get();
-        $items = MenuItem::with('franchise')
-            ->orderBy('category')
-            ->orderBy('dish_name')
-            ->get()
-            ->groupBy(function ($item) {
-        return strtolower($item->category);
-    });
-        $franchises = Franchise::all();
-        $categories = MenuItem::select('category')
-        ->whereNotNull('category')
-        ->distinct()
-        ->pluck('category');
-
-        return view('admin.menu.index', compact('items', 'franchises','categories'));
-    }*/
-       
+{      
     public function index(Request $request)
 {
     $franchise_id = $request->franchise;
+    $category = $request->category;
 
     $query = MenuItem::with('franchise');
 
     if ($franchise_id) {
         $query->where('franchise_id', $franchise_id);
+    }
+
+    if ($category) {
+        $query->whereRaw('LOWER(category) = ?', [strtolower($category)]);
     }
 
     $items = $query->orderBy('category')
@@ -58,7 +44,8 @@ class AdminMenuController extends Controller
         'items',
         'franchises',
         'categories',
-        'franchise_id'
+        'franchise_id',
+        'category'
     ));
 }
 
@@ -143,5 +130,43 @@ class AdminMenuController extends Controller
         $menu->delete();
 
         return back()->with('success', 'Menu item deleted successfully!');
+    }
+
+    public function renameCategory(Request $request)
+    {
+        $request->validate([
+            'old_category' => 'required',
+            'new_category' => 'required'
+        ]);
+
+        $old = strtolower(trim($request->old_category));
+        $new = ucfirst(strtolower(trim($request->new_category)));
+
+        MenuItem::whereRaw('LOWER(category) = ?', [$old])
+            ->update(['category' => $new]);
+
+        return back()->with('success', 'Category renamed successfully');
+    }
+
+    public function deleteCategory(Request $request)
+    {
+        $request->validate([
+            'category' => 'required'
+        ]);
+
+        $category = strtolower(trim($request->category));
+
+        $items = MenuItem::whereRaw('LOWER(category) = ?', [$category])->get();
+
+        foreach ($items as $item) {
+
+            if ($item->image) {
+                Storage::disk('public')->delete($item->image);
+            }
+
+            $item->delete();
+        }
+
+        return back()->with('success', 'Category deleted successfully');
     }
 }

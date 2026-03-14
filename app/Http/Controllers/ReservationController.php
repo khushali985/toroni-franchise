@@ -46,9 +46,12 @@ class ReservationController extends Controller
             'no_of_people' => 'required|integer|min:1',
         ]);
 
-        $time = date('H:i:s', strtotime($validated['time']));
 
         try {
+
+
+            $time = \Carbon\Carbon::parse($validated['time'])->format('H:i:s');
+
 
             // 1️⃣ Get all suitable tables for that guest count
             $tables = RestaurantTable::where('franchise_id', $validated['franchise_id'])
@@ -87,7 +90,7 @@ class ReservationController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Server error while checking availability.'
+                'message' => $e->getMessage()
             ], 500);
         }
     }

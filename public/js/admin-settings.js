@@ -1,6 +1,29 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    // Logo preview
+    function hideAllForms() {
+
+        document.getElementById("settingsForm").style.display = "none";
+        document.getElementById("passwordForm").style.display = "none";
+        document.getElementById("emailForm").style.display = "none";
+
+    }
+
+    window.toggleForm = function (id) {
+
+        hideAllForms();
+
+        document.getElementById(id).style.display = "block";
+
+    }
+
+    window.closeForms = function () {
+
+        hideAllForms();
+
+    }
+
+
+    // logo preview
     const logoInput = document.getElementById("logoInput");
     const logoPreview = document.getElementById("logoPreview");
 
@@ -15,8 +38,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 const reader = new FileReader();
 
                 reader.onload = function (event) {
+
                     logoPreview.src = event.target.result;
-                    logoPreview.classList.remove("hidden");
+                    logoPreview.style.display = "block";
+
                 }
 
                 reader.readAsDataURL(file);
@@ -28,13 +53,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // auto hide success message
+    // success message auto hide
     const success = document.querySelector(".success-msg");
 
     if (success) {
+
         setTimeout(() => {
-            success.style.display = "none";
-        }, 3000);
+            success.style.display = "none"
+        }, 3000)
+
     }
 
 });

@@ -41,7 +41,13 @@
         </form>
 
         @if(session('success'))
-        <p class="success-msg">{{ session('success') }}</p>
+        <div id="successPopup" class="popup-overlay">
+            <div class="popup-box">
+                <h3>Success 🎉</h3>
+                <p>{{ session('success') }}</p>
+                <button onclick="closePopup()">OK</button>
+            </div>
+        </div>
         @endif
 
     </div>

@@ -112,16 +112,7 @@ class AdminReservationController extends Controller
         $todayRevenue = $todayReservationRevenue + $todayOrderRevenue;
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | 3️⃣ CUSTOMER STATISTICS
-        |--------------------------------------------------------------------------
-        */
-
-        $totalCustomers = User::count();
-        $newCustomersToday = User::whereDate('created_at', Carbon::today())->count();
-
-
+      
         /*
         |--------------------------------------------------------------------------
         | 4️⃣ MONTHLY REVENUE FOR CHART
@@ -185,6 +176,7 @@ class AdminReservationController extends Controller
         $perPage = $request->get('per_page', 100);
 
         $reservations = $reservationQuery
+                            ->with(['table','franchise'])
                             ->latest()
                             ->paginate($perPage)
                             ->withQueryString(); // IMPORTANT
@@ -220,9 +212,6 @@ class AdminReservationController extends Controller
             'preparingOrders',
             'totalRevenue',
             'todayRevenue',
-
-            'totalCustomers',
-            'newCustomersToday',
 
             'monthlyRevenue',
             'monthlyReservations',

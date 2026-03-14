@@ -53,6 +53,18 @@ Route::prefix('admin')->group(function ()
 
     Route::post('/login', [AuthController::class, 'login'])->name('admin.login.submit');
 
+    Route::get('/forgot-password', [AuthController::class,'forgotPasswordForm'])
+        ->name('admin.forgot.password');
+
+    Route::post('/send-reset-link', [AuthController::class,'sendResetLink'])
+        ->name('admin.send.reset.link');
+
+    Route::get('/reset-password/{token}', [AuthController::class,'resetPasswordForm'])
+        ->name('admin.reset.password');
+
+    Route::post('/update-password', [AuthController::class,'updatePassword'])
+        ->name('admin.update.password');
+
     Route::middleware('admin.auth')->group(function () 
     {
 
@@ -70,6 +82,14 @@ Route::prefix('admin')->group(function ()
 
             Route::resource('reservations', AdminReservationController::class);
             Route::resource('menu', AdminMenuController::class);
+
+            Route::post('/menu/category/rename',
+                [AdminMenuController::class, 'renameCategory'])
+                ->name('menu.category.rename');
+
+            Route::post('/menu/category/delete',
+                [AdminMenuController::class, 'deleteCategory'])
+                ->name('menu.category.delete');
            
             
             /*
@@ -95,7 +115,11 @@ Route::prefix('admin')->group(function ()
                 ->name('admin.tables.layout');
             Route::resource('tables', AdminTableController::class)->names('admin.tables');
 
-            // RESERVATION MANAGEMENT (Custom Routes) 
+            /*
+            |--------------------------------------------------------------------------
+            | RESERVATION MANAGEMENT (CUSTOM ROUTES FIRST)
+            |--------------------------------------------------------------------------
+            */
             // Update reservation status
             Route::patch('/reservation/{reservation}/status',
                 [AdminReservationController::class, 'updateReservationStatus'])
@@ -129,7 +153,11 @@ Route::prefix('admin')->group(function ()
                 ->name('admin.reservation.bulk');
 
             
-            // routes of order management
+            /*
+            |--------------------------------------------------------------------------
+            | ORDER MANAGEMENT 
+            |--------------------------------------------------------------------------
+            */
             Route::prefix('orders')->group(function () 
             {
 
@@ -150,14 +178,40 @@ Route::prefix('admin')->group(function ()
 
             });
 
-           
+           /*
+            |--------------------------------------------------------------------------
+            | PAYMENT MANAGEMENT (CUSTOM ROUTES FIRST)
+            |--------------------------------------------------------------------------
+            */
+
             Route::post('/payment/store', [AdminPaymentController::class, 'store'])->name('admin.payment.store');
-            //Route::get('/get-payment/{franchise_id}', [ReservationController::class, 'getPayment']);
+            
             Route::get('/payment', [AdminPaymentController::class, 'index'])
             ->name('admin.payment.index');
 
-           Route::resource('franchise', AdminFranchiseController::class)
+            
+            /*
+            |--------------------------------------------------------------------------
+            | FRANCHISE MANAGEMENT (CUSTOM ROUTES FIRST)
+            |--------------------------------------------------------------------------
+            */
+
+            Route::resource('franchise', AdminFranchiseController::class)
             ->names('admin.franchise');
+
+            Route::delete(
+                'franchise/partner/{id}',
+                [AdminFranchiseController::class,'deletePartner']
+            )->name('admin.franchise.partner.delete');
+
+            Route::post('/franchise/bulk', [AdminFranchiseController::class, 'bulk'])
+             ->name('admin.franchise.bulk');
+
+            /*
+            |--------------------------------------------------------------------------
+            | STORY AND REVIEW MANAGEMENT (CUSTOM ROUTES FIRST)
+            |--------------------------------------------------------------------------
+            */
 
             Route::get('story-review', [StoryReviewController::class, 'index'])
                 ->name('admin.story-review.index');
@@ -167,15 +221,29 @@ Route::prefix('admin')->group(function ()
 
             Route::post('reviews/store', [StoryReviewController::class, 'storeReview'])
                 ->name('admin.reviews.store'); 
+
+            Route::delete('stories/bulk-delete', [StoryReviewController::class,'bulkDeleteStories'])
+                ->name('admin.stories.bulkDelete');
+
+            Route::delete('reviews/bulk-delete', [StoryReviewController::class,'bulkDeleteReviews'])
+                ->name('admin.reviews.bulkDelete');
             
             Route::delete('/stories/{id}', [StoryReviewController::class,'deleteStory'])
                 ->name('admin.stories.delete');
 
             Route::delete('/reviews/{id}', [StoryReviewController::class,'deleteReview'])
                 ->name('admin.reviews.delete');
-       
+
+           
+            /*
+            |--------------------------------------------------------------------------
+            | SETTING MANAGEMENT (CUSTOM ROUTES FIRST)
+            |--------------------------------------------------------------------------
+            */
+
             Route::resource('settings', AdminSettingsController::class)->names('admin.settings');  
-           Route::get('settings', [AdminSettingsController::class,'index'])->name('settings.index');
+            
+            Route::get('settings', [AdminSettingsController::class,'index'])->name('settings.index');
 
             Route::post('settings', [AdminSettingsController::class,'update'])->name('settings.update');
 
@@ -185,7 +253,11 @@ Route::prefix('admin')->group(function ()
             Route::post('/change-email', [AdminSettingsController::class,'changeEmail'])
                 ->name('admin.change.email');
 
-
+            /*
+            |--------------------------------------------------------------------------
+            | TEAM MANAGEMENT (CUSTOM ROUTES FIRST)
+            |--------------------------------------------------------------------------
+            */
             Route::resource('team', AdminTeamController::class)
                 ->names('admin.team'); 
             Route::get('/team', [AdminTeamController::class,'index'])->name('team.index');
@@ -196,8 +268,9 @@ Route::prefix('admin')->group(function ()
 
             Route::delete('/team/delete/{id}', [AdminTeamController::class,'delete'])->name('team.delete');
 
+            Route::post('/team/bulk',[AdminTeamController::class,'bulkAction'])->name('admin.team.bulk');
         });
-
+    
     
 
 });

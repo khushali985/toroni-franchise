@@ -65,8 +65,8 @@ body {
 .hero-actions {
     position: absolute;
     bottom: 90px;
-    left: 50%;
-    transform: translateX(-50%);
+    justify-self: center;
+    align-items: center;
     display: flex;
     gap: 80px;
     z-index: 3;
@@ -177,7 +177,7 @@ body {
 .testimonial-slider {
     background: #EBE4AD;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     border-radius: 15px;
     gap: 20px;
     padding: 80px;
@@ -214,19 +214,6 @@ body {
 .testimonial-card:hover {
     transform: scale(1.05);
     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
-}
-
-@media (max-width: 768px) {
-    .test-title {
-        font-size: 26px;
-    }
-
-    .hero h1 {
-        font-size: 2.3rem;
-        position: absolute;
-        top: 120px;
-    }
-
 }
 
 /* ================= FOOTER ================= */
@@ -289,12 +276,23 @@ body {
         flex-direction: column;
         gap: 15px;
         bottom: -20px;
+        justify-content: center;
     }
 
     .hero-btn {
         width: 80%;
         font-size: 16px;
         text-align: center;
+    }
+
+    .test-title {
+        font-size: 26px;
+    }
+
+    .hero h1 {
+        font-size: 2.3rem;
+        position: absolute;
+        top: 120px;
     }
 
     /* MENU OVERLAY */

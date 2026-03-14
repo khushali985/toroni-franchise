@@ -41,7 +41,7 @@
                 <strong>Current Image</strong><br>
 
                 @if($franchise->image)
-                <img src="{{ asset($franchise->image) }}" width="120">
+                <img src="{{ asset($franchise->image) }}" width="120" loading="lazy">
                 @else
                 No Image Uploaded
                 @endif

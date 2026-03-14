@@ -16,27 +16,40 @@
     <p class="success-msg">{{ session('success') }}</p>
     @endif
 
-    <div class="settings-card">
+
+    <div class="settings-actions">
+
+        <button class="action-btn" onclick="toggleForm('settingsForm')">
+            Update Settings
+        </button>
+
+        <button class="action-btn" onclick="toggleForm('passwordForm')">
+            Change Password
+        </button>
+
+        <button class="action-btn" onclick="toggleForm('emailForm')">
+            Change Email
+        </button>
+
+    </div>
+
+
+    {{-- UPDATE SETTINGS FORM --}}
+    <div id="settingsForm" class="settings-card form-hidden">
 
         <form action="{{ route('settings.update') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="form-grid">
 
-                <!--<div class="form-group">
-                    <label>Restaurant Name</label>
-                    <input type="text" name="restaurant_name" value="{{ $settings->restaurant_name ?? '' }}">
-                </div>-->
-
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" name="email" value="{{ $settings->email ?? '' }}" required>
+                    <input type="email" name="email" value="{{ $settings->email ?? '' }}">
                 </div>
 
                 <div class="form-group">
-                    <label>Contact Number</label>
-                    <input type="text" name="contact" value="{{ $settings->contact ?? '' }}" pattern="[0-9]{10}"
-                        maxlength="10">
+                    <label>Contact</label>
+                    <input type="text" name="contact" value="{{ $settings->contact ?? '' }}">
                 </div>
 
                 <div class="form-group">
@@ -56,63 +69,99 @@
                 <input type="file" name="logo" id="logoInput">
 
                 @if(!empty($settings->logo))
-                <img id="logoPreview" src="{{ asset($settings->logo) }}" class="logo-preview">
-                @else
-                <img id="logoPreview" class="logo-preview hidden">
+                <img id="logoPreview" src="{{ asset($settings->logo) }}" class="logo-preview" loading="lazy">
                 @endif
             </div>
 
-            <button type="submit" class="save-btn">Update Settings</button>
+            <button class="save-btn">Save Settings</button>
+
+            <button type="button" class="cancel-btn" onclick="closeForms()">Cancel</button>
 
         </form>
 
     </div>
 
 
-    <div class="settings-card">
 
-        <h3>Change Admin Password</h3>
+    {{-- PASSWORD FORM --}}
+    <div id="passwordForm" class="settings-card form-hidden">
+
+        <h3>Change Password</h3>
 
         <form action="{{ route('admin.change.password') }}" method="POST">
             @csrf
 
-            <div class="form-group">
-                <input type="password" name="password" placeholder="New Password">
+            <input class="password" type="password" name="password" placeholder="New Password">
 
-                @error('password')
-                <span class="error-text">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="form-group">
-                <input type="password" name="password_confirmation" placeholder="Confirm Password">
+            <input class="password" type="password" name="password_confirmation" placeholder="Confirm Password">
 
-                @error('password_confirmation')
-                <span class="error-text">{{ $message }}</span>
-                @enderror
-            </div>
+            <button class="save-btn">Update Password</button>
 
-            <button class="save-btn">Change Password</button>
+            <button type="button" class="cancel-btn" onclick="closeForms()">Cancel</button>
 
         </form>
 
     </div>
 
 
-    <div class="settings-card">
 
-        <h3>Change Admin Email</h3>
+    {{-- EMAIL FORM --}}
+    <div id="emailForm" class="settings-card form-hidden">
+
+        <h3>Change Email</h3>
 
         <form action="{{ route('admin.change.email') }}" method="POST">
             @csrf
 
-            <input type="email" name="email" placeholder="Enter new admin email">
-            @error('email')
-            <span class="error-text">{{ $message }}</span>
-            @enderror
+            <input type="email" name="email" placeholder="Enter new email">
 
-            <button class="save-btn">Change Email</button>
+            <button class="save-btn">Update Email</button>
+
+            <button type="button" class="cancel-btn" onclick="closeForms()">Cancel</button>
 
         </form>
+
+    </div>
+
+
+
+    {{-- SETTINGS TABLE --}}
+    <div class="settings-table">
+
+        <table>
+
+            <tr>
+                <th>Email</th>
+                <td>{{ $settings->email ?? '-' }}</td>
+            </tr>
+
+            <tr>
+                <th>Contact</th>
+                <td>{{ $settings->contact ?? '-' }}</td>
+            </tr>
+
+            <tr>
+                <th>Opening Hours</th>
+                <td>{{ $settings->opening_hours ?? '-' }}</td>
+            </tr>
+
+            <tr>
+                <th>Address</th>
+                <td>{{ $settings->address ?? '-' }}</td>
+            </tr>
+
+            <tr>
+                <th>Logo</th>
+                <td>
+
+                    @if(!empty($settings->logo))
+                    <img src="{{ asset($settings->logo) }}" width="70" loading="lazy">
+                    @endif
+
+                </td>
+            </tr>
+
+        </table>
 
     </div>
 

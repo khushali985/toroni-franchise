@@ -3,15 +3,30 @@
 ================================= */
 
 .admin-dashboard {
-    padding: 30px;
+    padding: 20px;
 }
 
 .dashboard-title {
-    font-size: 28px;
     font-weight: 600;
     margin-bottom: 25px;
 }
 
+/* ===============================
+   ROW SELECTION
+================================= */
+
+.reservation-table tbody tr.selected-row {
+    background: #d1f6f7;
+}
+
+.reservation-table tbody tr.selected-row:hover {
+    background: #c3eef0;
+}
+
+.reservation-table tbody tr:hover {
+    background: #f1f5f9;
+    cursor: pointer;
+}
 
 /* ===============================
    CARD
@@ -46,6 +61,23 @@
     grid-column: span 2;
 }
 
+/* ===============================
+   MOBILE FRANCHISE DROPDOWN
+================================= */
+
+.franchise-dropdown-mobile {
+    display: none;
+    margin-bottom: 15px;
+}
+
+.franchise-dropdown-mobile select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    font-size: 14px;
+}
 
 /* ===============================
    BUTTONS
@@ -73,7 +105,7 @@
 }
 
 .btn-dark {
-    background: #343a40;
+    background: #1e293b;
     color: white;
     border: none;
     padding: 6px 10px;
@@ -84,28 +116,31 @@
 /* ===============================
    FRANCHISE CARDS
 ================================= */
-
-.franchise-card-container {
+.franchise-filter {
     display: flex;
+    gap: 10px;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 25px;
+    margin-bottom: 18px;
 }
 
-.franchise-card {
-    padding: 10px 15px;
-    border: 1px solid #dee2e6;
+.franchise-btn {
+    padding: 9px 18px;
     border-radius: 8px;
-    text-decoration: none;
-    color: #333;
-    background: #fff;
+    border: none;
+    background: #e2e8f0;
+    color: #1e293b;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .25s;
 }
 
-.franchise-card.active {
+
+
+.franchise-btn:hover,
+.franchise-btn.active {
     background: #5B2B2B;
     color: white;
 }
-
 
 /* ===============================
    TABLE
@@ -150,6 +185,27 @@
     gap: 8px;
 }
 
+/* ===============================
+   BULK ACTIONS
+================================= */
+
+.bulk-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.bulk-actions select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+}
+
+.bulk-actions button {
+    padding: 8px 14px;
+}
 
 /* ===============================
    MODAL
@@ -222,6 +278,14 @@
         flex-direction: column;
     }
 
+    .franchise-filter {
+        display: none;
+    }
+
+    .franchise-dropdown-mobile {
+        display: block;
+    }
+
 }
 
 
@@ -238,43 +302,6 @@ img {
     height: auto;
 }
 
-/* ======================================
-   LARGE DESKTOP (1440px+)
-====================================== */
-
-@media (min-width: 1440px) {
-
-    .admin-dashboard,
-    .admin-page {
-        padding: 40px 60px;
-    }
-
-    .story-grid {
-        grid-template-columns: repeat(5, 1fr);
-    }
-
-    .review-list {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-}
-
-
-/* ======================================
-   LAPTOP (1025px - 1439px)
-====================================== */
-
-@media (max-width: 1439px) {
-
-    .story-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    .review-list {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-}
 
 
 /* ======================================
@@ -312,11 +339,6 @@ img {
 ====================================== */
 
 @media (max-width: 767px) {
-
-    .dashboard-title,
-    .page-title {
-        font-size: 22px;
-    }
 
     .story-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -375,11 +397,6 @@ img {
         padding: 15px;
     }
 
-    .dashboard-title,
-    .page-title {
-        font-size: 20px;
-    }
-
     .card-box,
     .add-table-card {
         padding: 15px;
@@ -417,6 +434,10 @@ img {
         width: 95%;
         margin-top: 20%;
         padding: 18px;
+    }
+
+    .content-area {
+        padding: 0px;
     }
 
 }

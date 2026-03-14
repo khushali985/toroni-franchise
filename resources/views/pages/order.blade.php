@@ -8,9 +8,6 @@
 
 @section('content')
 
-
-
-
 <!-- TOAST -->
 <div id="toast"></div>
 
@@ -37,7 +34,9 @@
         <input class="input" name="address" id="addressInput" placeholder="Delivery Address" />
 
 
-        <div id="cart"></div>
+        <div id="cart">
+            <!--<p id="emptyCartMsg" class="empty-cart">Your cart is empty</p>-->
+        </div>
 
         <div class="total">
             Total: ₹<span id="total">0</span>
@@ -113,7 +112,7 @@
                 <div class="menu-item" data-name="{{ $item->dish_name }}" data-category="{{ $item->category }}"
                     data-franchise="{{ $item->franchise_id }}">
 
-                    <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->dish_name }}">
+                    <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->dish_name }}" loading="lazy">
 
                     <div class="price-tag">₹{{ $item->price }}</div>
 

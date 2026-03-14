@@ -3,7 +3,7 @@
 ================================= */
 
 .franchise-dashboard {
-    padding: 30px;
+    padding: 20px;
     background: #f8fafc;
     min-height: 100vh;
     font-family: Arial, Helvetica, sans-serif;
@@ -14,10 +14,10 @@
 ================================= */
 
 .franchise-dashboard .dashboard-title {
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 50px;
+    font-weight: 600;
+    margin-bottom: 20px;
     color: #1e293b;
+    font-family: poppins, sans-serif;
 }
 
 /* =================================
@@ -57,13 +57,10 @@
 .franchise-dashboard .card {
     background: #ffffff;
     border-radius: 14px;
-    padding: 22px;
+    padding: 0px 22px 22px 0px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
     border: none;
-}
-
-.franchise-dashboard .add-franchise-card {
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 }
 
 .franchise-dashboard .card h3 {
@@ -105,6 +102,15 @@
     padding: 6px;
 }
 
+.selected-row {
+    background: #d1f6f7;
+}
+
+.clickable-row:hover {
+    background: #f5f7fa;
+    cursor: pointer;
+}
+
 /* =================================
    BUTTONS
 ================================= */
@@ -125,7 +131,7 @@
 }
 
 .franchise-dashboard .btn-edit {
-    background: #2563eb;
+    background: #1e293b;
     color: white;
     border: none;
     padding: 7px 14px;
@@ -136,7 +142,7 @@
 }
 
 .franchise-dashboard .btn-edit:hover {
-    background: #1d4ed8;
+    background: #1e293b;
 }
 
 .franchise-dashboard .btn-delete {
@@ -160,6 +166,7 @@
 
 .franchise-dashboard .table-wrapper {
     overflow-x: auto;
+
 }
 
 .franchise-dashboard .franchise-table {
@@ -168,6 +175,8 @@
     background: #ffffff;
     border-radius: 10px;
     overflow: hidden;
+
+
 }
 
 .franchise-dashboard .franchise-table th,
@@ -186,6 +195,10 @@
 
 .franchise-dashboard .franchise-table tr:hover {
     background: #f1f5f9;
+}
+
+.franchise-dashboard .franchise-table tr.selected-row:hover {
+    background: #c3eef0;
 }
 
 /* =================================
@@ -245,6 +258,10 @@
     .franchise-dashboard .franchise-table td {
         padding: 10px;
         font-size: 13px;
+    }
+
+    .content-area {
+        padding: 0px;
     }
 
 }

@@ -81,7 +81,7 @@
                 </div>
 
                 <div class="qr-image">
-                    <img src="{{ asset($payment->qr_image) }}" alt="QR Code">
+                    <img src="{{ asset($payment->qr_image) }}" alt="QR Code" loading="lazy">
                 </div>
 
                 @if($payment->upi_name)

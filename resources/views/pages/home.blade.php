@@ -14,11 +14,11 @@ $settings = \App\Models\Setting::first();
 
 <!-- ================= HERO SECTION ================= -->
 <div class="hero">
-    <img src="{{ asset('images/home_hero.png') }}" alt="Hero Image" class="hero-image" />
+    <img src="{{ asset('images/home_hero.png') }}" alt="Hero Image" class="hero-image" loading="lazy" />
     @if(!empty($settings->logo))
-    <img src="{{ asset($settings->logo) }}" alt="{{ $settings->restaurant_name }}" class="hero-logo">
+    <img src="{{ asset($settings->logo) }}" alt="{{ $settings->restaurant_name }}" class="hero-logo" loading="lazy">
     @else
-    <img src="{{ asset('images/Logo.jpg') }}" alt="Logo" class="hero-logo">
+    <img src="{{ asset('images/Logo.jpg') }}" alt="Logo" class="hero-logo" loading="lazy">
     @endif
 
     <h1>Toroni Italian Ristorante</h1>
@@ -40,7 +40,7 @@ $settings = \App\Models\Setting::first();
 
         @forelse($stories as $story)
         <div class="story-card">
-            <img src="{{ asset($story->story_img) }}" alt="Story Image">
+            <img src="{{ asset($story->story_img) }}" alt="Story Image" loading="lazy">
         </div>
         @empty
         <p style="padding:20px;">No stories available.</p>
@@ -49,7 +49,7 @@ $settings = \App\Models\Setting::first();
         <!-- duplicate stories for smooth infinite scroll -->
         @foreach($stories as $story)
         <div class="story-card">
-            <img src="{{ asset($story->story_img) }}" alt="Story Image">
+            <img src="{{ asset($story->story_img) }}" alt="Story Image" loading="lazy">
         </div>
         @endforeach
 

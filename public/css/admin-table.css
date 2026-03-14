@@ -3,15 +3,14 @@
 ================================= */
 
 .admin-dashboard {
-    padding: 30px;
+    padding: 20px;
     background: #f8fafc;
     min-height: 100vh;
 }
 
 .dashboard-title {
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 25px;
+    font-weight: 600;
+    margin-bottom: 20px;
     color: #1e293b;
 }
 
@@ -22,7 +21,7 @@
 .card {
     background: #ffffff;
     border-radius: 14px;
-    padding: 22px;
+    padding: 5px 10px 10px 10px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
@@ -30,10 +29,8 @@
     margin-bottom: 30px;
 }
 
-.card h3 {
-    margin-bottom: 15px;
-    font-weight: 600;
-    color: #334155;
+.card h4 {
+    margin: 10px 0 10px 10px;
 }
 
 /* ===============================
@@ -69,31 +66,30 @@
    FRANCHISE FILTER
 ================================= */
 
-.franchise-selection {
-    margin: 30px 0;
-}
-
-.franchise-card-container {
+.franchise-filter {
     display: flex;
-    gap: 15px;
+    gap: 10px;
     flex-wrap: wrap;
+    margin-bottom: 18px;
 }
 
-.franchise-card {
-    padding: 12px 22px;
-    border-radius: 10px;
+.franchise-btn {
+    padding: 9px 18px;
+    border-radius: 8px;
+    border: none;
     background: #e2e8f0;
-    text-decoration: none;
     color: #1e293b;
     font-weight: 600;
-    transition: 0.3s ease;
+    cursor: pointer;
+    transition: .25s;
 }
 
-.franchise-card.active,
-.franchise-card:hover {
+
+
+.franchise-btn:hover,
+.franchise-btn.active {
     background: #5B2B2B;
-    color: #ffffff;
-    transform: translateY(-3px);
+    color: white;
 }
 
 /* ===============================
@@ -110,7 +106,12 @@
 .stats-grid .card p {
     font-size: 22px;
     font-weight: 700;
-    margin-top: 8px;
+    margin: 8px;
+}
+
+.stats-grid .card h4 {
+    margin-top: 10px;
+    margin-bottom: 0;
 }
 
 /* ===============================
@@ -203,6 +204,14 @@
     background: #f1f5f9;
 }
 
+.reservation-table tbody tr.selected-row {
+    background: #d1f6f7;
+}
+
+.reservation-table tbody tr.selected-row:hover {
+    background: #c3eef0;
+}
+
 /* ===============================
    STATUS BADGES
 ================================= */
@@ -229,7 +238,7 @@
 ================================= */
 
 .btn-success {
-    background: #16a34a;
+    background: #1e293b;
     color: white;
     border: none;
     padding: 7px 14px;
@@ -240,6 +249,21 @@
 
 .btn-success:hover {
     background: #15803d;
+}
+
+.btn-dangers {
+    background: #1e293b;
+    color: white;
+    border: none;
+    padding: 7px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    margin: 2px;
+}
+
+.btn-dangers:hover {
+    background: #1e293b;
 }
 
 .btn-danger {
@@ -256,12 +280,32 @@
     background: #b91c1c;
 }
 
+
+
 /* ===============================
    PAGINATION
 ================================= */
 
 .pagination-wrapper {
     margin-top: 15px;
+}
+
+/* ===============================
+   MOBILE FRANCHISE DROPDOWN
+================================= */
+
+.franchise-dropdown-mobile {
+    display: none;
+    margin-bottom: 15px;
+}
+
+.franchise-dropdown-mobile select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    font-size: 14px;
 }
 
 /* ===============================
@@ -284,4 +328,86 @@
     .form-grid {
         grid-template-columns: 1fr;
     }
+
+    .franchise-filter {
+        display: none;
+    }
+
+    .franchise-dropdown-mobile {
+        display: block;
+    }
+}
+
+/* ===============================
+   EXTRA SMALL DEVICES
+   (phones 320px and below)
+================================= */
+
+@media (max-width: 420px) {
+
+    .admin-dashboard {
+        padding: 15px;
+    }
+
+    .dashboard-title {
+        font-size: 20px;
+        margin-bottom: 18px;
+    }
+
+    .card {
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .card h4 {
+        font-size: 18px;
+    }
+
+    /* form fields full width */
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .form-grid input,
+    .form-grid select {
+        width: 100%;
+        font-size: 13px;
+        padding: 9px;
+    }
+
+    /* buttons full width */
+    .btn-success,
+    .btn-danger,
+    .btn-dark {
+        width: 100%;
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    /* stats cards */
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .stats-grid .card p {
+        font-size: 18px;
+    }
+
+    /* table scroll */
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    .reservation-table th,
+    .reservation-table td {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .content-area {
+        padding: 0px;
+    }
+
 }

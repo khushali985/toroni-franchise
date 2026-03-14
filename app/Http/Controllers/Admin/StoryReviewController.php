@@ -97,4 +97,24 @@ class StoryReviewController extends Controller
 
             return back()->with('success','Review deleted successfully');
         }
+
+        public function bulkDeleteStories(Request $request)
+        {
+            if($request->story_ids)
+            {
+                Story::whereIn('id', $request->story_ids)->delete();
+            }
+
+            return back()->with('success','Selected stories deleted successfully');
+        }
+
+        public function bulkDeleteReviews(Request $request)
+        {
+            if($request->review_ids)
+            {
+                Review::whereIn('id', $request->review_ids)->delete();
+            }
+
+            return back()->with('success','Selected reviews deleted successfully');
+        }
 }

@@ -4,11 +4,20 @@
 }
 
 body {
-    background: #f4efb2;
+
     margin: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
+        url('/images/order-bg.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    /*new changes added*/
 }
-
-
 
 .top-controls {
     display: flex;
@@ -23,6 +32,8 @@ body {
     border-radius: 20px;
     border: none;
     font-size: 13px;
+    width: 100%;
+    /*new changes added*/
 }
 
 #searchInput {
@@ -49,29 +60,46 @@ body {
     transform: translateY(0);
 }
 
+#cart {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.empty-cart {
+    text-align: center;
+    opacity: 0.7;
+    margin: 10px 0;
+}
+
+
 /* ================= APP LAYOUT ================= */
 .app {
     display: flex;
+    flex: 1;
     gap: 40px;
-    max-width: 1200px;
+    /**/
+    max-width: 1400px;
+    width: 100%;
+    flex-wrap: wrap;
+    /**/
     margin: auto;
-    padding: 30px;
-    align-items: stretch;
-    height: 100vh;
+    padding: 80px 30px 30px;
+    align-items: flex-start;
+    /*min-height: 100vh;
     /*height: calc(100vh - 60px);*/
 }
 
 .app form {
     flex: 1;
-    /* 50% */
     background: #4b2c2c;
     border-radius: 25px;
     padding: 25px;
     color: white;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
+    overflow: hidden;
 }
+
 
 @media (min-width: 901px) {
 
@@ -83,46 +111,21 @@ body {
 
     .app {
         height: 100vh;
+        /*align-items: stretch;*/
     }
 
-    .order-panel,
-    .menu-panel {
+    .app form {
         max-height: calc(100vh - 120px);
         overflow-y: auto;
     }
-}
 
-/* ================= LEFT PANEL ================= */
-.order-panel {
-    width: 450px;
-    background: #4b2c2c;
-    border-radius: 25px;
-    padding: 25px;
-    color: white;
-    display: flex;
-    flex-shrink: 0;
-    flex-direction: column;
-}
+    .menu-panel {
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
+        top: 30px;
+        height: fit-content;
+    }
 
-.order-panel::-webkit-scrollbar {
-    width: 6px;
-}
-
-.order-panel::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-}
-
-.order-now {
-    width: 100%;
-    background: #6d6b2d;
-    border: none;
-    padding: 14px;
-    border-radius: 30px;
-    color: white;
-    font-weight: bold;
-    margin-bottom: 15px;
-    cursor: pointer;
 }
 
 .input {
@@ -182,7 +185,7 @@ body {
 }
 
 .total {
-    margin: 12px 0;
+    margin-top: 10px;
     font-weight: bold;
 }
 
@@ -194,7 +197,7 @@ body {
     background: #6d6b2d;
     color: white;
     cursor: pointer;
-    margin-top: auto;
+    margin-top: 10px;
 }
 
 .confirm:disabled {
@@ -205,13 +208,12 @@ body {
 /* ================= RIGHT PANEL ================= */
 .menu-panel {
     flex: 1;
-    /* 50% */
     background: #0f4b38;
     border-radius: 25px;
-    padding: 30px;
+    padding: 25px;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+
 }
 
 .menu-panel::-webkit-scrollbar {
@@ -231,7 +233,8 @@ body {
 /* ================= MENU GRID ================= */
 .menu-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    /*changes added*/
     gap: 18px;
     flex: 1;
     overflow-y: auto;
@@ -247,7 +250,8 @@ body {
 
 .menu-item img {
     width: 100%;
-    height: 170px;
+    height: clamp(140px, 18vw, 170px);
+    /*changes added*/
     object-fit: cover;
     display: block;
 }
@@ -362,35 +366,66 @@ body {
     .app {
         flex-direction: column;
         height: auto;
-    }
-
-    .app form {
-        width: 100%;
-        height: auto;
-        overflow: visible;
 
     }
 
-    .order-panel,
+    .app form,
     .menu-panel {
         width: 100%;
         height: auto;
         overflow: visible;
+        max-height: calc(100vh - 120px);
+    }
+
+    .menu-panel {
+        order: 1;
+        overflow-y: auto;
+
+    }
+
+    .app form {
+        order: 2;
     }
 
     .menu-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    /*changes added*/
+    #cart {
+        max-height: 220px;
+    }
 }
 
 @media (max-width: 500px) {
-    body {
-        padding: 15px;
+
+    .app {
+        padding: 80px 10px 20px;
     }
 
     .menu-grid {
         grid-template-columns: 1fr;
     }
+
+    /* new changes added*/
+    .order-heading {
+        font-size: 20px;
+    }
+
+    .confirm
+
+    /*.order-now*/
+        {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .input {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    /**/
 }
 
 .price-tag {
@@ -408,6 +443,8 @@ body {
     gap: 10px;
     margin-bottom: 15px;
     flex-wrap: wrap;
+    width: 100%;
+    /*new changes added*/
 }
 
 .filter {
@@ -499,7 +536,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 80vh;
+    padding: 20px 0;
     text-align: center;
 }
 
@@ -510,7 +547,8 @@ body {
 
 .franchise-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    /*new changes added*/
     gap: 20px;
     width: 100%;
     max-width: 600px;
@@ -553,4 +591,33 @@ body {
 .change-franchise:hover {
     background: white;
     color: #6d6b2d;
+}
+
+/* new chnages added*/
+
+@media (max-width: 600px) {
+
+    .menu-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .app {
+        padding-top: 80px;
+        gap: 20px;
+    }
+
+    .menu-panel {
+        padding: 20px;
+    }
+
+    .menu-panel h2 {
+        font-size: 20px;
+    }
+
 }

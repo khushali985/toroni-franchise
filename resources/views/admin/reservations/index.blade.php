@@ -10,27 +10,36 @@
 
 <section class="admin-dashboard">
 
-    <h1 class="dashboard-title">Reservation Management</h1>
-    <div class="franchise-selection">
-        <h2>Select Franchise</h2>
+    <h2 class="dashboard-title">Reservation Management</h2>
 
-        <div class="franchise-card-container">
+    {{-- MOBILE DROPDOWN --}}
+    <div class="franchise-dropdown-mobile">
 
-            <a href="{{ route('reservations.index') }}"
-                class="franchise-card {{ !$selectedFranchise ? 'active' : '' }}">
-                All Franchises
-            </a>
+        <select id="franchiseMobileSelect">
+
+            <option value="">All Franchises</option>
 
             @foreach($franchises as $franchise)
-            <a href="{{ route('reservations.index', ['franchise_id' => $franchise->id]) }}" class="franchise-card 
-                {{ $selectedFranchise && $selectedFranchise->id == $franchise->id ? 'active' : '' }}">
-
-                <h3>{{ $franchise->location }}</h3>
-                <p>{{ $franchise->address }}</p>
-
-            </a>
+            <option value="{{ $franchise->id }}" {{ request('franchise_id')==$franchise->id ? 'selected' : '' }}>
+                {{ $franchise->location }}
+            </option>
             @endforeach
-        </div>
+
+        </select>
+
+    </div>
+
+    <div class="franchise-filter">
+        <button class="franchise-btn {{ request('franchise_id') ? '' : 'active' }}" data-id="">
+            All Franchises
+        </button>
+
+        @foreach($franchises as $franchise)
+        <button class="franchise-btn {{ request('franchise_id') == $franchise->id ? 'active' : '' }}"
+            data-id="{{ $franchise->id }}">
+            {{ $franchise->location }}
+        </button>
+        @endforeach
     </div>
 
 
@@ -65,19 +74,13 @@
             <small>Today: ₹ {{ number_format($todayRevenue, 2) }}</small>
         </div>
 
-        <div class="card">
-            <h3>Total Customers</h3>
-            <p>{{ $totalCustomers }}</p>
-            <small>New Today: {{ $newCustomersToday }}</small>
-        </div>
-
     </div>
 
 
     <div class="reservation-section card-container">
 
         <div class="reservation-header">
-            <h2>Reservation Management</h2>
+            <h3>Reservation Management</h3>
 
             <div class="reservation-actions">
                 <form method="POST" action="{{ route('admin.reservation.bulk') }}" id="bulkForm">
@@ -151,6 +154,7 @@
                         <th>Phone</th>
                         <th>Date</th>
                         <th>no of people</th>
+                        <th>Table No</th>
                         <th>Location</th>
                         <th>Status</th>
                         <th>Transaction ID</th>
@@ -161,7 +165,7 @@
 
                 <tbody>
                     @forelse($reservations as $reservation)
-                    <tr>
+                    <tr class="reservationRow">
                         <td>
                             <input type="checkbox" class="rowCheckbox" value="{{ $reservation->id }}">
                         </td>
@@ -170,6 +174,17 @@
                         <td>{{ $reservation->phone_no }}</td>
                         <td>{{ $reservation->date }} {{ $reservation->time }}</td>
                         <td>{{ $reservation->no_of_people }}</td>
+                        <td>
+                            @if($reservation->table)
+                            <span class="badge bg-success">
+                                Table {{ $reservation->table->table_no }}
+                            </span>
+                            @else
+                            <span class="badge bg-secondary">
+                                Not Assigned
+                            </span>
+                            @endif
+                        </td>
                         <td>{{ $reservation->franchise->location ?? 'N/A' }}</td>
                         <td>
                             <span class="status-badge status-{{ $reservation->status }}">
@@ -320,9 +335,6 @@
 
 @push('scripts')
 
-{{-- Chart.js CDN --}}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script src="{{ asset('js/admin-dashboard.js') }}"></script>
 
 {{-- JSON DATA BLOCKS --}}
@@ -335,59 +347,53 @@
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    let selectedFranchise = '';
 
-        // Parse JSON safely
-        const monthlyRevenue = JSON.parse(
-            document.getElementById('revenue-data').textContent
-        );
+    document.addEventListener('click', function (e) {
 
-        const monthlyReservations = JSON.parse(
-            document.getElementById('reservation-data').textContent
-        );
+        if (e.target.classList.contains('franchise-btn')) {
 
-        const months = [
-            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-        ];
+            document.querySelectorAll('.franchise-btn')
+                .forEach(btn => btn.classList.remove('active'));
 
-        // ================= REVENUE CHART =================
-        new Chart(document.getElementById('revenueChart'), {
-            type: 'line',
-            data: {
-                labels: months,
-                datasets: [{
-                    label: 'Revenue',
-                    data: months.map((_, i) => monthlyRevenue[i + 1] ?? 0),
-                    borderWidth: 2,
-                    tension: 0.3,
-                    fill: false
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
+            e.target.classList.add('active');
+
+            selectedFranchise = e.target.dataset.id;
+
+            let url = new URL(window.location.href);
+
+            if (selectedFranchise) {
+                url.searchParams.set('franchise_id', selectedFranchise);
+            } else {
+                url.searchParams.delete('franchise_id');
             }
-        });
 
-        // ================= RESERVATION CHART =================
-        new Chart(document.getElementById('reservationChart'), {
-            type: 'bar',
-            data: {
-                labels: months,
-                datasets: [{
-                    label: 'Reservations',
-                    data: months.map((_, i) => monthlyReservations[i + 1] ?? 0),
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
-            }
-        });
-
+            window.location.href = url.toString();
+        }
     });
+
+    const mobileSelect = document.getElementById("franchiseMobileSelect");
+
+    if (mobileSelect) {
+
+        mobileSelect.addEventListener("change", function () {
+
+            let franchise = this.value;
+
+            let url = new URL(window.location.href);
+
+            if (franchise) {
+                url.searchParams.set("franchise_id", franchise);
+            } else {
+                url.searchParams.delete("franchise_id");
+            }
+
+            window.location.href = url.toString();
+
+        });
+
+    }
+
 </script>
 
 <script>
@@ -422,15 +428,75 @@
 
         const selectAll = document.getElementById('selectAll');
         const checkboxes = document.querySelectorAll('.rowCheckbox');
+        const rows = document.querySelectorAll('.reservationRow');
         const bulkForm = document.getElementById('bulkForm');
         const selectedIdsInput = document.getElementById('selectedIds');
 
-        // Select All checkbox
-        selectAll.addEventListener('change', function () {
-            checkboxes.forEach(cb => cb.checked = this.checked);
+        // ============================
+        // ROW CLICK SELECTION
+        // ============================
+
+        rows.forEach(row => {
+
+            row.addEventListener('click', function (e) {
+
+                if (
+                    e.target.tagName === 'BUTTON' ||
+                    e.target.tagName === 'SELECT' ||
+                    e.target.tagName === 'INPUT' ||
+                    e.target.closest('form')
+                ) {
+                    return;
+                }
+
+                const checkbox = row.querySelector('.rowCheckbox');
+
+                checkbox.checked = !checkbox.checked;
+
+                row.classList.toggle('selected', checkbox.checked);
+            });
+
         });
 
-        // On form submit
+        // ============================
+        // SELECT ALL
+        // ============================
+        selectAll.addEventListener('change', function () {
+
+            checkboxes.forEach(cb => {
+
+                cb.checked = selectAll.checked;
+
+                const row = cb.closest('tr');
+
+                if (selectAll.checked) {
+                    row.classList.add('selected');
+                } else {
+                    row.classList.remove('selected');
+                }
+
+            });
+
+        });
+
+        // ============================
+        // UPDATE ROW STYLE ON MANUAL CHECK
+        // ============================
+
+        checkboxes.forEach(cb => {
+
+            cb.addEventListener('change', function () {
+
+                const row = cb.closest('tr');
+                row.classList.toggle('selected', cb.checked);
+
+            });
+
+        });
+
+        // ============================
+        // BULK FORM SUBMIT
+        // ============================
         bulkForm.addEventListener('submit', function (e) {
 
             let selected = [];
@@ -445,6 +511,7 @@
             }
 
             selectedIdsInput.value = selected.join(',');
+
         });
 
     });

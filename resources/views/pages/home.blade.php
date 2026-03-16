@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Home | Toroni Restaurant')
+@section('title', 'Home | Toronee Restaurant')
 
 @section('styles')
 
@@ -21,7 +21,7 @@ $settings = \App\Models\Setting::first();
     <img src="{{ asset('images/Logo.jpg') }}" alt="Logo" class="hero-logo" loading="lazy">
     @endif
 
-    <h1>Toroni Italian Ristorante</h1>
+    <h1>Toronee Italian Ristorante</h1>
 
     <div class="hero-actions">
         <a href="{{ route('order') }}" class="hero-btn">Order Now</a>

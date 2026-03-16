@@ -16,7 +16,7 @@ $settings = \App\Models\Setting::first();
             <img src="{{ asset('images/Logo.jpg') }}" alt="Logo" class="footer-logo" loading="lazy">
             @endif
 
-            <p>{{ $settings->restaurant_name ?? 'Toroni Italian Ristorante' }}</p>
+            <p>{{ $settings->restaurant_name ?? 'Toronee Italian Ristorante' }}</p>
 
         </div>
 

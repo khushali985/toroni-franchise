@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100%" height="100%" fill="#492828" rx="10"/>
+    <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#EBE4AD" font-size="50" font-weight="bold">L</text>
+</svg>

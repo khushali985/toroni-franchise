@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Toroni Franchise')
+@section('title', 'Toronee Franchise')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/franchise.css') }}">
@@ -25,7 +25,7 @@
     <div class="partner-content">
 
         <div class="partner-header">
-            <h2>PARTNER WITH TORONI</h2>
+            <h2>PARTNER WITH Toronee</h2>
             <p>Build a timeless Italian dining experience</p>
         </div>
 

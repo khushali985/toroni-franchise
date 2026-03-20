@@ -1,154 +1,4 @@
 /* =========================
-   PAGE WRAPPER
-========================= */
-
-.admin-payment-page {
-    max-width: 1100px;
-    margin: 30px auto;
-    padding: 20px;
-}
-
-/* =========================
-   HEADINGS
-========================= */
-
-.admin-payment-page h2 {
-    font-size: 26px;
-    margin-bottom: 20px;
-    color: #1e293b;
-    font-weight: 700;
-}
-
-.admin-payment-page h3 {
-    font-size: 20px;
-    margin: 30px 0 15px;
-    color: #334155;
-    font-weight: 600;
-}
-
-/* =========================
-   SUCCESS MESSAGE
-========================= */
-
-.success-message {
-    background: #dcfce7;
-    color: #166534;
-    padding: 10px 15px;
-    border-radius: 6px;
-    margin-bottom: 20px;
-    font-weight: 500;
-}
-
-/* =========================
-   FORM CONTAINER
-========================= */
-
-.payment-form-card {
-    background: #ffffff;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-    margin-bottom: 30px;
-}
-
-/* =========================
-   FORM FIELDS
-========================= */
-
-.payment-form-card label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
-    color: #475569;
-}
-
-.payment-form-card select,
-.payment-form-card input[type="text"],
-.payment-form-card input[type="file"] {
-    width: 100%;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid #cbd5e1;
-    font-size: 14px;
-    margin-bottom: 18px;
-    background-color: #f8fafc;
-    transition: 0.2s ease;
-}
-
-.payment-form-card select:focus,
-.payment-form-card input:focus {
-    outline: none;
-    border-color: #5B2B2B;
-    background-color: #ffffff;
-    box-shadow: 0 0 0 2px rgba(91, 43, 43, 0.1);
-}
-
-/* =========================
-   BUTTON
-========================= */
-
-.payment-form-card button {
-    background: #5B2B2B;
-    color: #ffffff;
-    padding: 10px 22px;
-    border-radius: 8px;
-    border: none;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-.payment-form-card button:hover {
-    background: #3d1c1c;
-    transform: translateY(-2px);
-}
-
-/* =========================
-   EXISTING QR GRID
-========================= */
-
-.qr-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-}
-
-.qr-card {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
-    text-align: center;
-    transition: 0.3s ease;
-}
-
-.qr-card:hover {
-    transform: translateY(-4px);
-}
-
-.qr-card strong {
-    display: block;
-    margin-bottom: 10px;
-    color: #1e293b;
-    font-size: 16px;
-}
-
-.qr-card img {
-    width: 150px;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #e2e8f0;
-}
-
-.qr-card p {
-    margin-top: 8px;
-    font-size: 14px;
-    color: #475569;
-    font-weight: 500;
-}
-
-/* =========================
    ABOUT SECTION
 ========================= */
 
@@ -233,6 +83,14 @@
     object-fit: cover;
     border-radius: 12px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    transform: scale(1.05);
+    transition: all 0.6s ease;
+}
+
+#chefImg.show {
+    opacity: 1;
+    transform: scale(1);
 }
 
 /* Buttons */

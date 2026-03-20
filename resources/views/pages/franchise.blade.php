@@ -25,7 +25,7 @@
     <div class="partner-content">
 
         <div class="partner-header">
-            <h2>PARTNER WITH Toronee</h2>
+            <h2>PARTNER WITH TORONEE</h2>
             <p>Build a timeless Italian dining experience</p>
         </div>
 

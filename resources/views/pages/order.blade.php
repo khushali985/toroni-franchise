@@ -58,7 +58,7 @@
         <!-- STEP 1: Franchise Selection Screen -->
         <div id="franchiseScreen" class="franchise-screen">
 
-            <h2>Select Your Franchise</h2>
+            <h2>Select The Franchise for Your Order</h2>
 
             <div class="franchise-grid">
                 @foreach($franchises as $franchise)

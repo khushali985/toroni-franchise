@@ -41,7 +41,7 @@ COPY . .
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
-RUN install-php-extensions gd
+
 
 # Install Node dependencies and build Vite
 RUN npm install && npm run build

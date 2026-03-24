@@ -95,7 +95,7 @@
             <h3>Manage Tables</h3>
 
             {{-- FILTER FORM --}}
-            <form method="GET" action="{{ route('admin.tables.index') }}" class="filter-form">
+            <!-- <form method="GET" action="{{ route('admin.tables.index') }}" class="filter-form">
 
                 @if($selectedFranchise)
                 <input type="hidden" name="franchise_id" value="{{ $selectedFranchise->id }}">
@@ -113,6 +113,54 @@
 
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Search table no"
                     onkeyup="setTimeout(() => this.form.submit(), 500)">
+            </form> -->
+            <form method="GET" action="{{ route('admin.tables.index') }}" class="filter-form">
+
+                @if($selectedFranchise)
+                <input type="hidden" name="franchise_id" value="{{ $selectedFranchise->id }}">
+                @endif
+
+                {{-- ✅ NEW DATE & TIME FILTER --}}
+                <input type="date" name="date" value="{{ request('date') }}">
+                <select name="time">
+                    <option value="">Select Time</option>
+
+                    @php
+                    $slots = [
+                    "12:00","12:30","13:00","13:30",
+                    "14:00","14:30",
+                    "18:00","18:30",
+                    "19:00","19:30",
+                    "20:00","20:30",
+                    "21:00","21:30"
+                    ];
+                    @endphp
+
+                    @foreach($slots as $slot)
+                    <option value="{{ $slot }}" {{ request('time')==$slot ? 'selected' : '' }}>
+                        {{ \Carbon\Carbon::parse($slot)->format('h:i A') }}
+                    </option>
+                    @endforeach
+                </select>
+
+                {{-- STATUS --}}
+                <select name="status" onchange="this.form.submit()">
+                    <option value="">All Status</option>
+                    <option value="available" {{ request('status')=='available' ? 'selected' : '' }}>
+                        Available
+                    </option>
+                    <option value="not available" {{ request('status')=='not available' ? 'selected' : '' }}>
+                        Not Available
+                    </option>
+                </select>
+
+                {{-- SEARCH --}}
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search table no"
+                    onkeyup="setTimeout(() => this.form.submit(), 500)">
+
+                {{-- 🔥 OPTIONAL: ADD BUTTON (better UX) --}}
+                <button type="submit" class="btn-dark">Filter</button>
+
             </form>
         </div>
 
@@ -163,14 +211,101 @@
                         <td>{{ $table->table_no }}</td>
                         <td>{{ $table->capacity_people }}</td>
 
-                        <td>
+                        <!-- <td>
                             <span
                                 class="status-badge {{ $table->status == 'available' ? 'status-available' : 'status-not-available' }}">
                                 {{ ucfirst($table->status) }}
                             </span>
+                        </td> -->
+
+                        <td>
+
+                            @if(request('date') && request('time'))
+
+                            @if($table->is_booked > 0)
+                            <span class="status-badge status-not-available">
+                                Booked
+                            </span>
+                            @else
+                            <span class="status-badge status-available">
+                                Available
+                            </span>
+                            @endif
+
+                            @else
+
+                            <span
+                                class="status-badge {{ $table->status == 'available' ? 'status-available' : 'status-not-available' }}">
+                                {{ ucfirst($table->status) }}
+                            </span>
+
+                            @endif
+
                         </td>
 
                         <td class="action-buttons">
+
+                            @if(request('date') && request('time'))
+
+                            <form method="POST" action="{{ route('admin.tables.toggleSlot', $table) }}"
+                                style="display:inline;">
+                                @csrf
+
+                                <input type="hidden" name="date" value="{{ request('date') }}">
+                                <input type="hidden" name="time" value="{{ request('time') }}">
+
+                                @if($table->is_booked > 0)
+
+                                {{-- 🔴 Already booked → allow release --}}
+                                <button type="submit" class="btn-success">
+                                    Release (Make Available)
+                                </button>
+
+                                @else
+
+                                {{-- 🟢 Available → allow block --}}
+                                <button type="submit" class="btn-dangers">
+                                    Block (Mark Not Available)
+                                </button>
+
+                                @endif
+                            </form>
+
+                            @else
+
+                            {{-- 🔁 NORMAL STATIC ACTIONS --}}
+                            <form method="POST" action="{{ route('admin.tables.status', $table) }}"
+                                style="display:inline;">
+                                @csrf
+                                @method('PATCH')
+
+                                @if($table->status == 'available')
+                                <button type="submit" class="btn-dangers">
+                                    Mark Not Available
+                                </button>
+                                @else
+                                <button type="submit" class="btn-success">
+                                    Mark Available
+                                </button>
+                                @endif
+                            </form>
+
+                            @endif
+
+                            {{-- DELETE ALWAYS AVAILABLE --}}
+                            <form method="POST" action="{{ route('admin.tables.destroy', $table) }}"
+                                style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit" class="btn-danger">
+                                    Delete
+                                </button>
+                            </form>
+
+                        </td>
+
+                        <!-- <td class="action-buttons">
 
                             {{-- TOGGLE STATUS --}}
                             <form method="POST" action="{{ route('admin.tables.status', $table) }}"
@@ -200,7 +335,7 @@
                                 </button>
                             </form>
 
-                        </td>
+                        </td> -->
 
                     </tr>
                     @empty

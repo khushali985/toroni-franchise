@@ -10,48 +10,92 @@ use Illuminate\Http\Request;
 
 class AdminTableController extends Controller
 {
-    /**
-     * Display table management page
-    */
     public function index(Request $request)
-    {
-        $franchises = Franchise::all();
-        $selectedFranchise = null;
-        $query = RestaurantTable::with('franchise');
+{
+    $franchises = Franchise::all();
+    $selectedFranchise = null;
 
-        // ✅ Apply Franchise First (Required for other filters)
-        if ($request->filled('franchise_id')) {
-            $selectedFranchise = Franchise::find($request->franchise_id);
+    $date = $request->date;
+    $time = $request->time;
+    $status = $request->status;
 
-            if ($selectedFranchise) {
-                $query->where('franchise_id', $selectedFranchise->id);
-            }
-        }
+    $query = RestaurantTable::with('franchise');
 
-        // ✅ Status Filter (within selected franchise automatically)
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-
-        // ✅ Search Filter (within selected franchise automatically)
-        if ($request->filled('search')) {
-            $query->where('table_no', 'LIKE', "%{$request->search}%");
-        }
-
-        $tables = $query->latest()->paginate(10)->withQueryString();
-        /*
-        |--------------------------------------------------------------------------
-        | 🔹 STATS BASE QUERY (IMPORTANT FIX)
-        |--------------------------------------------------------------------------
-        */
-
-        $statsQuery = RestaurantTable::query();
+    // ✅ Franchise filter
+    if ($request->filled('franchise_id')) {
+        $selectedFranchise = Franchise::find($request->franchise_id);
 
         if ($selectedFranchise) {
-            $statsQuery->where('franchise_id', $selectedFranchise->id);
+            $query->where('franchise_id', $selectedFranchise->id);
+        }
+    }
+
+    // ✅ Search filter
+    if ($request->filled('search')) {
+        $query->where('table_no', 'LIKE', "%{$request->search}%");
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | 🔥 DYNAMIC AVAILABILITY LOGIC (MAIN PART)
+    |--------------------------------------------------------------------------
+    */
+
+    if ($date && $time) {
+
+        // Add booking count
+        $query->withCount(['reservations as is_booked' => function ($q) use ($date, $time) {
+            $q->whereDate('date', $date)
+              ->whereTime('time', $time)
+              ->whereIn('status', ['approved', 'pending']);
+        }]);
+
+        // Apply dynamic status filter
+        if ($status === 'available') {
+            $query->having('is_booked', 0);
         }
 
-        $totalTables = $statsQuery->count();
+        if ($status === 'not available') {
+            $query->having('is_booked', '>', 0);
+        }
+
+    } else {
+
+        // fallback static status
+        if ($status) {
+            $query->where('status', $status);
+        }
+    }
+
+    $tables = $query->latest()->paginate(10)->withQueryString();
+
+    /*
+    |--------------------------------------------------------------------------
+    | 🔥 STATS (UPDATED FOR DATE + TIME)
+    |--------------------------------------------------------------------------
+    */
+
+    $statsQuery = RestaurantTable::query();
+
+    if ($selectedFranchise) {
+        $statsQuery->where('franchise_id', $selectedFranchise->id);
+    }
+
+    $totalTables = $statsQuery->count();
+
+    if ($date && $time) {
+
+        $bookedTableIds = Reservation::whereDate('date', $date)
+            ->whereTime('time', $time)
+            ->whereIn('status', ['approved', 'pending'])
+            ->pluck('table_id')
+            ->unique();
+
+        $notAvailableTables = $bookedTableIds->count();
+
+        $availableTables = $totalTables - $notAvailableTables;
+
+    } else {
 
         $availableTables = (clone $statsQuery)
             ->where('status', 'available')
@@ -60,16 +104,17 @@ class AdminTableController extends Controller
         $notAvailableTables = (clone $statsQuery)
             ->where('status', 'not available')
             ->count();
-
-        return view('admin.tables.index', compact(
-            'tables',
-            'franchises',
-            'selectedFranchise',
-            'totalTables',
-            'availableTables',
-            'notAvailableTables'
-        ));
     }
+
+    return view('admin.tables.index', compact(
+        'tables',
+        'franchises',
+        'selectedFranchise',
+        'totalTables',
+        'availableTables',
+        'notAvailableTables'
+    ));
+}
     /**
      * Store new table
      */
@@ -119,6 +164,47 @@ class AdminTableController extends Controller
     /**
      * Toggle status
      */
+    public function toggleSlot(Request $request, RestaurantTable $table)
+{
+    $request->validate([
+        'date' => 'required|date',
+        'time' => 'required'
+    ]);
+
+    $date = $request->date;
+    $time = $request->time;
+
+    // 🔍 Check if already booked
+    $existing = Reservation::where('table_id', $table->id)
+        ->whereDate('date', $date)
+        ->whereTime('time', $time)
+        ->whereIn('status', ['approved', 'pending'])
+        ->first();
+
+    if ($existing) {
+        // 🔥 RELEASE TABLE (DELETE BOOKING)
+        $existing->delete();
+
+        return back()->with('success', 'Table released for this slot.');
+    } else {
+        // 🔥 BLOCK TABLE (CREATE FAKE RESERVATION)
+        Reservation::create([
+            'franchise_id' => $table->franchise_id,
+            'table_id' => $table->id,
+            'date' => $date,
+            'time' => $time,
+            'no_of_people' => $table->capacity_people,
+            'full_name' => 'Admin Block',
+            'phone_no' => '0000000000',
+            'status' => 'approved',
+            'payment_status' => 'approved'
+        ]);
+
+        return back()->with('success', 'Table blocked for this slot.');
+    }
+}
+
+
     public function status(RestaurantTable $table)
     {
         $newStatus = $table->status === 'available'

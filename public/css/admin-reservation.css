@@ -105,7 +105,6 @@
 .filter-form {
     display: flex;
     gap: 12px;
-    flex-wrap: wrap;
 }
 
 .filter-form select,
@@ -114,7 +113,6 @@
     border-radius: 6px;
     border: 1px solid #cbd5e1;
     font-size: 14px;
-    background: #f8fafc;
 }
 
 .filter-form select:focus,

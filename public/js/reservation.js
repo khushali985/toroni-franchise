@@ -22,8 +22,11 @@ document.addEventListener("DOMContentLoaded", function () {
         current = index;
     }
 
+    // 🔥 NEXT BUTTON
     nextBtns.forEach(btn => {
         btn.addEventListener("click", async function () {
+
+            console.log("Button clicked", current);
 
             const inputs = steps[current].querySelectorAll("input:not([type='hidden']), select");
             let valid = true;
@@ -37,13 +40,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (!valid) return;
 
-            // Step 2 availability check
-            if (current === 1) {
-
-                if (!hiddenTimeInput.value) {
-                    alert("Please select a time slot.");
-                    return;
-                }
+            // ✅ STEP 1 → STEP 2 (LOAD AVAILABLE SLOTS)
+            if (current === 0) {
 
                 const franchiseId = document.querySelector("select[name='franchise_id']").value;
                 const date = document.querySelector("input[name='date']").value;
@@ -54,56 +52,86 @@ document.addEventListener("DOMContentLoaded", function () {
                     return;
                 }
 
+                // 👉 Move to Step 2 immediately (better UX)
+                showStep(1);
+
+                const slotButtons = document.querySelectorAll(".time-slot");
+
                 try {
 
-                    const response = await fetch(checkAvailabilityUrl, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": document
-                                .querySelector('meta[name="csrf-token"]')
-                                .getAttribute("content")
-                        },
-                        body: JSON.stringify({
-                            franchise_id: franchiseId,
-                            date: date,
-                            time: hiddenTimeInput.value,
-                            no_of_people: noOfPeople
-                        })
-                    });
+                    await Promise.all([...slotButtons].map(async (btn) => {
 
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        console.log(errorData);
-                        alert("Validation failed. Please check inputs.");
-                        return;
-                    }
+                        let time = btn.dataset.time;
 
-                    const data = await response.json();
+                        /*const response = await fetch(checkAvailabilityUrl, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": document
+                                    .querySelector('meta[name="csrf-token"]')
+                                    .getAttribute("content")
+                            },
+                            body: JSON.stringify({
+                                franchise_id: franchiseId,
+                                date: date,
+                                time: time,
+                                no_of_people: noOfPeople
+                            })
+                        });*/
 
-                    if (!data.success) {
-                        alert("Error checking availability.");
-                        return;
-                    }
+                        const response = await fetch(checkAvailabilityUrl, {
+                            method: "POST",
+                            credentials: "same-origin", // 🔥 THIS FIXES 419
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": document
+                                    .querySelector('meta[name="csrf-token"]')
+                                    .getAttribute("content")
+                            },
+                            body: JSON.stringify({
+                                franchise_id: franchiseId,
+                                date: date,
+                                time: time,
+                                no_of_people: noOfPeople
+                            })
+                        });
 
-                    if (!data.available) {
-                        alert("No tables available for selected date and time.");
-                        return;
-                    }
+                        const data = await response.json();
+
+                        if (data.success && data.available) {
+                            btn.style.display = "inline-block";
+                            btn.disabled = false;
+                        } else {
+                            btn.style.display = "none";
+                        }
+
+                    }));
 
                 } catch (error) {
                     console.error(error);
-                    alert("Network error. Please try again.");
+                    alert("Error checking availability");
+                }
+
+                return; // ❗ VERY IMPORTANT (avoid double step change)
+            }
+
+            // ✅ STEP 2 VALIDATION (time must be selected)
+            if (current === 1) {
+
+                if (!hiddenTimeInput.value) {
+                    alert("Please select a time slot.");
                     return;
                 }
             }
 
+            // 👉 Move forward normally
             if (current < steps.length - 1) {
                 showStep(current + 1);
             }
         });
     });
 
+    // 🔙 PREVIOUS BUTTON
     prevBtns.forEach(btn => {
         btn.addEventListener("click", function () {
             if (current > 0) {
@@ -112,14 +140,14 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Date picker
+    // 📅 DATE PICKER
     flatpickr("#date", {
         dateFormat: "Y-m-d",
         allowInput: true,
         minDate: "today"
     });
 
-    // Time slot selection
+    // ⏰ TIME SLOT SELECT
     const slotButtons = document.querySelectorAll(".time-slot");
 
     slotButtons.forEach(btn => {
@@ -132,6 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    // 💰 QR LOAD ON LOCATION CHANGE
     if (franchiseSelect) {
         franchiseSelect.addEventListener("change", function () {
 
@@ -148,8 +177,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     if (data.success) {
                         qrBox.innerHTML = `
-                        <img src="${data.qr_image}" width="200">
-                        <p>${data.upi_name ?? ''}</p>`;
+                            <img src="${data.qr_image}" width="200">
+                            <p>${data.upi_name ?? ''}</p>
+                        `;
                     } else {
                         qrBox.innerHTML = "<p>No payment QR available for this location.</p>";
                     }

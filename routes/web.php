@@ -115,6 +115,9 @@ Route::prefix('admin')->group(function ()
                 ->name('admin.tables.layout');
             Route::resource('tables', AdminTableController::class)->names('admin.tables');
 
+            Route::post('/admin/tables/toggle-slot/{table}', [AdminTableController::class, 'toggleSlot'])
+                ->name('admin.tables.toggleSlot');
+
             /*
             |--------------------------------------------------------------------------
             | RESERVATION MANAGEMENT (CUSTOM ROUTES FIRST)

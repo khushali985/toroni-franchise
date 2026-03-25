@@ -6,49 +6,49 @@ use App\Http\Controllers\Controller;
 use App\Models\MenuItem;
 use App\Models\Franchise;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class AdminMenuController extends Controller
-{
+{      
     public function index(Request $request)
-    {
-        $franchise_id = $request->franchise;
-        $category = $request->category;
+{
+    $franchise_id = $request->franchise;
+    $category = $request->category;
 
-        $query = MenuItem::with('franchise');
+    $query = MenuItem::with('franchise');
 
-        if ($franchise_id) {
-            $query->where('franchise_id', $franchise_id);
-        }
-
-        if ($category) {
-            $query->whereRaw('LOWER(category) = ?', [strtolower($category)]);
-        }
-
-        $items = $query->orderBy('category')
-            ->orderBy('dish_name')
-            ->get()
-            ->groupBy(function ($item) {
-                return strtolower($item->category);
-            });
-
-        $franchises = Franchise::all();
-
-        $categories = MenuItem::select('category')
-            ->whereNotNull('category')
-            ->distinct()
-            ->pluck('category');
-
-        return view('admin.menu.index', compact(
-            'items',
-            'franchises',
-            'categories',
-            'franchise_id',
-            'category'
-        ));
+    if ($franchise_id) {
+        $query->where('franchise_id', $franchise_id);
     }
 
-    // ✅ STORE (MOVE METHOD)
+    if ($category) {
+        $query->whereRaw('LOWER(category) = ?', [strtolower($category)]);
+    }
+
+    $items = $query->orderBy('category')
+        ->orderBy('dish_name')
+        ->get()
+        ->groupBy(function ($item) {
+            return strtolower($item->category);
+        });
+
+    $franchises = Franchise::all();
+
+    $categories = MenuItem::select('category')
+        ->whereNotNull('category')
+        ->distinct()
+        ->pluck('category');
+
+    return view('admin.menu.index', compact(
+        'items',
+        'franchises',
+        'categories',
+        'franchise_id',
+        'category'
+    ));
+}
+
     public function store(Request $request)
     {
         $request->validate([
@@ -58,23 +58,26 @@ class AdminMenuController extends Controller
             'image' => 'required|image',
             'ingredients' => 'required'
         ]);
-
         $category = $request->category;
 
-        if ($request->category === 'new') {
-            $category = $request->new_category;
-        }
+            if ($request->category === 'new') {
+                $category = $request->new_category;
+            }
+            $category = trim($category);
+            $category = strtolower($category);
+            $category = Str::singular($category);
+            $category = ucfirst($category);
+            $image = $request->file('image');
 
-        $category = ucfirst(Str::singular(strtolower(trim($category))));
+            // generate unique name
+            $imageName = time() . '_' . $image->getClientOriginalName();
 
-        // 🔥 MOVE IMAGE
-        $image = $request->file('image');
-        $imageName = time() . '_' . $image->getClientOriginalName();
+            // move to public/images/menu
+            $image->move(public_path('images/menu'), $imageName);
 
-        $image->move(public_path('images/menu'), $imageName);
-
-        $imagePath = 'images/menu/' . $imageName;
-
+            // save path in DB
+            $imagePath = 'images/menu/' . $imageName;
+            
         MenuItem::create([
             'franchise_id' => $request->franchise_id,
             'dish_name' => $request->dish_name,
@@ -87,7 +90,6 @@ class AdminMenuController extends Controller
         return back()->with('success', 'Menu item added successfully!');
     }
 
-    // ✅ UPDATE (MOVE METHOD)
     public function update(Request $request, MenuItem $menu)
     {
         $request->validate([
@@ -100,44 +102,52 @@ class AdminMenuController extends Controller
             'franchise_id',
             'dish_name',
             'ingredients',
-            'price'
+            'price',
+            'category'
         ]);
 
-        // 🔥 UPDATE IMAGE
         if ($request->hasFile('image')) {
+
+            if ($menu->image) {
+                Storage::disk('public')->delete($menu->image);
+            }
+            $image = $request->file('image');
 
             // delete old image
             if ($menu->image && file_exists(public_path($menu->image))) {
                 unlink(public_path($menu->image));
             }
 
-            $image = $request->file('image');
+            // new image name
             $imageName = time() . '_' . $image->getClientOriginalName();
 
+            // move image
             $image->move(public_path('images/menu'), $imageName);
 
+            // store path
             $data['image'] = 'images/menu/' . $imageName;
-        }
-
-        // CATEGORY LOGIC
+                 
+            }
         if ($request->category === 'new') {
             $data['category'] = $request->new_category;
         } else {
             $data['category'] = $request->category;
         }
-
-        $data['category'] = ucfirst(Str::singular(strtolower(trim($data['category']))));
-
+        $data['category'] = trim($data['category']);
+        $data['category'] = strtolower($data['category']);
+        $data['category'] = Str::singular($data['category']);
+        $data['category'] = ucfirst($data['category']);
         $menu->update($data);
 
         return back()->with('success', 'Menu item updated successfully!');
     }
 
-    // ✅ DELETE ITEM
     public function destroy(MenuItem $menu)
     {
-        if ($menu->image && file_exists(public_path($menu->image))) {
-            unlink(public_path($menu->image));
+        if ($menu->image) {
+            if ($menu->image && file_exists(public_path($menu->image))) {
+                unlink(public_path($menu->image));
+            }
         }
 
         $menu->delete();
@@ -145,7 +155,6 @@ class AdminMenuController extends Controller
         return back()->with('success', 'Menu item deleted successfully!');
     }
 
-    // ✅ RENAME CATEGORY
     public function renameCategory(Request $request)
     {
         $request->validate([
@@ -162,7 +171,6 @@ class AdminMenuController extends Controller
         return back()->with('success', 'Category renamed successfully');
     }
 
-    // ✅ DELETE CATEGORY
     public function deleteCategory(Request $request)
     {
         $request->validate([
@@ -175,8 +183,10 @@ class AdminMenuController extends Controller
 
         foreach ($items as $item) {
 
-            if ($item->image && file_exists(public_path($item->image))) {
-                unlink(public_path($item->image));
+            if ($item->image) {
+                if ($menu->image && file_exists(public_path($menu->image))) {
+                    unlink(public_path($menu->image));
+                }
             }
 
             $item->delete();

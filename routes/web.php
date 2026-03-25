@@ -202,9 +202,6 @@ Route::prefix('admin')->group(function ()
             Route::resource('franchise', AdminFranchiseController::class)
             ->names('admin.franchise');
 
-            Route::get('franchise', [AdminFranchiseController::class, 'index'])
-            ->name('admin.franchise.index');
-
             Route::delete(
                 'franchise/partner/{id}',
                 [AdminFranchiseController::class,'deletePartner']

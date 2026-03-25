@@ -121,7 +121,7 @@
                     <button class="add-btn"
                         onclick="addToCart({{ json_encode($item->dish_name) }}, {{ $item->price }}, this)">
                         + Add
-                    </button>
+                    </button>>
 
                     <div class="ingredients">
                         <h4>Ingredients</h4>

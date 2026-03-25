@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 
     <title>@yield('title', 'Toroni Restaurant')</title>

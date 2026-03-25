@@ -112,7 +112,7 @@
                 <div class="menu-item" data-name="{{ $item->dish_name }}" data-category="{{ $item->category }}"
                     data-franchise="{{ $item->franchise_id }}">
 
-                    <img src="{{ asset('$item->image) }}" alt="{{ $item->dish_name }}" loading="lazy">
+                    <img src="{{ asset($item->image) }}" alt="{{ $item->dish_name }}" loading="lazy">
 
                     <div class="price-tag">₹{{ $item->price }}</div>
 
@@ -120,7 +120,7 @@
 
                     <!--
                     <button class="add-btn"
-                        onclick="addToCart({{ json_encode($item->dish_name) }}, {{ $item->price }}, this)">
+                        onclick="addToCart('{{ $item->dish_name }}', '{{ $item->price }}', this)">
                         + Add
                     </button> -->
 

@@ -121,7 +121,7 @@
         @foreach($categoryItems as $item)
 
         <div class="menu-card">
-            <img src="{{ asset('storage/'.$item->image) }}" width="120" loading="lazy">
+            <img src="{{ asset($item->image) }}" width="120" loading="lazy">
 
             <h4>{{ $item->dish_name }}</h4>
             <p>₹{{ $item->price }}</p>

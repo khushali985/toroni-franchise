@@ -184,8 +184,8 @@ class AdminMenuController extends Controller
         foreach ($items as $item) {
 
             if ($item->image) {
-                if ($menu->image && file_exists(public_path($menu->image))) {
-                    unlink(public_path($menu->image));
+                if ($item->image && file_exists(public_path($item->image))) {
+                    unlink(public_path($item->image));
                 }
             }
 

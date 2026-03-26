@@ -65,6 +65,7 @@ body {
 .hero-actions {
     position: absolute;
     bottom: 90px;
+    left: 50%;
     justify-self: center;
     align-items: center;
     display: flex;
@@ -220,7 +221,22 @@ body {
 
 
 /* ================= DEFAULT (DESKTOP) ================= */
-/* ================= LARGE LAPTOP (≤1366px / 1356px) ================= */
+@media (min-width: 1440px) {
+    .hero h1 {
+        font-size: 3.2rem;
+    }
+
+    .hero-actions {
+        gap: 90px;
+        bottom: 100px;
+    }
+
+    .hero-btn {
+        font-size: 24px;
+        padding: 22px 45px;
+    }
+}
+
 @media (max-width: 1366px) {
 
     .hero {
@@ -241,7 +257,6 @@ body {
     }
 
     .hero-actions {
-        margin-left: 50%;
         gap: 60px;
         bottom: 70px;
     }
@@ -251,7 +266,6 @@ body {
         font-size: 20px;
     }
 
-    /* STORIES */
     .stories {
         height: 280px;
     }
@@ -261,7 +275,6 @@ body {
         height: 190px;
     }
 
-    /* TESTIMONIALS */
     .testimonial-slider {
         margin: 0 40px;
         padding: 60px;

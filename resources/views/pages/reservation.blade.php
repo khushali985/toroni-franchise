@@ -123,7 +123,7 @@
                             <div class="qr-box" id="qrBox">
                                 @if($payment)
                                 <img src="{{ asset($payment->qr_image) }}" width="200" loading="lazy">
-                                <p>{{ $payment->upi_name }}</p>
+
                                 @else
                                 <p>No payment QR available.</p>
                                 @endif
@@ -142,6 +142,7 @@
                         <input type="text" name="transaction_id" placeholder="Enter UPI Transaction ID" required>
 
                         <input type="file" name="payment_proof" accept=".jpg,.jpeg,.png,.pdf" required>
+                        <p>Uplod the screenshot of the payment</p>
 
                         <button type="button" class="btn prev-btn">Back</button>
                         <button type="submit" class="btn">Confirm Reservation</button>

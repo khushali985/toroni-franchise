@@ -204,11 +204,5 @@ class ReservationController extends Controller
 
 
 
-    /*public function showReservation($franchise_id)
-    {
-        $payment = PaymentSetting::where('franchise_id', $franchise_id)->first();
-
-        return view('reservation.page', compact('payment'));
-    } */
 
 }

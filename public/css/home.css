@@ -65,7 +65,7 @@ body {
 .hero-actions {
     position: absolute;
     bottom: 90px;
-    left: 38%;
+    left: 35%;
     justify-self: center;
     align-items: center;
     display: flex;

@@ -65,7 +65,6 @@ body {
 .hero-actions {
     position: absolute;
     bottom: 90px;
-    left: 35%;
     justify-self: center;
     align-items: center;
     display: flex;
@@ -219,67 +218,6 @@ body {
 
 /* ================= FOOTER ================= */
 
-
-/* ================= DEFAULT (DESKTOP) ================= */
-@media (min-width: 1440px) {
-    .hero h1 {
-        font-size: 3.2rem;
-    }
-
-    .hero-actions {
-        gap: 90px;
-        bottom: 100px;
-    }
-
-    .hero-btn {
-        font-size: 24px;
-        padding: 22px 45px;
-    }
-}
-
-@media (max-width: 1366px) {
-
-    .hero {
-        height: 90vh;
-    }
-
-    .hero-logo {
-        width: 140px;
-        height: 140px;
-        top: 80px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .hero h1 {
-        font-size: 2.6rem;
-        top: 240px;
-    }
-
-    .hero-actions {
-        gap: 60px;
-        bottom: 70px;
-    }
-
-    .hero-btn {
-        padding: 18px 35px;
-        font-size: 20px;
-    }
-
-    .stories {
-        height: 280px;
-    }
-
-    .story-card {
-        min-width: 300px;
-        height: 190px;
-    }
-
-    .testimonial-slider {
-        margin: 0 40px;
-        padding: 60px;
-    }
-}
 
 /* ================= TABLET (≤1024px) ================= */
 @media (max-width: 1024px) {

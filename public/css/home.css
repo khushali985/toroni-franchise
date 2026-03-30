@@ -32,8 +32,9 @@ body {
     width: 165px;
     height: 165px;
     top: 100px;
-    align-items: center;
     position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     object-fit: cover;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -41,10 +42,32 @@ body {
     border-radius: 10%;
 }
 
-.hero-logo:hover {
+/* Tablet (768px and below) */
+@media (max-width: 768px) {
+    .hero-logo {
+        width: 130px;
+        height: 130px;
+        top: 70px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+/* Mobile (480px and below) */
+@media (max-width: 480px) {
+    .hero-logo {
+        width: 100px;
+        height: 100px;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+/* .hero-logo:hover {
     transform: scale(1.05);
 
-}
+} */
 
 .hero h1 {
     position: absolute;
@@ -272,7 +295,7 @@ body {
     .hero-actions {
         flex-direction: column;
         gap: 15px;
-        bottom: -20px;
+        bottom: -25px;
         justify-content: center;
     }
 

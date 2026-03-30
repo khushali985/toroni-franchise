@@ -4,6 +4,7 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/admin-orders.css') }}">
+<link rel="stylesheet" href="{{ asset('css/admin-orders-modal.css') }}">
 @endpush
 
 @section('content')
@@ -81,6 +82,7 @@
                     </th>
                     <th>ID</th>
                     <th>Customer</th>
+                    <th>Items</th>
                     <th>Location</th>
                     <th>Total</th>
                     <th>Status</th>
@@ -91,6 +93,18 @@
         </table>
     </div>
 
+    <div id="itemsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Ordered Items</h2>
+            </div>
+            <div class="modal-body">
+                <div id="itemsModalBody" class="items-list"></div>
+                <button type="button" class="modal-close-btn" id="closeItemsModal">Close</button>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @endsection
@@ -98,8 +112,85 @@
 @push('scripts')
 <script>
     let selectedFranchise = '';
+    const itemsModal = document.getElementById('itemsModal');
+    const itemsModalBody = document.getElementById('itemsModalBody');
+
+    function parseOrderItems(rawItems) {
+        let parsedItems = rawItems;
+
+        // Some records are double-encoded JSON strings, so parse up to 2 times.
+        for (let i = 0; i < 2; i++) {
+            if (typeof parsedItems !== 'string') {
+                break;
+            }
+
+            try {
+                parsedItems = JSON.parse(parsedItems);
+            } catch (e) {
+                return null;
+            }
+        }
+
+        if (parsedItems && typeof parsedItems === 'object') {
+            return parsedItems;
+        }
+
+        return null;
+    }
+
+    function openItemsModal(rawItems) {
+        const parsedItems = parseOrderItems(rawItems);
+
+        if (!parsedItems || Object.keys(parsedItems).length === 0) {
+            itemsModalBody.innerHTML = '<p class="empty-items">No items found</p>';
+            itemsModal.style.display = 'block';
+            return;
+        }
+
+        const escapeHtml = (value) => String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/\"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+
+        const rows = Object.values(parsedItems).map(item => {
+            const itemName = item?.name || 'Item';
+            const itemQty = item?.qty ?? '-';
+            return `
+                <div class="item-row">
+                    <p><strong>Item:</strong> ${escapeHtml(itemName)}</p>
+                    <p><strong>Quantity:</strong> ${escapeHtml(itemQty)}</p>
+                </div>
+            `;
+        }).join('');
+
+        itemsModalBody.innerHTML = rows;
+        itemsModal.style.display = 'block';
+    }
+
+    function closeItemsModal() {
+        itemsModal.style.display = 'none';
+    }
+
+    document.getElementById('closeItemsModal').addEventListener('click', closeItemsModal);
+
+    window.addEventListener('click', function (e) {
+        if (e.target === itemsModal) {
+            closeItemsModal();
+        }
+    });
 
     document.addEventListener('click', function (e) {
+
+        if (e.target.classList.contains('view-items-btn')) {
+            const rawItems = e.target.dataset.items
+                ? decodeURIComponent(e.target.dataset.items)
+                : null;
+
+            openItemsModal(rawItems);
+            return;
+        }
 
         if (e.target.classList.contains('franchise-btn')) {
 
@@ -190,7 +281,7 @@
                 let rows = '';
 
                 if (!data || data.length === 0) {
-                    rows = `<tr><td colspan="7">No Orders Found</td></tr>`;
+                    rows = `<tr><td colspan="8">No Orders Found</td></tr>`;
                 }
 
                 data.forEach(order => {
@@ -234,6 +325,8 @@
                             `;
                     }
 
+                    const encodedItems = encodeURIComponent(JSON.stringify(order.items ?? null));
+
                     rows += `
                     <tr class="orderRow">
                         <td>
@@ -241,6 +334,11 @@
                         </td>
                         <td>${order.id}</td>
                         <td>${order.full_name}</td>
+                        <td>
+                            <button type="button" class="view-items-btn" data-items="${encodedItems}">
+                                View Items
+                            </button>
+                        </td>
                         <td>${order.franchise ? order.franchise.location : '-'}</td>
                         <td>₹${order.total}</td>
                         <td>
@@ -264,7 +362,8 @@
                         // prevent clicking checkbox or dropdown
                         if (
                             e.target.tagName === 'INPUT' ||
-                            e.target.tagName === 'SELECT'
+                            e.target.tagName === 'SELECT' ||
+                            e.target.tagName === 'BUTTON'
                         ) {
                             return;
                         }

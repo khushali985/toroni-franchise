@@ -238,17 +238,13 @@
 ================================= */
 
 .btn-success {
-    background: #1e293b;
+    background: #15803d;
     color: white;
     border: none;
     padding: 7px 14px;
     border-radius: 6px;
     cursor: pointer;
     transition: 0.3s ease;
-}
-
-.btn-success:hover {
-    background: #15803d;
 }
 
 .btn-dangers {

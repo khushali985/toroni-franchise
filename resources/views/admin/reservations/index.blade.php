@@ -322,7 +322,7 @@
             <p><strong>Date:</strong> <span id="modalDate"></span></p>
             <p><strong>Time:</strong> <span id="modalTime"></span></p>
             <p><strong>no_of_people:</strong> <span id="modalno_of_people"></span></p>
-            <p><strong>Location:</strong> <span id="modalLocation"></span></p>
+
 
             <button id="closeModal" class="btn-dark">Close</button>
         </div>

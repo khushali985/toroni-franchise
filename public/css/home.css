@@ -28,14 +28,11 @@ body {
     transition: all 0.3s ease;
 }
 
-
-
-
 .hero-logo {
     width: 165px;
     height: 165px;
     top: 100px;
-    left: 43%;
+    align-items: center;
     position: absolute;
     object-fit: cover;
     cursor: pointer;
@@ -219,7 +216,7 @@ body {
 /* ================= FOOTER ================= */
 
 
-/* ================= DEFAULT (DESKTOP) ================= */
+/* ================= DEFAULT (DESKTOP) ================= 375, 1366, */
 
 
 /* ================= TABLET (≤1024px) ================= */
@@ -278,6 +275,7 @@ body {
         bottom: -20px;
         justify-content: center;
     }
+
 
     .hero-btn {
         width: 80%;

@@ -1,67 +1,66 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: poppins, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: poppins, sans-serif;
 }
 
 body {
-    background-color: #492828;
-    color: #492828;
-    overflow-x: hidden;
-    overflow-y: auto;
+  background-color: #492828;
+  color: #492828;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .hero {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-
+  position: relative;
+  width: 100%;
+  height: 100vh;
 }
 
 .hero-image {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .hero-logo {
-    width: 165px;
-    height: 165px;
-    top: 100px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    object-fit: cover;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 2px solid #ffffff;
-    border-radius: 10%;
+  width: 165px;
+  height: 165px;
+  top: 100px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  object-fit: cover;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid #ffffff;
+  border-radius: 10%;
 }
 
 /* Tablet (768px and below) */
 @media (max-width: 768px) {
-    .hero-logo {
-        width: 130px;
-        height: 130px;
-        top: 70px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
+  .hero-logo {
+    width: 130px;
+    height: 130px;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 
 /* Mobile (480px and below) */
 @media (max-width: 480px) {
-    .hero-logo {
-        width: 100px;
-        height: 100px;
-        top: 50px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
+  .hero-logo {
+    width: 100px;
+    height: 100px;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 
 /* .hero-logo:hover {
@@ -70,296 +69,289 @@ body {
 } */
 
 .hero h1 {
-    position: absolute;
-    top: 280px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #ffffff;
-    font-size: 3rem;
-    font-family: playfair display, serif;
-    font-weight: bold;
-    z-index: 3;
-    text-align: center;
+  position: absolute;
+  top: 280px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ffffff;
+  font-size: 3rem;
+  font-family:
+    playfair display,
+    serif;
+  font-weight: bold;
+  z-index: 3;
+  text-align: center;
 }
 
 .hero-actions {
-    position: absolute;
-    bottom: 90px;
-    justify-self: center;
-    align-items: center;
-    display: flex;
-    gap: 80px;
-    z-index: 3;
-    cursor: pointer;
-    transition: all 0.6s ease;
+  position: absolute;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 80px;
+  z-index: 3;
+  cursor: pointer;
+  transition: all 0.6s ease;
 }
 
 .hero-btn {
-    background: #EBE4AD;
-    padding: 20px 40px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    color: #492828;
-    font-size: 23px;
-    border-radius: 10px;
-    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: #ebe4ad;
+  padding: 20px 40px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  color: #492828;
+  font-size: 23px;
+  border-radius: 10px;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .hero-btn:hover {
-    transform: scale(1.12);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    transition: 0.3s ease;
+  transform: scale(1.12);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transition: 0.3s ease;
 }
 
 /* ================= STORIES SECTION ================= */
 
 .stories-title {
-    text-align: center;
-    color: white;
-    margin: 80px 14px 20px 10px;
-    font-size: 36px;
+  text-align: center;
+  color: white;
+  margin: 80px 14px 20px 10px;
+  font-size: 36px;
 }
 
 .stories-title h2 {
-    font-weight: 20px;
+  font-weight: 20px;
 }
-
 
 .stories {
-    background: #EBE4AD;
-    padding: 10px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    height: 300px;
-    overflow: hidden;
-    width: 100%;
-    padding: 30px 0;
+  background: #ebe4ad;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  height: 300px;
+  overflow: hidden;
+  width: 100%;
+  padding: 30px 0;
 }
 
-
 .stories-track {
-    display: flex;
-    width: max-content;
-    animation: scrollStories 20s linear infinite;
+  display: flex;
+  width: max-content;
+  animation: scrollStories 20s linear infinite;
 }
 
 .story-card {
-    border-radius: 10px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    min-width: 320px;
-    height: 200px;
-    margin: 10px 10px 10px 10px;
-    flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  min-width: 320px;
+  height: 200px;
+  margin: 10px 10px 10px 10px;
+  flex-shrink: 0;
 }
 
 .story-card:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .story-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    object-position: center;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  object-position: center;
 }
 
 @keyframes scrollStories {
-    0% {
-        transform: translateX(0);
-    }
+  0% {
+    transform: translateX(0);
+  }
 
-    100% {
-        transform: translateX(-50%);
-    }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .testimonials {
-    background: #ffffff;
-    text-align: center;
-    padding: 60px 20px;
-    margin-top: 80px;
+  background: #ffffff;
+  text-align: center;
+  padding: 60px 20px;
+  margin-top: 80px;
 }
 
 .test-title {
-    color: #0b4f3f;
-    font-size: 32px;
-    margin-bottom: 40px;
-    font-weight: bold;
+  color: #0b4f3f;
+  font-size: 32px;
+  margin-bottom: 40px;
+  font-weight: bold;
 }
 
 .testimonial-slider {
-    background: #EBE4AD;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    border-radius: 15px;
-    gap: 20px;
-    padding: 80px;
-    margin: 0 70px;
+  background: #ebe4ad;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  border-radius: 15px;
+  gap: 20px;
+  padding: 80px;
+  margin: 0 70px;
 }
 
-
 .testimonial-card {
-    background: #492828cb;
-    color: #ffffff;
-    padding: 20px;
-    border-radius: 15px;
-    text-align: left;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
+  background: #492828cb;
+  color: #ffffff;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: left;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  cursor: pointer;
 }
 
 .testimonial-card:first-child {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 .testimonial-card p {
-    margin: 15px 0;
-    font-size: 14px;
-    line-height: 1.6;
+  margin: 15px 0;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .testimonial-card span {
-    font-size: 14px;
-    font-weight: 600;
-    color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
 }
 
 .testimonial-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
 }
 
 /* ================= FOOTER ================= */
 
-
 /* ================= DEFAULT (DESKTOP) ================= 375, 1366, */
-
 
 /* ================= TABLET (≤1024px) ================= */
 @media (max-width: 1024px) {
+  .hero {
+    height: 80vh;
+  }
 
-    .hero {
-        height: 80vh;
-    }
+  .hero-actions {
+    gap: 60px;
+  }
 
-    .hero-actions {
-        gap: 60px;
-    }
+  .hero-btn {
+    padding: 16px 40px;
+    font-size: 17px;
+  }
 
-    .hero-btn {
-        padding: 16px 40px;
-        font-size: 17px;
-    }
+  .stories {
+    height: 260px;
+  }
 
-    .stories {
-        height: 260px;
-    }
+  .story-card {
+    min-width: 280px;
+    height: 180px;
+  }
 
-    .story-card {
-        min-width: 280px;
-        height: 180px;
-    }
-
-    .testimonial-slider {
-        grid-template-columns: repeat(2, 1fr);
-        padding: 50px;
-        margin: 0 30px;
-    }
+  .testimonial-slider {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 50px;
+    margin: 0 30px;
+  }
 }
-
 
 /* ================= MOBILE / SMALL TABLET (≤768px) ================= */
 @media (max-width: 768px) {
+  /* HERO */
+  .hero {
+    height: 60vh;
+  }
 
-    /* HERO */
-    .hero {
-        height: 60vh;
-    }
+  .hero-logo {
+    width: 90px;
+    height: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 15px;
+  }
 
-    .hero-logo {
-        width: 90px;
-        height: 90px;
-        left: 50%;
-        transform: translateX(-50%);
-        top: 15px;
-    }
+  .hero-actions {
+    flex-direction: column;
+    gap: 15px;
+    bottom: 20px;
+    justify-content: center;
+  }
 
+  .hero-btn {
+    width: 80%;
+    font-size: 16px;
+    text-align: center;
+  }
 
-    .hero-actions {
-        flex-direction: column;
-        gap: 15px;
-        bottom: -25px;
-        justify-content: center;
-    }
+  .test-title {
+    font-size: 26px;
+  }
 
+  .hero h1 {
+    font-size: 2.3rem;
+    position: absolute;
+    top: 120px;
+  }
 
-    .hero-btn {
-        width: 80%;
-        font-size: 16px;
-        text-align: center;
-    }
+  /* MENU OVERLAY */
 
-    .test-title {
-        font-size: 26px;
-    }
+  /* STORIES */
+  .stories-title {
+    font-size: 26px;
+  }
 
-    .hero h1 {
-        font-size: 2.3rem;
-        position: absolute;
-        top: 120px;
-    }
+  .story-card {
+    min-width: 240px;
+    height: 160px;
+  }
 
-    /* MENU OVERLAY */
+  /* TESTIMONIALS */
+  .testimonial-slider {
+    grid-template-columns: 1fr;
+    padding: 30px;
+    margin: 0 15px;
+  }
 
-
-    /* STORIES */
-    .stories-title {
-        font-size: 26px;
-    }
-
-    .story-card {
-        min-width: 240px;
-        height: 160px;
-    }
-
-    /* TESTIMONIALS */
-    .testimonial-slider {
-        grid-template-columns: 1fr;
-        padding: 30px;
-        margin: 0 15px;
-    }
-
-    .testimonial-card {
-        text-align: center;
-    }
+  .testimonial-card {
+    text-align: center;
+  }
 }
-
 
 /* ================= SMALL MOBILE (≤480px) ================= */
 @media (max-width: 480px) {
+  .hero-btn {
+    font-size: 15px;
+    padding: 14px 30px;
+  }
 
-    .hero-btn {
-        font-size: 15px;
-        padding: 14px 30px;
-    }
+  .stories-title {
+    font-size: 22px;
+  }
 
-    .stories-title {
-        font-size: 22px;
-    }
+  .story-card {
+    min-width: 220px;
+    height: 150px;
+  }
 
-    .story-card {
-        min-width: 220px;
-        height: 150px;
-    }
-
-    .test-title {
-        font-size: 24px;
-    }
+  .test-title {
+    font-size: 24px;
+  }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Home | Toronee Restaurant')
+@section('title', 'Toronee Italian Restaurant | Order & Reserve')
 
 @section('styles')
 
@@ -24,8 +24,8 @@ $settings = \App\Models\Setting::first();
     <h1>Toronee Italian Ristorante</h1>
 
     <div class="hero-actions">
-        <a href="{{ route('order') }}" class="hero-btn">Order Now</a>
-        <a href="{{ route('reservation') }}" class="hero-btn">Reserve Table</a>
+        <a href="{{ route('order') }}" class="hero-btn">Order Food Online</a>
+        <a href="{{ route('reservation') }}" class="hero-btn">Book a Table</a>
     </div>
 </div>
 
